@@ -1,0 +1,33 @@
+{% extends "public/login/base_login.html" %}
+<!---->
+{% block title %}Chat - Crear cuenta{% endblock %}
+<!---->
+{% block customCSS %}
+<style>
+  #signin .text-input {
+    margin-bottom: 0.3rem;
+  }
+</style>
+{% endblock %} {% block content %}
+<div id="left">
+  <div id="signin">
+    <div class="logo">
+      <img
+        src="https://image.ibb.co/hW1YHq/login-logo.png"
+        alt="Sluralpright" />
+    </div>
+    <form action="/procesar-cuenta-user" method="POST" autocomplete="off">
+      <div>
+        <label>Email</label>
+        <input type="text" class="text-input" />
+      </div>
+      <button type="submit" class="primary-btn mt-5">Recuperar clave</button>
+    </form>
+
+    <div class="links mt-5">
+      <a href="/login">Volver</a> /
+      <a href="/login">Iniciar sesión</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

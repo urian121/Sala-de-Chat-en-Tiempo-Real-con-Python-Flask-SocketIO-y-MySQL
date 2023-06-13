@@ -7,7 +7,7 @@ from funciones import *  # Importando mis Funciones
 
 # Creando una instancia de la clase Flask y asigna esa instancia a la variable app
 app = Flask(__name__)
-# Cambia el valor según tus necesidades (en bytes)
+# Establece el límite de tamaño de contenido máximo permitido para las solicitudes entrantes en 16 megabytes
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
@@ -34,9 +34,19 @@ def index():
     return render_template('public/inicio.html', lista_mensajes=lista_mensajes)
 
 
-@app.route('/demo')
-def demo():
-    return render_template('public/demo.html')
+@app.route('/login')
+def login():
+    return render_template('public/login/base_login.html')
+
+
+@app.route('/crear-cuenta')
+def crear_cuenta():
+    return render_template('public/login/register.html')
+
+
+@app.route('/recuperar-cuenta')
+def recuperar_cuenta():
+    return render_template('public/login/recovery.html')
 
 
 # Procesando el audio que llega desde el formulario del chat
