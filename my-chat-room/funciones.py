@@ -1,0 +1,126 @@
+import os
+import uuid  # Modulo de python para crear un string
+from os import path  # Modulo para obtener la ruta o directorio
+from confiBD.conexionBD import *
+
+
+def lista_mensajes_chat():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = """
+                        SELECT DATE_FORMAT(fecha_mensaje, '%d-%m-%Y %I:%i %p') AS fecha_formateada,
+                        mensaje, archivo, file_audio
+                        FROM chat ORDER BY id_chat ASC
+                        """
+                mycursor.execute(querySQL,)
+                lista_chat = mycursor.fetchall()
+                if lista_chat:
+                    return lista_chat
+                else:
+                    return {}
+    except Exception as e:
+        print(f"Ocurrió un error listando los chat: {e}")
+        return 0
+
+
+def procesar_form_msj(mensaje):
+    try:
+        # Conexión a la base de datos
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                sql = (
+                    "INSERT INTO chat(mensaje) VALUES (%s)")
+                valores = (mensaje,)
+                cursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+
+                resultado_insert = cursor.rowcount
+                if (resultado_insert):
+                    return lista_mensajes_chat()
+                else:
+                    return []
+    # Simplemente se utiliza para capturar cualquier excepción que se produzca en el bloque try
+    except Exception as e:
+        return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
+
+
+def procesar_archivo(archivo):
+    try:
+        extension = os.path.splitext(archivo.filename)[1]
+        nuevo_nombre_archivo = str(uuid.uuid4().hex) + extension
+
+        # Construir la ruta completa de subida del archivo
+        basepath = os.path.abspath(os.path.dirname(__file__))
+        upload_dir = os.path.join(basepath, 'static', 'archivos_chat')
+
+        # Validar si existe la ruta y crearla si no existe
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+
+        # Construir la ruta completa de subida del archivo
+        upload_path = os.path.join(upload_dir, nuevo_nombre_archivo)
+        archivo.save(upload_path)
+
+        return nuevo_nombre_archivo
+    except Exception as e:
+        print("Error al procesar archivo:", e)
+        return None
+
+
+def process_form(file, mensaje):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                sql = (
+                    "INSERT INTO chat(mensaje, archivo) VALUES (%s, %s)")
+                valores = (mensaje, file)
+                cursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+
+                resultado_insert = cursor.rowcount
+                if (resultado_insert):
+                    return lista_mensajes_chat()
+                else:
+                    return []
+    except Exception as e:
+        return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
+
+
+# Guardando audio en servidor
+def process_audio_chat(fileAudio):
+    try:
+        extension = os.path.splitext(fileAudio.filename)[1]
+        nuevo_nombre_audio = str(uuid.uuid4().hex) + extension
+
+        # Construir la ruta completa de subida del archivo
+        basepath = os.path.abspath(os.path.dirname(__file__))
+        upload_dir = os.path.join(basepath, 'static', 'audios_chat')
+
+        # Validar si existe la ruta y crearla si no existe
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+
+        # Construir la ruta completa de subida del archivo
+        upload_path = os.path.join(upload_dir, nuevo_nombre_audio)
+        fileAudio.save(upload_path)
+
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    sql = "INSERT INTO chat(file_audio) VALUES (%s)"
+                    valores = (nuevo_nombre_audio,)
+                    cursor.execute(sql, valores)
+                    conexion_MySQLdb.commit()
+
+                    resultado_insert = cursor.rowcount
+                    if (resultado_insert):
+                        return 1
+                    else:
+                        return []
+        except Exception as e:
+            return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
+
+    except Exception as e:
+        print("Error al procesar archivo:", e)
+        return None

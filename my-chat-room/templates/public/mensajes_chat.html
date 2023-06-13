@@ -1,0 +1,66 @@
+{% if lista_mensajes|length %}
+<ul class="chat__list-messages">
+  {% for mensajes in lista_mensajes %}
+  <!---->
+  {% if loop.index % 2 == 0 %}
+  <li>
+    <div class="chat__time">{{ mensajes.fecha_formateada}}</div>
+    {% if mensajes.archivo is not none and mensajes.archivo != '' %}
+    <img
+      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo) }}"
+      alt="foto-chat"
+      style="max-width: 80%" />
+    {% endif %}
+    <!---->
+    {% if mensajes.file_audio is not none and mensajes.file_audio != '' %}
+    <!---->
+    <br />
+    <audio
+      src="{{ url_for('static', filename='audios_chat/' + mensajes.file_audio) }}"
+      controls>
+      Tu navegador no admite la reproducción de audio.
+    </audio>
+    <!---->
+    {% endif %}
+
+    <!---->
+    {% if mensajes.mensaje is not none and mensajes.mensaje != '' %}
+    <div class="chat__bubble chat__bubble--you">{{ mensajes.mensaje}}</div>
+    {% endif %}
+  </li>
+  {% else %}
+  <li>
+    <div class="chat__time" style="align-self: end">
+      {{ mensajes.fecha_formateada}}
+    </div>
+    {% if mensajes.archivo is not none and mensajes.archivo != '' %}
+    <img
+      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo) }}"
+      alt="foto-chat"
+      style="max-width: 80%" />
+    {% endif %}
+
+    <!---->
+    <span style="align-self: flex-end">
+      {% if mensajes.file_audio is not none and mensajes.file_audio != '' %}
+      <!---->
+      <br />
+      <audio
+        src="{{ url_for('static', filename='audios_chat/' + mensajes.file_audio) }}"
+        controls>
+        Tu navegador no admite la reproducción de audio.
+      </audio>
+    </span>
+    <!---->
+    {% endif %}
+
+    <!---->
+    {% if mensajes.mensaje is not none and mensajes.mensaje != '' %}
+    <div class="chat__bubble chat__bubble--me">{{ mensajes.mensaje}}</div>
+    {% endif %}
+  </li>
+  {% endif %} {% endfor %}
+</ul>
+{% else %}
+<p style="text-align: center">No hay mensajes 😭</p>
+{% endif %}
