@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2023 a las 15:07:09
+-- Tiempo de generación: 14-06-2023 a las 21:45:25
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -24,47 +24,94 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `chat`
+-- Estructura de tabla para la tabla `tbl_chat`
 --
 
-CREATE TABLE `chat` (
+CREATE TABLE `tbl_chat` (
   `id_chat` int(11) NOT NULL,
-  `mensaje` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mensaje` text DEFAULT NULL,
+  `archivo` varchar(100) DEFAULT NULL,
+  `file_audio` varchar(100) DEFAULT NULL,
   `fecha_mensaje` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `chat`
+-- Volcado de datos para la tabla `tbl_chat`
 --
 
-INSERT INTO `chat` (`id_chat`, `mensaje`, `fecha_mensaje`) VALUES
-(5, 'React es una biblioteca Javascript de código abierto diseñada para crear interfaces de usuario con el objetivo de facilitar el desarrollo de aplicaciones en una sola página', '2023-06-02 13:03:18'),
-(6, 'JavaScript es un lenguaje de programación interpretado, dialecto del estándar ECMAScript. Se define como orientado a objetos, ​ basado en prototipos, imperativo, débilmente tipado y dinámico.', '2023-06-02 13:03:50'),
-(7, 'PHP es un lenguaje de programación interpretado​ del lado del servidor y de uso general que se adapta especialmente al desarrollo web.​ Fue creado inicialmente por el programador danés-canadiense Rasmus Lerdorf en 1994', '2023-06-02 13:04:09'),
-(8, 'Python es un lenguaje de alto nivel de programación interpretado cuya filosofía hace hincapié en la legibilidad de su código, se utiliza para desarrollar aplicaciones de todo tipo, ejemplos: Instagram, Netflix, Spotify, Panda3D, entre otros', '2023-06-02 13:04:39'),
-(9, 'Node.js es un entorno en tiempo de ejecución multiplataforma, de código abierto, para la capa del servidor basado en el lenguaje de programación JavaScript, asíncrono, con E/S de datos en una arquitectura orientada a eventos y basado en el motor V8 de Google', '2023-06-02 13:05:05'),
-(10, 'Vue.js es un framework de JavaScript de código abierto para la construcción de interfaces de usuario y aplicaciones de una sola página. Fue creado por Evan You, y es mantenido por él y por el resto de los miembros activos del equipo central que provienen de diversas empresas como Netlify y Netguru.​', '2023-06-02 13:05:31'),
-(11, 'socket.io es una librería que permite la comunicación entre el cliente y servidor a través de eventos', '2023-06-02 13:06:53');
+INSERT INTO `tbl_chat` (`id_chat`, `mensaje`, `archivo`, `file_audio`, `fecha_mensaje`) VALUES
+(1, 'sera', NULL, NULL, '2023-06-14 19:05:12'),
+(2, 'probando', NULL, NULL, '2023-06-14 19:06:08'),
+(3, 'quien', NULL, NULL, '2023-06-14 19:06:15'),
+(4, 'ok', NULL, NULL, '2023-06-14 19:08:41'),
+(5, 'hola', NULL, NULL, '2023-06-14 19:08:49'),
+(6, 'ok', NULL, NULL, '2023-06-14 19:27:06'),
+(7, 'bien', NULL, NULL, '2023-06-14 19:27:14'),
+(8, 'eso parece', NULL, NULL, '2023-06-14 19:27:17'),
+(9, 'hola mundo', NULL, NULL, '2023-06-14 19:27:26'),
+(10, 'gool', NULL, NULL, '2023-06-14 19:31:12'),
+(11, '', '089a7386ca484eebae171f6e7ef78bd7.PNG', NULL, '2023-06-14 19:31:20'),
+(12, '', '955c8e0598da40a9ae7f72d4973ee9f5.PNG', NULL, '2023-06-14 19:32:37'),
+(13, '', '5a3f677350f340fb81e4ae30a8c56dcd.jpg', NULL, '2023-06-14 19:33:44');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_users`
+--
+
+CREATE TABLE `tbl_users` (
+  `id_user` int(11) NOT NULL,
+  `user` varchar(150) DEFAULT NULL,
+  `email_user` varchar(60) DEFAULT NULL,
+  `pass_user` mediumtext NOT NULL,
+  `tlf_user` int(10) DEFAULT NULL,
+  `foto_user` varchar(100) DEFAULT NULL,
+  `decription_user` mediumtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`id_user`, `user`, `email_user`, `pass_user`, `tlf_user`, `foto_user`, `decription_user`) VALUES
+(1, 'URIAN', 'urian@gmail.com', 'sha256$Vy4xdu6RdJwQwtIB$78c6a6f1630f5ba6eee7c281d6a24550baca88e47789452616fd4c1941ef51e8', 1234567896, NULL, NULL),
+(2, 'Jose', 'jose@gmail.com', 'sha256$hwaah2qkCWyIJJh3$604be91a2fb0effc0f9e7247c16bdc5fb2e123f6f2c985b124e53b1631ba3cf5', 1236547896, NULL, NULL),
+(3, 'Brenda', 'brenda@gmail.com', 'sha256$9iyFWrwuguqHnfvx$4d1f361039f3861948c844a9e5e139045ccd1aba61eb7caac2b6e06d5b601e87', 1234568795, '91489dc03746478ea57a680ee8ce72f1.png', NULL),
+(6, 'Angel', 'angel@gmail.com', 'sha256$9iyFWrwuguqHnfvx$4d1f361039f3861948c844a9e5e139045ccd1aba61eb7caac2b6e06d5b601e87', 1234569875, '91489dc03746478ea57a680ee8ce72f1.png', NULL),
+(7, 'asas', 'ssss@gmail.com', 'sha256$IZe1u3dLGEMgc6UJ$e55d379b916a217e946879f5c80d37a9a280c2a177d99511a05f0efd2b1770ff', 1236547895, 'f9228a14a2c94383ad0a9011e9ed2a01.PNG', NULL);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `chat`
+-- Indices de la tabla `tbl_chat`
 --
-ALTER TABLE `chat`
+ALTER TABLE `tbl_chat`
   ADD PRIMARY KEY (`id_chat`);
+
+--
+-- Indices de la tabla `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `chat`
+-- AUTO_INCREMENT de la tabla `tbl_chat`
 --
-ALTER TABLE `chat`
-  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `tbl_chat`
+  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

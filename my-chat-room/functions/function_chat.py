@@ -1,6 +1,6 @@
 import os
-import uuid  # Modulo de python para crear un string
 from os import path  # Modulo para obtener la ruta o directorio
+import uuid  # Modulo de python para crear un string
 from confiBD.conexionBD import *
 
 
@@ -9,9 +9,10 @@ def lista_mensajes_chat():
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
-                        SELECT DATE_FORMAT(fecha_mensaje, '%d-%m-%Y %I:%i %p') AS fecha_formateada,
-                        mensaje, archivo, file_audio
-                        FROM chat ORDER BY id_chat ASC
+                        SELECT 
+                            DATE_FORMAT(fecha_mensaje, '%d-%m-%Y %I:%i %p') AS fecha_formateada,
+                            mensaje, archivo, file_audio
+                        FROM tbl_chat ORDER BY id_chat ASC
                         """
                 mycursor.execute(querySQL,)
                 lista_chat = mycursor.fetchall()
@@ -30,7 +31,7 @@ def procesar_form_msj(mensaje):
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO chat(mensaje) VALUES (%s)")
+                    "INSERT INTO tbl_chat(mensaje) VALUES (%s)")
                 valores = (mensaje,)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
@@ -52,7 +53,7 @@ def procesar_archivo(archivo):
 
         # Construir la ruta completa de subida del archivo
         basepath = os.path.abspath(os.path.dirname(__file__))
-        upload_dir = os.path.join(basepath, 'static', 'archivos_chat')
+        upload_dir = os.path.join(basepath, '../static', 'archivos_chat')
 
         # Validar si existe la ruta y crearla si no existe
         if not os.path.exists(upload_dir):
@@ -73,7 +74,7 @@ def process_form(file, mensaje):
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO chat(mensaje, archivo) VALUES (%s, %s)")
+                    "INSERT INTO tbl_chat(mensaje, archivo) VALUES (%s, %s)")
                 valores = (mensaje, file)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
@@ -95,7 +96,7 @@ def process_audio_chat(fileAudio):
 
         # Construir la ruta completa de subida del archivo
         basepath = os.path.abspath(os.path.dirname(__file__))
-        upload_dir = os.path.join(basepath, 'static', 'audios_chat')
+        upload_dir = os.path.join(basepath, '../static', 'audios_chat')
 
         # Validar si existe la ruta y crearla si no existe
         if not os.path.exists(upload_dir):
@@ -108,7 +109,7 @@ def process_audio_chat(fileAudio):
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                    sql = "INSERT INTO chat(file_audio) VALUES (%s)"
+                    sql = "INSERT INTO tbl_chat(file_audio) VALUES (%s)"
                     valores = (nuevo_nombre_audio,)
                     cursor.execute(sql, valores)
                     conexion_MySQLdb.commit()

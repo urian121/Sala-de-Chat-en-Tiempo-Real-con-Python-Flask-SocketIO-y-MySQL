@@ -13,20 +13,27 @@
   <div id="signin">
     <div class="logo">
       <img
-        src="https://image.ibb.co/hW1YHq/login-logo.png"
-        alt="Sluralpright" />
+        src="{{ url_for('static', filename='imgs/logo_chat.png') }}"
+        alt="Logo" />
     </div>
     <form action="/procesar-cuenta-user" method="POST" autocomplete="off">
       <div>
         <label>Email</label>
-        <input type="text" class="text-input" />
+        <input type="text" class="text-input" required />
       </div>
       <button type="submit" class="primary-btn mt-5">Recuperar clave</button>
     </form>
 
     <div class="links mt-5">
-      <a href="/login">Volver</a> /
-      <a href="/login">Iniciar sesión</a>
+      <a href="/login">
+        <i class="bi bi-reply-all-fill"></i>
+        Volver</a
+      >
+      /
+      <a href="/login">
+        <i class="bi bi-reply-all-fill"></i>
+        Iniciar sesión
+      </a>
     </div>
   </div>
 </div>

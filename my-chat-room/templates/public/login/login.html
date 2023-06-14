@@ -2,24 +2,34 @@
   <div id="signin">
     <div class="logo">
       <img
-        src="https://image.ibb.co/hW1YHq/login-logo.png"
-        alt="Sluralpright" />
+        src="{{ url_for('static', filename='imgs/logo_chat.png') }}"
+        alt="Logo" />
     </div>
-    <form>
+    <form action="/iniciar-sesion" method="POST" autocomplete="off">
       <div>
         <label>Email</label>
-        <input type="text" class="text-input" />
+        <input type="text" name="email_user" class="text-input" required />
       </div>
       <div>
         <label>Password</label>
-        <input type="password" class="text-input" />
+        <input type="password" name="pass_user" class="text-input" required />
       </div>
-      <button type="submit" class="primary-btn">Iniciar sesión</button>
+      <button type="submit" class="primary-btn">
+        Iniciar sesión
+        <i class="bi bi-arrow-right-circle"></i>
+      </button>
     </form>
 
     <div class="links mt-5">
-      <a href="/crear-cuenta">Crear cuenta</a> /
-      <a href="/recuperar-cuenta">Recuperar cuenta</a>
+      <a href="/crear-cuenta">
+        Crear cuenta
+        <i class="bi bi-person-vcard"></i>
+      </a>
+      /
+      <a href="/recuperar-cuenta">
+        Recuperar cuenta
+        <i class="bi bi-exclamation-triangle"></i>
+      </a>
     </div>
   </div>
 </div>
