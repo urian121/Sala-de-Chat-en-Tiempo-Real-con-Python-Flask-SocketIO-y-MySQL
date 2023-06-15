@@ -11,3 +11,11 @@
   src="{{ url_for('static', filename='js/process_audio.js') }}"
   type="module"></script>
 <script src="{{ url_for('static', filename='js/loader.js') }}"></script>
+
+<script>
+  let profile = document.querySelector(".profile");
+  let menu = document.querySelector(".menu");
+  profile.onclick = function () {
+    menu.classList.toggle("active");
+  };
+</script>

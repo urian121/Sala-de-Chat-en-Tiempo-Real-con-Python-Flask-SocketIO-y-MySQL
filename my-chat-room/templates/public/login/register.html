@@ -38,7 +38,12 @@
       </div>
       <div>
         <label>Telefono</label>
-        <input type="number" name="tlf_user" class="text-input" required />
+        <input
+          type="text"
+          name="tlf_user"
+          id="tlf_user"
+          class="text-input"
+          required />
       </div>
       <div class="personal-image">
         <label class="label">
@@ -78,4 +83,33 @@
 </div>
 {% endblock %} {% block customJS %}
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let tlf_user = document.querySelector("#tlf_user");
+    let formValido = true;
+
+    tlf_user.addEventListener("input", (e) => {
+      const input = e.target;
+      let telefono = input.value.trim();
+
+      if (!/^[0-9]*$/.test(telefono)) {
+        // verifica que solo sean números
+        input.value = telefono.slice(0, -1);
+        input.classList.add("is-invalid");
+        formValido = false;
+      } else if (telefono.length > 10) {
+        // verifica que no supere los 10 caracteres
+        input.value = telefono.slice(0, 10);
+      }
+
+      if (input.value.length === 10) {
+        input.classList.remove("is-invalid");
+        input.classList.add("input_valido");
+        formValido = true; // Establece a true si el valor es válido
+      }
+    });
+  });
+</script>
+
 {% endblock %}

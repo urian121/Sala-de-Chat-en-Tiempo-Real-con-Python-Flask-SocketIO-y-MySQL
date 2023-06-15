@@ -79,6 +79,8 @@ body {
     Main
 ====================================== */
 .messages-page {
+  /* position: fixed;*/
+  margin-top: 10px;
   height: 100vh;
 }
 .messages-page__header {
