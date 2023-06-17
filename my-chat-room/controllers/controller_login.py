@@ -113,5 +113,6 @@ def cerraSesion():
     session.pop('id_user', None)
     session.pop('user', None)
     session.pop('email_user', None)
+    session.pop('foto_user', None)
     flash('Tu sesión fue cerrada correctamente.', 'success')
     return redirect(url_for('index'))

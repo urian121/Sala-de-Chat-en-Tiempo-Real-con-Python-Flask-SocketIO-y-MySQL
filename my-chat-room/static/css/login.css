@@ -47,12 +47,11 @@ h6 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
   padding-bottom: 1rem;
 }
 
 #signin form {
-  width: 90%;
+  width: 100%;
 }
 /*
 #signin .logo {
@@ -247,17 +246,17 @@ input:focus {
 }
 .personal-figure {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
 }
 .personal-avatar {
   cursor: pointer;
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   box-sizing: border-box;
   border-radius: 100%;
   border: 2px solid transparent;
-  background: #333;
+  background: #a4a3a3;
   transition: all ease-in-out 0.3s;
 }
 .personal-avatar:hover {
@@ -279,7 +278,7 @@ input:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .personal-figcaption > img {
-  margin-top: 32.5px;
+  margin-top: 19.5px;
   width: 50px;
   height: 50px;
 }
@@ -290,4 +289,9 @@ input:focus {
 
 .bi {
   font-size: 20px;
+}
+
+.favicon_log {
+  font-size: 60px;
+  color: #444;
 }

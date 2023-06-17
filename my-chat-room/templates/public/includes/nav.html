@@ -1,19 +1,22 @@
-<nav>
+<nav id="mi_nav">
   <div class="menu-toggle">
     <a href="/">
-      <i class="bi bi-chat-left-dots"></i>
+      <i class="bi bi-wechat"></i>
     </a>
   </div>
   <div class="profile">
     <div class="user">
-      <h3>Urian V</h3>
-      <p>urian@gmail.com</p>
+      <h3>{{ session['user'] }}</h3>
+      <p>{{ session['email_user'] }}</p>
     </div>
     <div class="img-box">
       <img
-        src="https://i.postimg.cc/BvNYhMHS/user-img.jpg"
-        alt="some user image" />
+        src="{{ url_for('static', filename='fotos_users/' + session['foto_user']) }}"
+        alt="perfil-user" />
     </div>
+    <span class="dark_mode_toogler">
+      <i class="bi bi-moon"></i>
+    </span>
   </div>
   <div class="menu">
     <ul>

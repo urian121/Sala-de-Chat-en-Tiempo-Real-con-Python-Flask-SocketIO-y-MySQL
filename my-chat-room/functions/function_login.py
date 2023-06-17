@@ -61,6 +61,8 @@ def validad_loginBD(email_user, pass_user):
             session['id_user'] = usuario['id_user']
             session['user'] = usuario['user']
             session['email_user'] = usuario['email_user']
+            session['foto_user'] = usuario['foto_user']
+
             return 1
         else:
             return 0

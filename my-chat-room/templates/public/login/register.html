@@ -15,9 +15,7 @@
 <div id="left">
   <div id="signin">
     <div class="logo">
-      <img
-        src="{{ url_for('static', filename='imgs/logo_chat.png') }}"
-        alt="Logo" />
+      <i class="bi bi-wechat favicon_log"></i>
     </div>
     <form
       action="/procesar-cuenta-user"
@@ -47,7 +45,12 @@
       </div>
       <div class="personal-image">
         <label class="label">
-          <input type="file" name="foto_user" id="upload-input" required />
+          <input
+            type="file"
+            name="foto_user"
+            id="upload-input"
+            accept="image/png,image/jpeg"
+            required />
           <figure class="personal-figure">
             <img
               src="{{ url_for('static', filename='imgs/perfil.png') }}"

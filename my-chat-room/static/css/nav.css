@@ -11,7 +11,10 @@ nav {
   align-items: center;
   box-shadow: 0px 15px 60px rgba(62, 62, 62, 0.102) !important;
 }
-
+.nav_nocturno {
+  color: #fff;
+  background-color: #313131 !important;
+}
 /* menu toggle */
 .menu-toggle {
   position: relative;
@@ -24,8 +27,8 @@ nav {
 h3 {
   font-size: 15px !important;
 }
-.bi-chat-left-dots {
-  font-size: 30px;
+.bi-wechat {
+  font-size: 50px;
 }
 
 /* profile menu */
@@ -75,7 +78,7 @@ h3 {
 .menu {
   position: absolute;
   top: 85px;
-  right: 5px;
+  right: 70px;
   width: 200px;
   min-height: 100px;
   background: #fff;
@@ -128,10 +131,35 @@ h3 {
   color: #000;
   display: flex;
   align-items: center;
-  padding: 15px 20px;
+  padding: 8px 20px;
   gap: 6px;
 }
 
 .menu ul li a i {
   font-size: 1.2em;
+}
+
+.bi-moon {
+  font-size: 20px;
+  color: #1a7ee6;
+}
+
+.dark_mode_toogler {
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0.35rem;
+  border-radius: 50%;
+  border: 1px solid #d8d8d8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff !important;
+}
+.dark_mode_toogler:hover .bi-moon {
+  color: #fff;
+}
+
+.dark_mode_toogler:hover {
+  background-color: #1a7ee6;
+  border-color: #1a7ee6;
 }
