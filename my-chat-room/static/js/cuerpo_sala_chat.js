@@ -60,10 +60,25 @@ $(".user-profile__close").click(function () {
   $profile.removeClass("user-profile--show");
 });
 
-let dark_mode_toogler = document.querySelector(".dark_mode_toogler");
-dark_mode_toogler.addEventListener("click", function () {
-  document.querySelector("body").classList.toggle("dark-mode");
+/**
+ * Modo Dark
+ */
+const darkModeToggler = document.querySelector(".dark_mode_toogler");
+const body = document.querySelector("body");
+const miNav = document.querySelector("#mi_nav");
 
-  let mi_nav = document.querySelector("#mi_nav");
-  mi_nav.classList.toggle("nav_nocturno");
+// Verificar el estado actual del modo oscuro en el localStorage
+let darkModeEnabled = localStorage.getItem("darkModeEnabled") === "true";
+updateDarkMode();
+
+// Agregar un event listener al botón de alternar modo oscuro
+darkModeToggler.addEventListener("click", function () {
+  darkModeEnabled = !darkModeEnabled;
+  updateDarkMode();
 });
+
+function updateDarkMode() {
+  body.classList.toggle("dark-mode", darkModeEnabled);
+  miNav.classList.toggle("nav_nocturno", darkModeEnabled);
+  localStorage.setItem("darkModeEnabled", darkModeEnabled);
+}

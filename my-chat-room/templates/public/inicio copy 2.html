@@ -11,28 +11,12 @@
     {% include 'public/includes/loader.html' %}
     <!---->
     {% include 'public/includes/nav.html' %}
-    <div class="container">
-      <div class="row border">
-        <div class="col-md-4 border">.col-md-8</div>
-        <div class="col-md-8 border">
-          <div id="cuerpo" class="row">
-            <div class="col-md-6 border">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem
-              autem nulla, tempore laborum perspiciatis repellendus iusto illum
-              fugit impedit quaerat, voluptate nam libero labore rerum. Vitae
-              temporibus iste distinctio nesciunt.
-            </div>
-            <div class="col-md-6 border">Otro elemento</div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <div class="home-page__content messages-page">
       <div class="container-fluid h-100">
         <div class="row px-0 h-100">
           {% include 'public/home/friends_chats.html' %}
           <!---->
-
           {% block content %}
           <div class="chat col-12 col-md-8 col-lg-7 col-xl-6 px-0 pl-md-1">
             <div class="chat__container">
@@ -56,10 +40,5 @@
     </div>
 
     {% include 'public/includes/links_js.html' %}
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
-      });
-    </script>
   </body>
 </html>

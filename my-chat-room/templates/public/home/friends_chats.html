@@ -9,157 +9,43 @@
         placeholder="Buscar amigo - chat"
         autocomplete="off" />
       <button type="submit" class="custom-form__search-submit">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="svg-icon svg-icon--search"
-          viewBox="0 0 46.6 46.6">
-          <path
-            d="M46.1,43.2l-9-8.9a20.9,20.9,0,1,0-2.8,2.8l8.9,9a1.9,1.9,0,0,0,1.4.5,2,2,0,0,0,1.5-.5A2.3,2.3,0,0,0,46.1,43.2ZM4,21a17,17,0,1,1,33.9,0A17.1,17.1,0,0,1,33,32.9h-.1A17,17,0,0,1,4,21Z"
-            fill="#f68b3c" />
-        </svg>
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </div>
 
   <ul class="messages-page__list pb-5 px-1 px-md-3">
-    <li class="messaging-member messaging-member--new messaging-member--online">
+    {% if lista_amigos|length %}
+    <!---->
+    {% for amigo in lista_amigos %}
+    <li class="messaging-member" id="{{ amigo.id_user }}">
       <div class="messaging-member__wrapper">
         <div class="messaging-member__avatar">
           <img
-            src="https://randomuser.me/api/portraits/thumb/men/74.jpg"
-            alt="Bessie Cooper"
+            src="{{ url_for('static', filename='fotos_users/' + amigo.foto_user) }}"
+            alt="Perfil -"
             loading="lazy" />
+          {% if amigo.online == 0 %}
           <div class="user-status"></div>
+          {% else %}
+          <div class="user-status amigo_activo"></div>
+          <!---->
+          {% endif %}
         </div>
 
-        <span class="messaging-member__name">Bessie Cooper</span>
-        <span class="messaging-member__message"
-          >Yes, I need your help with the project, it need it done by tomorrow
-          😫</span
-        >
+        <span class="messaging-member__name">{{ amigo.user }}</span>
+        <span class="messaging-member__message"> {{ amigo.email_user}} </span>
       </div>
     </li>
-    <li
-      class="messaging-member messaging-member--online messaging-member--active">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/women/56.jpg"
-            alt="Jenny Smith"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Jenny Smith</span>
-        <span class="messaging-member__message">Perfect, thanks !</span>
-      </div>
-    </li>
+    {% endfor %}
+    <!---->
+    {% else %}
     <li class="messaging-member">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/women/17.jpg"
-            alt="Courtney Simmons"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Courtney Simmons</span>
-        <span class="messaging-member__message"
-          >Going home soon, don't worry</span
-        >
-      </div>
+      <span class="messaging-member__name">
+        Aún no tienes amigos no tienes amigos 😭
+      </span>
     </li>
-    <li class="messaging-member messaging-member--online">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/women/39.jpg"
-            alt="Martha Curtis"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Martha Curtis</span>
-        <span class="messaging-member__message">Great 😂</span>
-      </div>
-    </li>
-    <li class="messaging-member messaging-member--online">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/men/27.jpg"
-            alt="Rozie Tucker"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Gab Ryan</span>
-        <span class="messaging-member__message"
-          >Sure, may I get your phone number? 😃</span
-        >
-      </div>
-    </li>
-    <li class="messaging-member">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/men/17.jpg"
-            alt="Jules Zimmermann"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Jules Zimmermann</span>
-        <span class="messaging-member__message"
-          >Well, here I am, coming as faaast as I can !</span
-        >
-      </div>
-    </li>
-    <li class="messaging-member">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/men/9.jpg"
-            alt="Mark Reid"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Mark Reid</span>
-        <span class="messaging-member__message"
-          >Have you listened to the latest album? Pure perfection</span
-        >
-      </div>
-    </li>
-    <li class="messaging-member messaging-member--online">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/men/54.jpg"
-            alt="Russell Williams"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Russell Williams</span>
-        <span class="messaging-member__message">Nice to meet you again </span>
-      </div>
-    </li>
-    <li class="messaging-member">
-      <div class="messaging-member__wrapper">
-        <div class="messaging-member__avatar">
-          <img
-            src="https://randomuser.me/api/portraits/thumb/women/85.jpg"
-            alt="Savannah Nguyen"
-            loading="lazy" />
-          <div class="user-status"></div>
-        </div>
-
-        <span class="messaging-member__name">Savannah Nguyen</span>
-        <span class="messaging-member__message">Really ?!</span>
-      </div>
-    </li>
+    {% endif %}
   </ul>
 </div>
 <!-- end message list section  -->

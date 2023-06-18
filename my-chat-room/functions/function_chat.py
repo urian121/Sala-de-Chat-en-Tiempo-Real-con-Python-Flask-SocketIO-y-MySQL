@@ -25,6 +25,42 @@ def lista_mensajes_chat():
         return 0
 
 
+def lista_amigos_chat():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = "SELECT * FROM tbl_users ORDER BY user ASC"
+                mycursor.execute(querySQL,)
+                lista_amigos_chat = mycursor.fetchall()
+                if lista_amigos_chat:
+                    return lista_amigos_chat
+                else:
+                    return {}
+    except Exception as e:
+        print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
+        return 0
+
+
+def buscar_amigoBD(id_amigo):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = """SELECT *
+                              FROM tbl_users
+                              WHERE id_user=%s
+                              LIMIT 1"""
+                mycursor.execute(querySQL, (id_amigo,))
+                amigoBD = mycursor.fetchone()
+                if amigoBD:
+                    return amigoBD
+                else:
+                    return []
+    except Exception as e:
+        print(
+            f"Error al buscar el amigo seleccionado: {e}")
+        return []
+
+
 def procesar_form_msj(mensaje):
     try:
         # Conexión a la base de datos

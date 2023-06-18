@@ -3,9 +3,7 @@ import { socket } from "./socketIO.js";
 
 //Accediendo al input con id mensaje
 const mensajeInput = document.querySelector("#mensaje");
-
-// Asignando el focus por defecto al input con id mensaje
-mensajeInput.focus();
+mensajeInput ? mensajeInput.focus() : "";
 
 /**
  * Procesar formulario del Chat

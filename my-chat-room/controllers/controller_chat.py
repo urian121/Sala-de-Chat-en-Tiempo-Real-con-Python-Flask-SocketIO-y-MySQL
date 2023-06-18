@@ -19,11 +19,22 @@ def recibir_mensaje(mensaje_chat):
 @app.route('/home', methods=['GET'])
 def chat():
     if 'conectado' in session and request.method == 'GET':
-        lista_mensajes = lista_mensajes_chat() or []
-        return render_template('public/inicio.html', lista_mensajes=lista_mensajes)
+        parametros_chat = {
+            'lista_mensajes': lista_mensajes_chat() or [],
+            'lista_amigos': lista_amigos_chat() or []
+        }
+        return render_template('public/inicio.html', **parametros_chat)
     else:
         flash('primero debes iniciar sesión.', 'error')
         return render_template('public/login/base_login.html')
+
+
+# Funcion para filtrar y mostrar el amigo seleccionado desde el chat
+@app.route('/mostrar-amigo-seleccionado', methods=['POST'])
+def mostrar_amigo():
+    id_amigo = int(request.json.get('id_amigo'))
+    infor_amigo = buscar_amigoBD(id_amigo)
+    return render_template('public/home/dating selected friend.html', respuesta_busqueda_amigo_seleccionado=infor_amigo)
 
 
 # Procesando el audio que llega desde el formulario del chat
