@@ -29,7 +29,7 @@
 
 #loading-text {
   color: #222;
-  font-size: 1.5em;
+  font-size: 15px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -41,7 +41,7 @@
     border: 5px solid white;
   }
   50% {
-    border: 25px solid #1a7ee6;
+    border: 25px solid #1a71d0;
   }
   100% {
     border: 5px solid white;
@@ -53,7 +53,7 @@
     border: 5px solid white;
   }
   50% {
-    border: 25px solid #1a7ee6;
+    border: 25px solid #1a71d0;
   }
   100% {
     border: 5px solid white;

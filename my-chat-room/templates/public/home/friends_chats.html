@@ -18,7 +18,10 @@
     {% if lista_amigos|length %}
     <!---->
     {% for amigo in lista_amigos %}
-    <li class="messaging-member" id="{{ amigo.id_user }}">
+    <li
+      class="messaging-member"
+      id="{{ amigo.id_user }}"
+      data-search="{{ amigo.user }} {{ amigo.email_user }}">
       <div class="messaging-member__wrapper">
         <div class="messaging-member__avatar">
           <img
