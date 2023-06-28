@@ -10,7 +10,7 @@ def lista_mensajes_chat():
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
                         SELECT 
-                            DATE_FORMAT(fecha_mensaje, '%d-%m-%Y %I:%i %p') AS fecha_formateada,
+                            DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
                             mensaje, archivo, file_audio
                         FROM tbl_chat ORDER BY id_chat ASC
                         """
@@ -41,14 +41,41 @@ def lista_amigos_chat():
         return 0
 
 
-def buscar_amigoBD(id_amigo):
+# Funcion que recibe el id del amigo seleccionado y retorna los chats del mismo.
+def buscar_chat_amigoBD(id_amigo):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                querySQL = """SELECT *
+                querySQL = """
+                        SELECT 
+                            DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
+                            mensaje, archivo, file_audio
+                        FROM tbl_chat ORDER BY id_chat ASC
+                        """
+                mycursor.execute(querySQL,)
+                lista_chat = mycursor.fetchall()
+                # mycursor.execute(querySQL, (id_amigo,))
+                if lista_chat:
+                    return lista_chat
+                else:
+                    return []
+    except Exception as e:
+        print(
+            f"Error al buscar el amigo seleccionado: {e}")
+        return []
+
+
+# Función que recibe el id del amigo seleccionado y retorna la información del amigo
+def buscar_informacion_amigoBD(id_amigo):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = """
+                            SELECT *
                               FROM tbl_users
                               WHERE id_user=%s
-                              LIMIT 1"""
+                              LIMIT 1
+                            """
                 mycursor.execute(querySQL, (id_amigo,))
                 amigoBD = mycursor.fetchone()
                 if amigoBD:
@@ -61,14 +88,14 @@ def buscar_amigoBD(id_amigo):
         return []
 
 
-def procesar_form_msj(mensaje):
+def procesar_form_msj(desde_id_user, mensaje):
     try:
         # Conexión a la base de datos
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO tbl_chat(mensaje) VALUES (%s)")
-                valores = (mensaje,)
+                    "INSERT INTO tbl_chat(desde_id_user, mensaje) VALUES (%s, %s)")
+                valores = (desde_id_user, mensaje,)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
 
@@ -105,13 +132,13 @@ def procesar_archivo(archivo):
         return None
 
 
-def process_form(file, mensaje):
+def process_form(file, desde_id_user, mensaje):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO tbl_chat(mensaje, archivo) VALUES (%s, %s)")
-                valores = (mensaje, file)
+                    "INSERT INTO tbl_chat(desde_id_user, mensaje, archivo) VALUES (%s, %s, %s)")
+                valores = (desde_id_user, mensaje, file)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
 

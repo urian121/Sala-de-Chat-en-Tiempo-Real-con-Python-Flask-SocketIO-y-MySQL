@@ -11,47 +11,25 @@
     {% include 'public/includes/loader.html' %}
     <!---->
     {% include 'public/includes/nav.html' %}
-    <!----
-    <div class="container">
-      <div class="row border">
-        <div class="col-md-4 border">.col-md-8</div>
-        <div class="col-md-8 border">
-          <div id="cuerpo" class="row">
-            <div class="col-md-6 border">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem
-              autem nulla, tempore laborum perspiciatis repellendus iusto illum
-              fugit impedit quaerat, voluptate nam libero labore rerum. Vitae
-              temporibus iste distinctio nesciunt.
-            </div>
-            <div class="col-md-6 border">Otro elemento</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    --->
 
     <div class="home-page__content messages-page">
       <div class="container-fluid h-100">
         <div class="row px-0 h-100">
           {% include 'public/home/friends_chats.html' %}
           <!---->
-
           {% block content %}
+          <!---->
           <div class="chat col-12 col-md-8 col-lg-7 col-xl-6 px-0 pl-md-1">
             <div class="chat__container">
-              <div class="chat__wrapper py-2 pt-mb-2 pb-md-3">
-                {% include 'public/includes/perfil.html' %}
-                <div class="chat__content pt-4 px-3">
-                  {% include 'public/mensajes_chat.html' %}
-                </div>
-                <span class="contentChat"></span>
-
-                {% include 'public/includes/form_chat.html' %}
-              </div>
+              {% include('public/home/base_chat_perfil.html') %}
             </div>
           </div>
 
-          {% include 'public/home/friend_profile.html' %}
+          <!---->
+          <div
+            class="col-12 col-md-5 col-lg-4 col-xl-3 px-4 px-sm-5 px-lg-4 user-profile">
+            {% include 'public/home/friend_profile.html' %}
+          </div>
           <!---->
           {% endblock %}
         </div>

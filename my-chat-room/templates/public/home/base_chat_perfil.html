@@ -1,0 +1,11 @@
+{% if lista_mensajes|length %}
+<div class="chat__wrapper py-2 pt-mb-2 pb-md-3">
+  {% include 'public/includes/perfil.html' %}
+  <div class="chat__content pt-4 px-3">
+    {% include 'public/mensajes_chat.html' %}
+  </div>
+  <span class="contentChat"></span>
+
+  {% include 'public/includes/form_chat.html' %}
+</div>
+{% endif %}

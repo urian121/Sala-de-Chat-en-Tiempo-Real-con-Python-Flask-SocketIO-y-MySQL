@@ -9,6 +9,14 @@
     <div class="custom-form__send-wrapper">
       <input
         type="text"
+        name="desde_id_user"
+        id="desde_id_user"
+        value="{{ session['id_user'] }}"
+        hidden="true" />
+
+      <input type="text" name="para_id_user" id="para_id_user" />
+      <input
+        type="text"
         class="form-control custom-form"
         name="mensaje"
         id="mensaje"

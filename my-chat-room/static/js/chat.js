@@ -16,6 +16,7 @@ if (form_chat) {
   form_chat.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const desde_id_user = document.querySelector("#desde_id_user").value;
     const mensajeInput = document.querySelector("#mensaje");
     const selectedFile = fileInput.files[0]; // Obtener el archivo seleccionado
     // Creando un objeto FormData con los datos del formulario
@@ -40,6 +41,7 @@ if (form_chat) {
     mensajeInput.style.border = "";
 
     //Agregando los campos mensaje y archivo al objeto formData
+    formData.append("desde_id_user", desde_id_user);
     formData.append("mensaje", mensajeInput.value);
     formData.append("archivo", selectedFile);
 
