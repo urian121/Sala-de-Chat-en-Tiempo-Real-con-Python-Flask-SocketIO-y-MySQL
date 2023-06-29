@@ -16,11 +16,10 @@ def recibir_mensaje(mensaje_chat):
          lista_mensajes=lista_mensajes_chat()), broadcast=True)
 
 
-@app.route('/home', methods=['GET'])
+@app.route('/sala-de-chat', methods=['GET'])
 def chat():
     if 'conectado' in session and request.method == 'GET':
         parametros_chat = {
-            'lista_mensajes': lista_mensajes_chat() or [],
             'lista_amigos': lista_amigos_chat() or []
         }
         return render_template('public/inicio.html', **parametros_chat)

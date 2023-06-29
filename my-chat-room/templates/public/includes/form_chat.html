@@ -14,7 +14,7 @@
         value="{{ session['id_user'] }}"
         hidden="true" />
 
-      <input type="text" name="para_id_user" id="para_id_user" />
+      <input type="text" name="para_id_user" id="para_id_user" hidden="true" />
       <input
         type="text"
         class="form-control custom-form"
@@ -53,3 +53,15 @@
     </div>
   </div>
 </form>
+<button id="click">click</button>
+{% block customJS %}
+<script>
+  console.log("Estoy en la info.html");
+
+  let click1 = document.querySelector("#click");
+  click1.addEventListener("click", (e) => {
+    console.log("hay click");
+  });
+  console.log(click1);
+</script>
+{% endblock %}

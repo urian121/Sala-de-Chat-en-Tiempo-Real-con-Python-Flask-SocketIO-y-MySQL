@@ -7,10 +7,6 @@ if (li_amigos) {
       });
 
       item.classList.add("messaging-member--active");
-      let idAmigoActivo = parseInt(item.id);
-      //let id_amigo = item.getAttribute("id");
-      document.querySelector("#para_id_user").value = idAmigoActivo;
-      console.log("ID del amigo activo:", idAmigoActivo);
 
       /**
        * Realizando solicitud HTTP
@@ -34,10 +30,9 @@ async function amigo_seleccionado(id_amigo) {
       console.log(`HTTP error! status: ${response.status} 😭`);
     }
 
-    const data_amigo = response.data;
     const sectionRecientes = document.querySelector(".user-profile");
     sectionRecientes.innerHTML = "";
-    sectionRecientes.innerHTML = data_amigo;
+    sectionRecientes.innerHTML = response.data;
 
     chat_amigo_seleccionado(id_amigo);
   } catch (error) {
@@ -57,10 +52,16 @@ async function chat_amigo_seleccionado(id_amigo) {
       console.log(`HTTP error! status: ${response.status} 😭`);
     }
 
-    const data_chat_amigo = response.data;
     const chat__container = document.querySelector(".chat__container");
     chat__container.innerHTML = "";
-    chat__container.innerHTML = data_chat_amigo;
+    chat__container.innerHTML = response.data;
+
+    //Asignando un valor al campo para_id_user, es decir agregando el id del amigo seleccionado
+    document.querySelector("#para_id_user").value = parseInt(id_amigo);
+
+    //Accediendo al input con id mensaje
+    const mensajeInput = document.querySelector("#mensaje");
+    mensajeInput ? mensajeInput.focus() : "";
   } catch (error) {
     console.error(error);
   }

@@ -1,13 +1,10 @@
 // Importando el objeto socket
 import { socket } from "./socketIO.js";
 
-//Accediendo al input con id mensaje
-const mensajeInput = document.querySelector("#mensaje");
-mensajeInput ? mensajeInput.focus() : "";
-
 /**
  * Procesar formulario del Chat
  */
+//document.addEventListener("DOMContentLoaded", () => {
 const form_chat = document.querySelector("#formulario_chat");
 if (form_chat) {
   // Llamar a la función para obtener el elemento fileInput
@@ -68,6 +65,7 @@ if (form_chat) {
   // Agrega el elemento fileInput al formulario
   form_chat.appendChild(fileInput);
 }
+//});
 
 /**
  * Creando input type file

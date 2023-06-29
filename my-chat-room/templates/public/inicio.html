@@ -36,11 +36,16 @@
       </div>
     </div>
 
+    <!---->
     {% include 'public/includes/links_js.html' %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
       });
+
+      let click = document.querySelector("#click");
+      console.log(click);
     </script>
+    {% block customJS %} {% endblock %}
   </body>
 </html>
