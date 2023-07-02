@@ -1,3 +1,8 @@
+addEventListener("DOMContentLoaded", (event) => {
+  console.log("Documento cargado OK");
+});
+
+let ultimoIdAmigo = null;
 let li_amigos = document.querySelectorAll(".messaging-member");
 if (li_amigos) {
   li_amigos.forEach((item) => {
@@ -11,8 +16,13 @@ if (li_amigos) {
       /**
        * Realizando solicitud HTTP
        */
-      let id_amigo = item.getAttribute("id");
-      amigo_seleccionado(id_amigo);
+      let id_amigo = parseInt(item.getAttribute("id"));
+      if (ultimoIdAmigo === id_amigo) {
+        return; // Termina la ejecución de la función sin realizar ninguna acción adicional
+      } else {
+        amigo_seleccionado(id_amigo); // Llama a la función amigo_seleccionado con el id_amigo como argumento
+      }
+      ultimoIdAmigo = id_amigo;
     });
   });
 }
@@ -64,5 +74,47 @@ async function chat_amigo_seleccionado(id_amigo) {
     mensajeInput ? mensajeInput.focus() : "";
   } catch (error) {
     console.error(error);
+  } finally {
+    console.log("carga completada");
+
+    // Llamando a la función
+    createJS();
   }
+}
+
+/**
+ * la función createJS() se encarga de crear y cargar un archivo JavaScript en el documento HTML
+ */
+function createJS() {
+  console.log("Llegué a la función createJS");
+  let elementoJS = "/static/js/form.js";
+  // Verifica si ya existe un elemento <script> con el mismo src
+  const existingScript = document.querySelector(`script[src="${elementoJS}"]`);
+
+  if (existingScript) {
+    eliminarScript(existingScript);
+    // Espera un poco antes de crear el nuevo script
+    setTimeout(() => {
+      createScript();
+    }, 1000); // Ajusta el tiempo de espera según sea necesario
+  } else {
+    createScript();
+  }
+}
+
+function eliminarScript(existingScript) {
+  console.log("El archivo JS ya estaba cargado en el HTML, ", existingScript);
+  // Elimina el script existente
+  existingScript.parentNode.removeChild(existingScript);
+}
+
+function createScript() {
+  console.log("Creando nuevo archivo JS");
+  let elementoJS = "/static/js/form.js";
+  let scriptElement = document.createElement("script");
+  scriptElement.src = elementoJS;
+  scriptElement.type = "module";
+
+  // Agrega el elemento <script> al <body>
+  document.body.appendChild(scriptElement);
 }

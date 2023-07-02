@@ -53,15 +53,5 @@
     </div>
   </div>
 </form>
-<button id="click">click</button>
-{% block customJS %}
-<script>
-  console.log("Estoy en la info.html");
 
-  let click1 = document.querySelector("#click");
-  click1.addEventListener("click", (e) => {
-    console.log("hay click");
-  });
-  console.log(click1);
-</script>
-{% endblock %}
+<button id="click">click</button>

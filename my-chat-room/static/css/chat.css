@@ -24,7 +24,9 @@
   --chat-bubble-me: #f2f2f2;
   --chat-bubble-you: var(--colour-primary);
 }
-
+a:hover {
+  text-decoration: none;
+}
 .dark-mode {
   --bg-page: #1a1a1a;
   --bg-page-darker: #363636;
@@ -328,6 +330,7 @@ body {
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 0.9rem;
+  color: #d0d0d0 !important;
 }
 
 .chat {

@@ -18,19 +18,12 @@
           {% include 'public/home/friends_chats.html' %}
           <!---->
           {% block content %}
-          <!---->
           <div class="chat col-12 col-md-8 col-lg-7 col-xl-6 px-0 pl-md-1">
-            <div class="chat__container">
-              {% include('public/home/base_chat_perfil.html') %}
-            </div>
+            <div class="chat__container"></div>
           </div>
 
-          <!---->
           <div
-            class="col-12 col-md-5 col-lg-4 col-xl-3 px-4 px-sm-5 px-lg-4 user-profile">
-            {% include 'public/home/friend_profile.html' %}
-          </div>
-          <!---->
+            class="col-12 col-md-5 col-lg-4 col-xl-3 px-4 px-sm-5 px-lg-4 user-profile"></div>
           {% endblock %}
         </div>
       </div>
@@ -38,14 +31,13 @@
 
     <!---->
     {% include 'public/includes/links_js.html' %}
+    <!---->
+    {% block customJS %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
       });
-
-      let click = document.querySelector("#click");
-      console.log(click);
     </script>
-    {% block customJS %} {% endblock %}
+    {% endblock %}
   </body>
 </html>
