@@ -10,7 +10,6 @@ import { socket } from "./socketIO.js";
  */
 const bodyHTML = document.body;
 const fileInput = document.querySelector("#archivo_img");
-let isFormSubmitted = false; // Bandera para controlar el envío del formulario
 bodyHTML.addEventListener("click", (event) => {
   event.preventDefault();
   const submitButton = document.querySelector(".custom-form__send-submit");

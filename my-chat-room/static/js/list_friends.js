@@ -15,7 +15,6 @@ if (li_amigos) {
        * Realizando solicitud HTTP
        */
       let id_amigo = parseInt(item.getAttribute("id"));
-      console.log("id amigo ", id_amigo);
       if (ultimoIdAmigo === id_amigo) {
         // Termina la ejecución de la función sin realizar ninguna acción adicional
         return;
