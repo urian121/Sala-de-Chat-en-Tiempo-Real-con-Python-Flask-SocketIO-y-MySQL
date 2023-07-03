@@ -33,7 +33,7 @@ def chat():
 def mostrar_chat_amigo():
     id_amigo = int(request.json.get('id_amigo'))
     data_chat_amigo = buscar_chat_amigoBD(id_amigo)
-    return render_template('public/home/base_chat_perfil.html', lista_mensajes=data_chat_amigo)
+    return render_template('public/home/base_chat_perfil.html', lista_mensajes=data_chat_amigo or [])
 
 
 # Funcion para filtrar y mostrar el amigo seleccionado desde el chat
@@ -58,24 +58,24 @@ def process_audio():
 # Procesar todo mi formulario desde el chat
 @app.route('/procesar-form-chat', methods=['POST'])
 def process_form_chat():
-    desde_id_user = request.form.get('desde_id_user')
-    if 'archivo' in request.files and 'mensaje' in request.form:
+    desde_id_user = int(request.form.get('desde_id_user'))
+    para_id_user = int(request.form.get('para_id_user'))
+    mensaje = request.form.get('mensaje', '')
+
+    if 'archivo_img' in request.files and request.files['archivo_img'] and 'mensaje' in request.form:
         # Ambos el archivo y el mensaje están presentes en la solicitud
-        mensaje = request.form.get('mensaje', '')
-        print(f"****** {desde_id_user} - {mensaje}")
-        archivo = request.files['archivo']
+        archivo = request.files['archivo_img']
         resp_process_archivo = procesar_archivo(archivo)
         if resp_process_archivo:
             process_form_chat = process_form(
-                resp_process_archivo, desde_id_user, mensaje)
+                desde_id_user, para_id_user, mensaje, resp_process_archivo)
             if (process_form_chat):
                 return jsonify({'status': 1})
             else:
                 return jsonify({'status': 0})
     else:
         # Solo el mensaje está presente en la solicitud
-        mensaje = request.form.get('mensaje')
-        procesar_msj = procesar_form_msj(desde_id_user, mensaje)
+        procesar_msj = procesar_form_msj(desde_id_user, para_id_user, mensaje)
         if procesar_msj:
             return jsonify({'status': 1})
         else:

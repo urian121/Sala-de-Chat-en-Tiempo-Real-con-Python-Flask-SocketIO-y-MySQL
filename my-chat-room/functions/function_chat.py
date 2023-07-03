@@ -11,15 +11,13 @@ def lista_mensajes_chat():
                 querySQL = """
                         SELECT 
                             DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
-                            mensaje, archivo, file_audio
+                            mensaje, archivo_img, file_audio
                         FROM tbl_chat ORDER BY id_chat ASC
                         """
                 mycursor.execute(querySQL,)
                 lista_chat = mycursor.fetchall()
-                if lista_chat:
-                    return lista_chat
-                else:
-                    return {}
+                return lista_chat or {}
+
     except Exception as e:
         print(f"Ocurrió un error listando los chat: {e}")
         return 0
@@ -32,10 +30,8 @@ def lista_amigos_chat():
                 querySQL = "SELECT * FROM tbl_users ORDER BY user ASC"
                 mycursor.execute(querySQL,)
                 lista_amigos_chat = mycursor.fetchall()
-                if lista_amigos_chat:
-                    return lista_amigos_chat
-                else:
-                    return {}
+                return lista_amigos_chat or {}
+
     except Exception as e:
         print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
         return 0
@@ -49,16 +45,14 @@ def buscar_chat_amigoBD(id_amigo):
                 querySQL = """
                         SELECT 
                             DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
-                            mensaje, archivo, file_audio
+                            mensaje, archivo_img, file_audio
                         FROM tbl_chat ORDER BY id_chat ASC
                         """
                 mycursor.execute(querySQL,)
                 lista_chat = mycursor.fetchall()
                 # mycursor.execute(querySQL, (id_amigo,))
-                if lista_chat:
-                    return lista_chat
-                else:
-                    return []
+                return lista_chat or []
+
     except Exception as e:
         print(
             f"Error al buscar el amigo seleccionado: {e}")
@@ -78,32 +72,28 @@ def buscar_informacion_amigoBD(id_amigo):
                             """
                 mycursor.execute(querySQL, (id_amigo,))
                 amigoBD = mycursor.fetchone()
-                if amigoBD:
-                    return amigoBD
-                else:
-                    return []
+                return amigoBD or []
+
     except Exception as e:
         print(
             f"Error al buscar el amigo seleccionado: {e}")
         return []
 
 
-def procesar_form_msj(desde_id_user, mensaje):
+def procesar_form_msj(desde_id_user, para_id_user, mensaje):
     try:
         # Conexión a la base de datos
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO tbl_chat(desde_id_user, mensaje) VALUES (%s, %s)")
-                valores = (desde_id_user, mensaje,)
+                    "INSERT INTO tbl_chat(desde_id_user, para_id_user, mensaje) VALUES (%s, %s, %s)")
+                valores = (desde_id_user, para_id_user, mensaje)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
 
                 resultado_insert = cursor.rowcount
-                if (resultado_insert):
-                    return lista_mensajes_chat()
-                else:
-                    return []
+                return lista_mensajes_chat() if resultado_insert > 0 else []
+
     # Simplemente se utiliza para capturar cualquier excepción que se produzca en el bloque try
     except Exception as e:
         return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
@@ -126,27 +116,27 @@ def procesar_archivo(archivo):
         upload_path = os.path.join(upload_dir, nuevo_nombre_archivo)
         archivo.save(upload_path)
 
+       # print(f"el nombre file: ", nuevo_nombre_archivo)
         return nuevo_nombre_archivo
     except Exception as e:
         print("Error al procesar archivo:", e)
         return None
 
 
-def process_form(file, desde_id_user, mensaje):
+def process_form(desde_id_user, para_id_user, mensaje, resp_process_archivo):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 sql = (
-                    "INSERT INTO tbl_chat(desde_id_user, mensaje, archivo) VALUES (%s, %s, %s)")
-                valores = (desde_id_user, mensaje, file)
+                    "INSERT INTO tbl_chat(desde_id_user, para_id_user, mensaje, archivo_img) VALUES (%s, %s, %s, %s)")
+                valores = (desde_id_user, para_id_user,
+                           mensaje, resp_process_archivo)
                 cursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
 
                 resultado_insert = cursor.rowcount
-                if (resultado_insert):
-                    return lista_mensajes_chat()
-                else:
-                    return []
+                return 1 if resultado_insert > 0 else []
+
     except Exception as e:
         return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
 
@@ -178,10 +168,8 @@ def process_audio_chat(fileAudio):
                     conexion_MySQLdb.commit()
 
                     resultado_insert = cursor.rowcount
-                    if (resultado_insert):
-                        return 1
-                    else:
-                        return []
+                    return 1 if resultado_insert > 0 else []
+
         except Exception as e:
             return f'Se produjo un error al insertar registrar el mensaje: {str(e)}'
 

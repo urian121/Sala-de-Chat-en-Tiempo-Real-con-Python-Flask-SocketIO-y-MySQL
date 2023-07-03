@@ -14,7 +14,15 @@
         value="{{ session['id_user'] }}"
         hidden="true" />
 
-      <input type="text" name="para_id_user" id="para_id_user" hidden="true" />
+      <input type="text" name="para_id_user" id="para_id_user" hidden />
+      <input
+        type="file"
+        name="archivo_img"
+        id="archivo_img"
+        accept="image/*"
+        multiple="false"
+        value=""
+        hidden />
       <input
         type="text"
         class="form-control custom-form"
@@ -53,5 +61,3 @@
     </div>
   </div>
 </form>
-
-<button id="click">click</button>

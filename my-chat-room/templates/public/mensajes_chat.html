@@ -5,10 +5,10 @@
   {% if loop.index % 2 == 0 %}
   <li>
     <div class="chat__time">{{ mensajes.fecha_dia_mes_year}}</div>
-    {% if mensajes.archivo is not none and mensajes.archivo != '' %}
+    {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
     <img
-      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo) }}"
-      alt="foto-chat"
+      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
+      alt=""
       style="max-width: 80%" />
     {% endif %}
     <!---->
@@ -33,10 +33,10 @@
     <div class="chat__time" style="align-self: end">
       {{ mensajes.fecha_dia_mes_year}}
     </div>
-    {% if mensajes.archivo is not none and mensajes.archivo != '' %}
+    {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
     <img
-      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo) }}"
-      alt="foto-chat"
+      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
+      alt=""
       style="max-width: 80%" />
     {% endif %}
 

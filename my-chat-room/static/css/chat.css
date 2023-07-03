@@ -215,6 +215,7 @@ body {
   left: 2.5rem;
   transform: translateY(-50%);
   width: 2.3rem;
+  height: 48px;
   cursor: pointer;
   display: flex;
   justify-content: center;
