@@ -1,6 +1,7 @@
 
+from flask import render_template, request, flash, session, redirect, url_for, jsonify, json
 # Importando el objeto app de mi
-from application import *
+from application import app
 
 
 from werkzeug.utils import escape

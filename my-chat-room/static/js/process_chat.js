@@ -84,6 +84,14 @@ async function sendForm(submitButton) {
     const response = await axios.post(url_form, formData);
 
     if (response.status === 200) {
+      /*
+      var data = {
+        valor1: "OK",
+        valor2: "Hola"
+      };
+      // Emitir el evento con los dos valores
+      socket.emit("mensaje_chat", data);
+      */
       socket.emit("mensaje_chat", "OK");
       limpiar_form();
     } else {

@@ -1,7 +1,10 @@
-
 # Importando el objeto app de mi
-from application import *
+from application import app
 
+from flask_socketio import SocketIO, emit
+
+# para crear una instancia de Socket.IO en una aplicación Flask
+socketio = SocketIO(app)
 
 # Escuchando si el servidor esta conectado del lado del servidor
 @socketio.on('connect')

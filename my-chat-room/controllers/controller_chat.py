@@ -1,10 +1,10 @@
-
 # Importando el objeto app de mi
-from application import *
-
-
-# Importando cenexión a BD
+from application import app
+from flask import render_template, request, flash, session, redirect, url_for, jsonify, json
 from functions.function_chat import *
+
+# Importando SocketIO del lado del Servidor
+from controllers.socketIO import *
 
 
 # Esta función 'recibir_mensaje' se encarga de escuchar el evento "mensaje_chat"
@@ -20,7 +20,7 @@ def recibir_mensaje(mensaje_chat):
 def chat():
     if 'conectado' in session and request.method == 'GET':
         parametros_chat = {
-            'lista_amigos': lista_amigos_chat() or []
+            'lista_amigos': lista_amigos_chat(session["id_user"]) or []
         }
         return render_template('public/inicio.html', **parametros_chat)
     else:
@@ -31,8 +31,9 @@ def chat():
 # Buscar chat del amigo que fue seleccionado
 @app.route('/mostrar-chat-amigo-seleccionado', methods=['POST'])
 def mostrar_chat_amigo():
-    id_amigo = int(request.json.get('id_amigo'))
-    data_chat_amigo = buscar_chat_amigoBD(id_amigo)
+    id_amigo_seleccionado = int(request.json.get('id_amigo'))
+    data_chat_amigo = buscar_chat_amigoBD(
+        session["id_user"], id_amigo_seleccionado)
     return render_template('public/home/base_chat_perfil.html', lista_mensajes=data_chat_amigo or [])
 
 
@@ -69,14 +70,9 @@ def process_form_chat():
         if resp_process_archivo:
             process_form_chat = process_form(
                 desde_id_user, para_id_user, mensaje, resp_process_archivo)
-            if (process_form_chat):
-                return jsonify({'status': 1})
-            else:
-                return jsonify({'status': 0})
+
+            return jsonify({'status': 1}) if process_form_chat else jsonify({'status': 0})
     else:
         # Solo el mensaje está presente en la solicitud
         procesar_msj = procesar_form_msj(desde_id_user, para_id_user, mensaje)
-        if procesar_msj:
-            return jsonify({'status': 1})
-        else:
-            return jsonify({'status': 0})
+        return jsonify({'status': 1}) if procesar_msj else jsonify({'status': 0})

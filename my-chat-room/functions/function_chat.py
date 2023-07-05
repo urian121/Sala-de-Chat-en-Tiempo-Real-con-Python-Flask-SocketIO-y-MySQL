@@ -1,3 +1,4 @@
+
 import os
 from os import path  # Modulo para obtener la ruta o directorio
 import uuid  # Modulo de python para crear un string
@@ -23,12 +24,20 @@ def lista_mensajes_chat():
         return 0
 
 
-def lista_amigos_chat():
+def lista_amigos_chat(id_user_session):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                querySQL = "SELECT * FROM tbl_users ORDER BY user ASC"
-                mycursor.execute(querySQL,)
+                querySQL = """
+                        SELECT
+                            id_user, user,
+                            email_user, tlf_user,
+                            foto_user, description_user,
+                            online
+                        FROM tbl_users 
+                        WHERE id_user !=%s ORDER BY user ASC
+                    """
+                mycursor.execute(querySQL, (id_user_session,))
                 lista_amigos_chat = mycursor.fetchall()
                 return lista_amigos_chat or {}
 
@@ -38,21 +47,33 @@ def lista_amigos_chat():
 
 
 # Funcion que recibe el id del amigo seleccionado y retorna los chats del mismo.
-def buscar_chat_amigoBD(id_amigo):
+def buscar_chat_amigoBD(id_user_session, id_amigo_seleccionado):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
-                        SELECT 
-                            DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
-                            mensaje, archivo_img, file_audio
-                        FROM tbl_chat ORDER BY id_chat ASC
-                        """
-                mycursor.execute(querySQL,)
-                lista_chat = mycursor.fetchall()
-                # mycursor.execute(querySQL, (id_amigo,))
-                return lista_chat or []
+                    SELECT
+                        u.user,
+                        u.online,
+                        DATE_FORMAT(c.fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
+                        c.mensaje,
+                        c.archivo_img,
+                        c.file_audio
+                    FROM tbl_users AS u
+                    INNER JOIN tbl_chat AS c
+                    ON u.id_user = c.para_id_user
+                    WHERE (c.desde_id_user = %s AND c.para_id_user = %s)
+                    OR (c.desde_id_user = %s AND c.para_id_user = %s)
+                    ORDER BY c.id_chat
+                """
+                params = (id_user_session, id_amigo_seleccionado,
+                          id_amigo_seleccionado, id_user_session)
+                # print("Consulta SQL:", querySQL)
+                # print("Parámetros:", params)
+                mycursor.execute(querySQL, params)
 
+                lista_chat = mycursor.fetchall()
+                return lista_chat or []
     except Exception as e:
         print(
             f"Error al buscar el amigo seleccionado: {e}")
@@ -92,7 +113,7 @@ def procesar_form_msj(desde_id_user, para_id_user, mensaje):
                 conexion_MySQLdb.commit()
 
                 resultado_insert = cursor.rowcount
-                return lista_mensajes_chat() if resultado_insert > 0 else []
+                return buscar_chat_amigoBD(desde_id_user, para_id_user) if resultado_insert > 0 else []
 
     # Simplemente se utiliza para capturar cualquier excepción que se produzca en el bloque try
     except Exception as e:

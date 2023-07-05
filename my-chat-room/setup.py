@@ -1,19 +1,13 @@
-# Importando Flask y algunos paquetes
-from application import *
+# Declarando nombre de la aplicación e inicializando, crear la aplicación Flask
+from application import app
 
-
-# Importando mis controlles
-from controllers.controller_login import *
-from controllers.controller_chat import *
-
-# Importando SocketIO del lado del Servidor
-from controllers.socketIO import *
-
-# Controlador para manejar paginas no encontradas
+# Importando todos mis controllers
+from controllers.controller_chat import *  # Controlador Tienda
+from controllers.controller_login import *  # Controlador Login
 from controllers.controller_page_not_found import *
 
 
-# Arrancando aplicacion Flask
+# Ejecutando el objeto Flask, arrancando aplicacion Flask
 if __name__ == '__main__':
     """ 
     Se llama a la función socketio.run() para iniciar el servidor de Flask-SocketIO.
