@@ -71,4 +71,26 @@ function quitar_status_activo_user(id_amigo) {
  */
 socket.on("new_user_online", function (user) {
   console.log(`*** Usuario conectado ${user}`);
+  agregar_status_activo_user();
 });
+
+/**
+ * Escuchar evento "new_user_online" cuando el usuario se Conecta
+ */
+function agregar_status_activo_user(id_amigo) {
+  let li_online_friend = document.querySelectorAll(".messaging-member");
+  if (li_online_friend) {
+    li_online_friend.forEach((item) => {
+      // Verificar si el ID del elemento coincide
+      if (item.getAttribute("id") === id_amigo.toString()) {
+        let amigo_activo = item.querySelector(".user-status");
+
+        // Verificar si existe el elemento con la clase "user-status"
+        if (amigo_activo) {
+          // Quitar la clase "amigo_activo"
+          amigo_activo.classList.add("amigo_activo");
+        }
+      }
+    });
+  }
+}

@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, session, redirect, url_for, jsonify
+from flask import render_template, request, flash, session, redirect, url_for
 # Importando el objeto app de mi
 from application import app
 
@@ -118,8 +118,12 @@ def login_user():
 # Escuchando cuando un usuario se conecta
 @socketio.on('new_user_online')
 def handle_user_conectado(new_user_online):
-    print("Llegue a la funcion new_user_online")
-    emit('new_user_online', new_user_online, broadcast=True)
+    if 'id_user' in session:
+        print("si hay sesion")
+    else:
+        print("NO hay sesion")
+    # print(f"**Llegue a la funcion {new_user_online}")
+    # emit('new_user_online', session['id_user'], broadcast=True)
 
 
 # Cerrando sesión del user
