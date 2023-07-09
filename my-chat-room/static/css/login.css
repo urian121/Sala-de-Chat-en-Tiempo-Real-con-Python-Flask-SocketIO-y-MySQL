@@ -117,9 +117,10 @@ h6 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../imgs/portada.png") no-repeat center center / cover;
+  background: url("../imgs/1.jpg") no-repeat center center / cover;
   height: 100vh;
   text-align: center;
+  filter: brightness(50%);
 }
 
 #showcase .showcase-text {
@@ -150,6 +151,7 @@ h6 {
 
 /* Button */
 .primary-btn {
+  font-size: 16px;
   padding: 0.7rem 1rem;
   height: 2.7rem;
   display: block;
@@ -285,10 +287,6 @@ input:focus {
 
 .personal-image {
   width: 130px;
-}
-
-.bi {
-  font-size: 20px;
 }
 
 .favicon_log {

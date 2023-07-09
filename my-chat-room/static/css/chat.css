@@ -65,13 +65,17 @@ html {
 }
 
 body {
-  background: #f0eeee;
+  overflow-x: hidden;
+  background: #f2f4f6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Inter", sans-serif;
   font-weight: normal;
   color: var(--colour-text);
   background-color: var(--bg-page);
+}
+.backgroundBody {
+  background-color: #f2f4f6;
 }
 
 /* ===================================
@@ -256,11 +260,18 @@ body {
   align-items: center;
 }
 
+@keyframes hoverTransiton {
+  50% {
+    transform: scale(0.9);
+  }
+}
 .messaging-member {
   border-radius: var(--form-radius);
 }
 .messaging-member:hover {
   background-color: var(--bg-page-darker);
+  animation-name: hoverTransiton;
+  animation-duration: 0.6s;
 }
 .messaging-member--new .messaging-member__name {
   color: var(--colour-text-darker);
@@ -269,9 +280,11 @@ body {
   color: var(--colour-text-darker);
   font-weight: bold;
 }
+/*
 .messaging-member--online .user-status {
   background-color: var(--colour-third-lighter);
 }
+*/
 .messaging-member--active {
   background-color: var(--colour-primary-lightest);
 }
@@ -331,7 +344,7 @@ body {
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 0.9rem;
-  color: #d0d0d0 !important;
+  color: #a2a2a2 !important;
 }
 
 .chat {
@@ -381,6 +394,10 @@ body {
   font-size: 1.7rem;
   cursor: pointer;
   color: var(--colour-primary);
+}
+.chat__previous:hover {
+  border-radius: 50%;
+  background-color: var(--colour-primary-lightest);
 }
 .chat__notification {
   width: 4%;
@@ -783,4 +800,26 @@ audio {
 
 .amigo_activo {
   background-color: var(--colour-third-lighter);
+}
+.bi-x-lg {
+  font-size: 30px;
+}
+.bi-three-dots {
+  font-size: 30px;
+}
+
+/* Hover para descargar Imagen*/
+.contenedor_img {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.icono_descarga_encima {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+}
+.bi-cloud-arrow-down {
+  font-size: 20px;
 }

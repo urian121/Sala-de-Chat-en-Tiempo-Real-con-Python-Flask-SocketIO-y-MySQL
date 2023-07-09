@@ -45,41 +45,46 @@ def process_register_user():
 
     if not all([user, email_user, tlf_user, pass_user]):
         flash('Por favor, complete todos los campos del formulario.', 'error')
-        print("c1")
         return redirect(url_for('index'))
 
     if not re.match(r'[^@]+@[^@]+\.[^@]+', email_user):
         flash('Correo electrónico inválido.', 'error')
-        print("c2")
         return redirect(url_for('index'))
 
     if len(pass_user) <= 3:
         flash('La contraseña debe tener al menos 4 caracteres.', 'error')
-        print("c3")
         return redirect(url_for('index'))
 
     if not tlf_user.isdigit() or len(tlf_user) != 10:
         flash('El número de teléfono debe tener 10 dígitos.', 'error')
-        print("c4")
         return redirect(url_for('index'))
 
     if not foto_user.filename:
         flash('Por favor, debe seleccionar una foto.', 'error')
-        print("c5")
         return redirect(url_for('index'))
 
-    process_foto_name = procesar_foto_perfil(foto_user)
+    if (foto_user):
+        # validar tipo y tamaño de la imagen
+        pesoArchivo = procesarFoto_user(foto_user)
 
-    # Se han validado todos los datos, se puede continuar con el procesamiento en la base de datos
-    resultado_insert = procesar_insert_userBD(
-        user, email_user, tlf_user, pass_user, process_foto_name)
+        if pesoArchivo:
+            process_foto_name = procesar_foto_perfil(foto_user)
+            if process_foto_name:
+                # Se han validado todos los datos, se puede continuar con el procesamiento en la base de datos
+                resultado_insert = procesar_insert_userBD(
+                    user, email_user, tlf_user, pass_user, process_foto_name)
 
-    if resultado_insert == 1:
-        flash('Registro exitoso.', 'success')
-        return redirect(url_for('index'))
-    else:
-        flash('Error, la cuenta no fue creada.', 'error')
-        return redirect(url_for('index'))
+                if resultado_insert == 1:
+                    flash('Registro exitoso.', 'success')
+                    return redirect(url_for('index'))
+                else:
+                    flash('Error, la cuenta no fue creada.', 'error')
+                    return redirect(url_for('index'))
+            flash('Error, recuerde debe ser una imagen', 'error')
+            return redirect(url_for('index'))
+        else:
+            flash('Error, la foto debe pesar menos de 1MB', 'error')
+            return redirect(url_for('index'))
 
 
 # Procesar el inicio de sesión

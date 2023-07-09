@@ -38,10 +38,6 @@ function profileExtraLarge() {
   $profile.removeClass("user-profile--large");
 }
 
-/* ===================================
-    Events
-====================================== */
-
 $(".messaging-member").click(function () {
   $chat.fadeIn();
   $chat.addClass("chat--show");
@@ -60,25 +56,22 @@ $(".user-profile__close").click(function () {
   $profile.removeClass("user-profile--show");
 });
 
-/**
- * Modo Dark
- */
-const darkModeToggler = document.querySelector(".dark_mode_toogler");
-const body = document.querySelector("body");
-const miNav = document.querySelector("#mi_nav");
+const bodyHTML = document.body;
+bodyHTML.addEventListener("click", (event) => {
+  event.preventDefault();
 
-// Verificar el estado actual del modo oscuro en el localStorage
-let darkModeEnabled = localStorage.getItem("darkModeEnabled") === "true";
-updateDarkMode();
-
-// Agregar un event listener al botón de alternar modo oscuro
-darkModeToggler.addEventListener("click", function () {
-  darkModeEnabled = !darkModeEnabled;
-  updateDarkMode();
+  if (
+    event.target.classList.contains("messaging-member") ||
+    event.target.classList.contains("messaging-member__message")
+  ) {
+    $chat.fadeIn();
+    $chat.addClass("chat--show");
+  } else if (event.target.classList.contains("bi-arrow-down")) {
+    $chat.removeClass("chat--show");
+  } else if (event.target.classList.contains("bi-three-dots")) {
+    $profile.fadeIn();
+    $profile.addClass("user-profile--show");
+  } else if (event.target.classList.contains("bi-x-lg")) {
+    $profile.removeClass("user-profile--show");
+  }
 });
-
-function updateDarkMode() {
-  body.classList.toggle("dark-mode", darkModeEnabled);
-  miNav.classList.toggle("nav_nocturno", darkModeEnabled);
-  localStorage.setItem("darkModeEnabled", darkModeEnabled);
-}

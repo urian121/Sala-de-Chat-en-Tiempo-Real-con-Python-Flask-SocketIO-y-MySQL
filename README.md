@@ -46,19 +46,3 @@ https://flask-socketio.readthedocs.io/en/latest/index.html
 ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/portada_flask_socketio_urian_viera.PNG)
 
 # ¡Por favor, no olvides dejar tu comentario y darle like al canal! 👍 Además, si aún no lo has hecho, ¡te invito a suscribirte! 😀
-
-@socketio.on('mensaje_chat')
-def recibir_mensaje(data): # Acceder a los valores recibidos
-valor1 = data['valor1']
-valor2 = data['valor2']
-
-    # Realizar el procesamiento necesario con los valores
-
-    # Ejemplo: Imprimir los valores recibidos
-    print(f"Valor 1: {valor1}")
-    print(f"Valor 2: {valor2}")
-
-    # Emitir una respuesta o realizar otras operaciones
-
-    emit('mensaje_chat', render_template('public/mensajes_chat.html',
-         lista_mensajes=lista_mensajes_chat()), broadcast=True)

@@ -28,6 +28,8 @@ bodyHTML.addEventListener("click", (event) => {
     event.target.classList.contains("svg-icon--send-img")
   ) {
     fileInput.dispatchEvent(new MouseEvent("click"));
+  } else if (event.target.classList.contains("bi-cloud-arrow-down")) {
+    descargar_foto(event.target);
   }
   // Obligando a enviar el formulario apenas se cargue la imagen
   /*fileInput.addEventListener("change", (event) => {
@@ -48,8 +50,6 @@ async function sendForm(submitButton) {
   //Se utiliza para obtener la referencia al elemento <form> más cercano al botón de envío (submitButton)
   const form_chat = submitButton.closest("form");
 
-  // const desde_id_user = document.querySelector("#desde_id_user").value;
-  // const para_id_user = document.querySelector("#para_id_user").value;
   const mensajeInput = document.querySelector("#mensaje");
   const archivo_img = document.querySelector("#archivo_img");
   const selectedFile = archivo_img.files[0];
@@ -73,26 +73,24 @@ async function sendForm(submitButton) {
   audio.play();
 
   if (archivo_img && selectedFile) {
-    console.log("entree");
     formData.append("archivo_img", selectedFile);
   }
 
-  console.log("Mi Data:", formData);
+  // console.log("Mi Data:", formData);
 
   const url_form = "/procesar-form-chat";
   try {
     const response = await axios.post(url_form, formData);
 
     if (response.status === 200) {
-      /*
-      var data = {
-        valor1: "OK",
-        valor2: "Hola"
+      let data_info_chat = {
+        desde_id_user: parseInt(document.querySelector("#desde_id_user").value),
+        para_id_user: parseInt(document.querySelector("#para_id_user").value),
       };
       // Emitir el evento con los dos valores
-      socket.emit("mensaje_chat", data);
-      */
-      socket.emit("mensaje_chat", "OK");
+      socket.emit("mensaje_chat", data_info_chat);
+
+      // socket.emit("mensaje_chat", "OK");
       limpiar_form();
     } else {
       console.log("Hubo un error en el servidor.");
@@ -101,6 +99,24 @@ async function sendForm(submitButton) {
     console.log("Hubo un error al enviar los datos.");
   } finally {
     console.log("Petición finalizada");
+  }
+}
+
+async function descargar_foto(foto) {
+  console.log("Hola ", foto.id);
+  let foto_chat = foto.id;
+
+  try {
+    const response = await axios.post("/descargar_foto_chat", {
+      foto_chat,
+    });
+    if (response.status === 200) {
+      console.log("todo Bello");
+    } else {
+      console.log("Hubo un error en el servidor.");
+    }
+  } catch (error) {
+    console.log("Hubo un error al enviar los datos.");
   }
 }
 

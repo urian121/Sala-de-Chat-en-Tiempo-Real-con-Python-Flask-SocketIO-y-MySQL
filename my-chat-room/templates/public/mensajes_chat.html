@@ -2,14 +2,23 @@
 <ul class="chat__list-messages">
   {% for mensajes in lista_mensajes %}
   <!---->
-  {% if loop.index % 2 == 0 %}
+  {# {% if session['id_user'] % 2 == 0 %} #}
+  <!---->
+  {% if session['id_user'] == mensajes.desde_id_user %}
   <li>
     <div class="chat__time">{{ mensajes.fecha_dia_mes_year}}</div>
     {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
-    <img
-      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
-      alt=""
-      style="max-width: 80%" />
+    <div class="contenedor_img">
+      <img
+        src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
+        alt=""
+        style="max-width: 80%" />
+      <a href="#" title="Descargar foto">
+        <i
+          id="{{ mensajes.archivo_img }}"
+          class="icono_descarga_encima bi bi-cloud-arrow-down"></i>
+      </a>
+    </div>
     {% endif %}
     <!---->
     {% if mensajes.file_audio is not none and mensajes.file_audio != '' %}
@@ -34,10 +43,13 @@
       {{ mensajes.fecha_dia_mes_year}}
     </div>
     {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
-    <img
-      src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
-      alt=""
-      style="max-width: 80%" />
+    <div class="contenedor_img">
+      <img
+        src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
+        alt=""
+        style="max-width: 80%" />
+      <i class="icono_descarga_encima bi bi-cloud-arrow-down"></i>
+    </div>
     {% endif %}
 
     <!---->

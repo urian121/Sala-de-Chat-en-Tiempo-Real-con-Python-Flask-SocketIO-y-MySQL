@@ -25,7 +25,7 @@
         <div class="messaging-member__avatar">
           <img
             src="{{ url_for('static', filename='fotos_users/' + amigo.foto_user) }}"
-            alt="Perfil -"
+            alt="Perfil - {{ amigo.user }}"
             loading="lazy" />
           {% if amigo.online == 0 %}
           <div class="user-status"></div>

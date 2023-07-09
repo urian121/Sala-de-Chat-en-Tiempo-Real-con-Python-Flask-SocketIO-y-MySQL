@@ -12,7 +12,6 @@ bodyHTML.addEventListener("click", (event) => {
   event.preventDefault();
 
   if (event.target.classList.contains("bi-mic-fill")) {
-    console.log("Llegue: ", event.target);
     const btnAudio = event.target;
     activar_grabador_audio(btnAudio);
   }
@@ -115,6 +114,11 @@ async function enviarAudio(audioBlob) {
   const formData = new FormData();
   formData.append("audio", audioBlob, "audio.webm");
 
+  let desde_id_user = parseInt(document.querySelector("#desde_id_user").value);
+  let para_id_user = parseInt(document.querySelector("#para_id_user").value);
+  formData.append("desde_id_user", desde_id_user);
+  formData.append("para_id_user", para_id_user);
+
   const url_form = "/procesar-audio-chat";
   try {
     const response = await axios.post(url_form, formData, {
@@ -128,8 +132,14 @@ async function enviarAudio(audioBlob) {
       const audio = new Audio("static/audio/audio_chat.mp3");
       audio.play();
 
-      socket.emit("mensaje_chat", "OK");
-      console.log("Audio enviado.");
+      let data_info_chat = {
+        desde_id_user: parseInt(document.querySelector("#desde_id_user").value),
+        para_id_user: parseInt(document.querySelector("#para_id_user").value),
+      };
+      // Emitir el evento con los dos valores
+      socket.emit("mensaje_chat", data_info_chat);
+
+      //console.log("Audio enviado.");
     } else {
       console.log("El audio no fue enviado.");
     }

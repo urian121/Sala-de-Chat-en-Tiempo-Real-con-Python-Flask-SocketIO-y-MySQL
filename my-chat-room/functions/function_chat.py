@@ -5,25 +5,6 @@ import uuid  # Modulo de python para crear un string
 from confiBD.conexionBD import *
 
 
-def lista_mensajes_chat():
-    try:
-        with connectionBD() as conexion_MySQLdb:
-            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                querySQL = """
-                        SELECT 
-                            DATE_FORMAT(fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
-                            mensaje, archivo_img, file_audio
-                        FROM tbl_chat ORDER BY id_chat ASC
-                        """
-                mycursor.execute(querySQL,)
-                lista_chat = mycursor.fetchall()
-                return lista_chat or {}
-
-    except Exception as e:
-        print(f"Ocurrió un error listando los chat: {e}")
-        return 0
-
-
 def lista_amigos_chat(id_user_session):
     try:
         with connectionBD() as conexion_MySQLdb:
@@ -53,8 +34,8 @@ def buscar_chat_amigoBD(id_user_session, id_amigo_seleccionado):
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
                     SELECT
-                        u.user,
-                        u.online,
+                        c.desde_id_user,
+                        c.para_id_user,
                         DATE_FORMAT(c.fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
                         c.mensaje,
                         c.archivo_img,
@@ -71,12 +52,34 @@ def buscar_chat_amigoBD(id_user_session, id_amigo_seleccionado):
                 # print("Consulta SQL:", querySQL)
                 # print("Parámetros:", params)
                 mycursor.execute(querySQL, params)
-
                 lista_chat = mycursor.fetchall()
                 return lista_chat or []
     except Exception as e:
         print(
             f"Error al buscar el amigo seleccionado: {e}")
+        return []
+
+
+# Status amigo seleccionado
+def status_amigo(id_amigo):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = """
+                            SELECT 
+                              u.user,
+                              u.foto_user,
+                              u.online
+                            FROM tbl_users AS u
+                            WHERE id_user=%s
+                            LIMIT 1
+                        """
+                mycursor.execute(querySQL, (id_amigo,))
+                amigoBD = mycursor.fetchone()
+                return amigoBD or []
+    except Exception as e:
+        print(
+            f"Error status amigo seleccionado: {e}")
         return []
 
 
@@ -86,11 +89,17 @@ def buscar_informacion_amigoBD(id_amigo):
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
-                            SELECT *
-                              FROM tbl_users
-                              WHERE id_user=%s
-                              LIMIT 1
-                            """
+                            SELECT 
+                              u.user,
+                              u.email_user,
+                              u.tlf_user,
+                              u.foto_user,
+                              u.description_user,
+                              u.online
+                            FROM tbl_users AS u
+                            WHERE id_user=%s
+                            LIMIT 1
+                        """
                 mycursor.execute(querySQL, (id_amigo,))
                 amigoBD = mycursor.fetchone()
                 return amigoBD or []
@@ -163,7 +172,7 @@ def process_form(desde_id_user, para_id_user, mensaje, resp_process_archivo):
 
 
 # Guardando audio en servidor
-def process_audio_chat(fileAudio):
+def process_audio_chat(desde_id_user, para_id_user, fileAudio):
     try:
         extension = os.path.splitext(fileAudio.filename)[1]
         nuevo_nombre_audio = str(uuid.uuid4().hex) + extension
@@ -183,8 +192,8 @@ def process_audio_chat(fileAudio):
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                    sql = "INSERT INTO tbl_chat(file_audio) VALUES (%s)"
-                    valores = (nuevo_nombre_audio,)
+                    sql = "INSERT INTO tbl_chat(desde_id_user, para_id_user, file_audio) VALUES (%s, %s, %s)"
+                    valores = (desde_id_user, para_id_user, nuevo_nombre_audio)
                     cursor.execute(sql, valores)
                     conexion_MySQLdb.commit()
 
