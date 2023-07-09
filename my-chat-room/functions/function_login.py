@@ -16,7 +16,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 def procesar_insert_userBD(user, email_user, tlf_user, pass_user, process_foto_name):
     try:
         # Generación de la contraseña cifrada
-        nueva_password = generate_password_hash(pass_user, method='sha256')
+        nueva_password = generate_password_hash(pass_user, method='scrypt')
 
         # Conexión a la base de datos
         with connectionBD() as conexion_MySQLdb, conexion_MySQLdb.cursor(dictionary=True) as cursor:
@@ -63,9 +63,26 @@ def validad_loginBD(email_user, pass_user):
             session['email_user'] = usuario['email_user']
             session['foto_user'] = usuario['foto_user']
 
+            update_status_user(usuario['id_user'], 1)
             return 1
         else:
             return 0
+
+
+# Actualizar el status del usuario que se ha conectado
+def update_status_user(id_user, status):
+    try:
+        with connectionBD() as conexion_MySQLdb, conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+            mycursor.execute("""
+                UPDATE tbl_users
+                SET
+                    online = %s
+                WHERE id_user = %s
+                """, (status, id_user))
+            conexion_MySQLdb.commit()
+            return mycursor.rowcount
+    except Exception as e:
+        return f'Se produjo un error al insertar la cuenta en la base de datos: {str(e)}'
 
 
 # Validar extension de la imagen

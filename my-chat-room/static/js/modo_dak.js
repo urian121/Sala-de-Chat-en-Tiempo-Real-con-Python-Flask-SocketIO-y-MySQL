@@ -3,7 +3,7 @@ const body = document.querySelector("body");
 const miNav = document.querySelector("#mi_nav");
 
 // Verificar el estado actual del modo oscuro en el localStorage
-let darkModeEnabled = localStorage.getItem("darkModeEnabled") === "true";
+let darkModeEnabled = localStorage.getItem("darkMode") === "true";
 updateDarkMode();
 
 // Agregar un event listener al botón de alternar modo oscuro
@@ -21,5 +21,5 @@ darkModeToggler.addEventListener("click", function () {
 function updateDarkMode() {
   body.classList.toggle("dark-mode", darkModeEnabled);
   miNav.classList.toggle("nav_nocturno", darkModeEnabled);
-  localStorage.setItem("darkModeEnabled", darkModeEnabled);
+  localStorage.setItem("darkMode", darkModeEnabled);
 }

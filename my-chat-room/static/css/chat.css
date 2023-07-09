@@ -3,7 +3,7 @@
     Variables
 ====================================== */
 :root {
-  --bg-page: #ffffff;
+  --bg-page: #f2f4f6;
   --bg-page-darker: #f7f7f7;
   --bg-page-darkest: #b3b3b3;
   --colour-primary: #3996fb;
@@ -355,7 +355,7 @@ body {
 .chat__container {
   margin: 0 auto;
   height: 100%;
-  width: 75%;
+  width: 80%;
 }
 .chat__wrapper {
   background-color: var(--bg-page);

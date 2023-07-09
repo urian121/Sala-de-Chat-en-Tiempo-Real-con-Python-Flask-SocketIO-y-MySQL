@@ -73,7 +73,7 @@ async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
  * la función createJS() se encarga de crear y cargar un archivo JavaScript en el documento HTML
  */
 function createJS() {
-  let cuerpoJS = "/static/js/cuerpo_sala_chat.js";
+  let cuerpoJS = "/static/js/info_profile.js";
   let scriptCuerpo = document.createElement("script");
   scriptCuerpo.src = cuerpoJS;
   scriptCuerpo.type = "module";

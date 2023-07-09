@@ -6,7 +6,22 @@ from flask import send_from_directory, send_file
 from functions.function_chat import *
 
 # Importando SocketIO del lado del Servidor
-from controllers.socketIO import *
+from flask_socketio import SocketIO, emit
+
+# para crear una instancia de Socket.IO en una aplicación Flask
+socketio = SocketIO(app)
+
+""" 
+# Escuchando si el servidor esta conectado del lado del servidor
+@socketio.on('connect')
+def handle_connect():
+    print('Cliente conectado')
+
+# Escuchando si el cliente se desconecta del lado del servidor
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Cliente desconectado')
+"""
 
 
 # Esta función 'recibir_mensaje' se encarga de escuchar el evento "mensaje_chat"

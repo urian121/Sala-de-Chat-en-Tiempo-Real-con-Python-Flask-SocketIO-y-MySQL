@@ -46,3 +46,38 @@ https://flask-socketio.readthedocs.io/en/latest/index.html
 ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/portada_flask_socketio_urian_viera.PNG)
 
 # ¡Por favor, no olvides dejar tu comentario y darle like al canal! 👍 Además, si aún no lo has hecho, ¡te invito a suscribirte! 😀
+
+let pruebaLink = document.getElementById("prueba-link");
+pruebaLink.addEventListener("click", async function (event) {
+event.preventDefault(); // Evitar el comportamiento predeterminado de navegación
+
+// Realizar una solicitud HTTP a la ruta '/prueba'
+let status_user = "OK";
+try {
+const resp = await axios.post("/prueba", {
+status_user,
+});
+if (resp.status !== 200) {
+console.log(`HTTP error! 😭`);
+} else {
+console.log(resp.data);
+console.log("Hacer algo");
+
+      // Emitir el evento "user_desconectado" en el servidor
+      socket.emit("user_desconectado");
+    }
+
+} catch (error) {
+console.error(error);
+}
+});
+
+SQL para realizar un on update
+DELIMITER $$
+CREATE TRIGGER trg_update_last_connection
+BEFORE UPDATE ON tbl_users
+FOR EACH ROW
+BEGIN
+    SET NEW.ultima_conexion = CURRENT_TIMESTAMP;
+END$$
+DELIMITER ;

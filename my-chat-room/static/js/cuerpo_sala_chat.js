@@ -42,36 +42,3 @@ $(".messaging-member").click(function () {
   $chat.fadeIn();
   $chat.addClass("chat--show");
 });
-
-$(".chat__previous").click(function () {
-  $chat.removeClass("chat--show");
-});
-
-$(".chat__details").click(function () {
-  $profile.fadeIn();
-  $profile.addClass("user-profile--show");
-});
-
-$(".user-profile__close").click(function () {
-  $profile.removeClass("user-profile--show");
-});
-
-const bodyHTML = document.body;
-bodyHTML.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  if (
-    event.target.classList.contains("messaging-member") ||
-    event.target.classList.contains("messaging-member__message")
-  ) {
-    $chat.fadeIn();
-    $chat.addClass("chat--show");
-  } else if (event.target.classList.contains("bi-arrow-down")) {
-    $chat.removeClass("chat--show");
-  } else if (event.target.classList.contains("bi-three-dots")) {
-    $profile.fadeIn();
-    $profile.addClass("user-profile--show");
-  } else if (event.target.classList.contains("bi-x-lg")) {
-    $profile.removeClass("user-profile--show");
-  }
-});

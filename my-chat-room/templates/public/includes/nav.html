@@ -4,6 +4,7 @@
       <i class="bi bi-wechat"></i>
     </a>
   </div>
+
   <div class="profile">
     <div class="user">
       <h3>{{ session['user'] }}</h3>
@@ -30,7 +31,10 @@
         <a href="#"><i class="ph-bold bi-question-diamond"></i>&nbsp;Ayuda</a>
       </li>
       <li>
-        <a href="/cerrar-session"
+        <a
+          id="link-cerrar-sesion"
+          data-session="{{ session['id_user'] }}"
+          href="/cerrar-session"
           ><i class="ph-bold bi bi-box-arrow-right"></i>&nbsp;Cerar sesión</a
         >
       </li>

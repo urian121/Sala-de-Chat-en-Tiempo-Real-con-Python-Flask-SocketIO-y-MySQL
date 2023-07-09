@@ -1,14 +1,17 @@
-
-from flask import render_template, request, flash, session, redirect, url_for, jsonify, json
+from flask import render_template, request, flash, session, redirect, url_for, jsonify
 # Importando el objeto app de mi
 from application import app
 
-
 from werkzeug.utils import escape
-
 
 # Importando cenexión a BD
 from functions.function_login import *
+
+# Importando SocketIO del lado del Servidor
+from flask_socketio import SocketIO, emit
+
+# para crear una instancia de Socket.IO en una aplicación Flask
+socketio = SocketIO(app)
 
 
 @app.route('/',  methods=['GET'])
@@ -100,8 +103,7 @@ def login_user():
             pass_user = escape(request.form.get('pass_user'))
 
             if email_user and pass_user:
-                resp_process_login = validad_loginBD(email_user, pass_user)
-                if (resp_process_login):
+                if (validad_loginBD(email_user, pass_user)):
                     flash('¡Ha iniciado sesión correctamente!', 'success')
                     return redirect(url_for('chat'))
                 else:
@@ -113,12 +115,28 @@ def login_user():
                 return redirect(url_for('index'))
 
 
-@app.route('/cerrar-session', methods=['GET'])
+# Escuchando cuando un usuario se conecta
+@socketio.on('new_user_online')
+def handle_user_conectado(new_user_online):
+    print("Llegue a la funcion new_user_online")
+    emit('new_user_online', new_user_online, broadcast=True)
+
+
+# Cerrando sesión del user
+@app.route('/cerrar-session', methods=['POST', 'GET'])
 def cerraSesion():
-    session.pop('conectado', None)
-    session.pop('id_user', None)
-    session.pop('user', None)
-    session.pop('email_user', None)
-    session.pop('foto_user', None)
-    flash('Tu sesión fue cerrada correctamente.', 'success')
+    result = update_status_user(session['id_user'], 0)
+    if result > 0:
+        session.pop('conectado', None)
+        session.pop('id_user', None)
+        session.pop('user', None)
+        session.pop('email_user', None)
+        session.pop('foto_user', None)
+        flash('Tu sesión fue cerrada correctamente.', 'success')
     return redirect(url_for('index'))
+
+
+# Escuchando 'user_desconectado' para emitir cuando un usuario se desconecta
+@socketio.on('user_desconectado')
+def handle_user_desconectado(user_desconectado):
+    emit('user_desconectado', user_desconectado, broadcast=True)
