@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, session, redirect, url_for
+from flask import render_template, request, flash, session, redirect, url_for, jsonify
 # Importando el objeto app de mi
 from application import app
 
@@ -79,7 +79,14 @@ def process_register_user():
 
                 if resultado_insert == 1:
                     flash('Registro exitoso.', 'success')
-                    return redirect(url_for('index'))
+                    return jsonify(
+                        {
+                            'status': 'OK',
+                            'redirect': url_for('index'),
+                            'user': user,
+                            'email_user': email_user,
+                            'process_foto_name': process_foto_name
+                        })
                 else:
                     flash('Error, la cuenta no fue creada.', 'error')
                     return redirect(url_for('index'))
@@ -105,7 +112,7 @@ def login_user():
             if email_user and pass_user:
                 if (validad_loginBD(email_user, pass_user)):
                     flash('¡Ha iniciado sesión correctamente!', 'success')
-                    return redirect(url_for('chat'))
+                    return jsonify({'status': 'OK', 'redirect': url_for('chat'), 'id_sesion': session['id_user']})
                 else:
                     flash('Datos incorrectos, por favor revise', 'error')
                     return redirect(url_for('index'))
@@ -118,12 +125,20 @@ def login_user():
 # Escuchando cuando un usuario se conecta
 @socketio.on('new_user_online')
 def handle_user_conectado(new_user_online):
-    if 'id_user' in session:
-        print("si hay sesion")
-    else:
-        print("NO hay sesion")
-    # print(f"**Llegue a la funcion {new_user_online}")
-    # emit('new_user_online', session['id_user'], broadcast=True)
+    emit('new_user_online', new_user_online, broadcast=True)
+
+
+# Escuchando 'user_desconectado' para emitir cuando un usuario se desconecta
+@socketio.on('user_desconectado')
+def handle_user_desconectado(user_desconectado):
+    emit('user_desconectado', user_desconectado, broadcast=True)
+
+
+# Nuevo usuario creado, escuchando por nueva_cuenta_creada
+@socketio.on('nueva_cuenta_creada')
+def handle_nuevo_user_creado(nueva_cuenta_creada):
+    print(f"Hola {nueva_cuenta_creada}")
+    emit('nueva_cuenta_creada', nueva_cuenta_creada, broadcast=True)
 
 
 # Cerrando sesión del user
@@ -138,9 +153,3 @@ def cerraSesion():
         session.pop('foto_user', None)
         flash('Tu sesión fue cerrada correctamente.', 'success')
     return redirect(url_for('index'))
-
-
-# Escuchando 'user_desconectado' para emitir cuando un usuario se desconecta
-@socketio.on('user_desconectado')
-def handle_user_desconectado(user_desconectado):
-    emit('user_desconectado', user_desconectado, broadcast=True)

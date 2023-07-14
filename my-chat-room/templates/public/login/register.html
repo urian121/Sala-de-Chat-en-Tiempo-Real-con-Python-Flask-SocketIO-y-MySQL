@@ -18,6 +18,7 @@
       <i class="bi bi-wechat favicon_log"></i>
     </div>
     <form
+      id="form_crear_cuenta"
       action="/procesar-cuenta-user"
       method="POST"
       autocomplete="off"
@@ -84,7 +85,12 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block customJS %}
+{% endblock %}
+<!---->
+{% block customJS %}
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="/static/js/socket_login.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 <script src="{{ url_for('static', filename='js/register_login.js') }}"></script>
 
 <script>

@@ -16,18 +16,14 @@ form_login.addEventListener("submit", async function (event) {
       return false;
     }
 
-    // Emitir el evento "new_user_online" en el servidor, usuario nuevo conectado
-    socket.emit("new_user_online", "Nuevo Usuario Conectado!");
-
-    // Recargar la página.
-    location.reload();
-
-    /*
-    setTimeout(() => {
-      // Recargar la página.
-       location.reload();
-    }, 2000);
-    */
+    const data = response.data;
+    if (data.status === "OK") {
+      // Redireccionar a la URL proporcionada
+      socket.emit("new_user_online", parseInt(data.id_sesion));
+      window.location.href = data.redirect;
+    } else {
+      console.log("Error en el inicio de sesión");
+    }
   } catch (error) {
     console.error(error);
   }
