@@ -301,7 +301,7 @@ body {
 }
 .messaging-member__wrapper {
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   border-radius: var(--form-radius);
   display: grid;
   grid-template-columns: 4rem 4fr;
@@ -336,7 +336,21 @@ body {
   color: var(--colour-text-darker);
   margin-top: auto;
   font-size: 0.9rem;
+
+  display: flex;
+  justify-content: space-between;
 }
+.mensajes_sin_leer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #3996fb;
+  font-size: 10px;
+}
+
 .messaging-member__message {
   grid-area: message;
   white-space: nowrap;

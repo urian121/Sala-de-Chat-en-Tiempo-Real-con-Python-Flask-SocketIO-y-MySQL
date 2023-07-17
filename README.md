@@ -47,10 +47,6 @@ https://flask-socketio.readthedocs.io/en/latest/index.html
 
 # ¡Por favor, no olvides dejar tu comentario y darle like al canal! 👍 Además, si aún no lo has hecho, ¡te invito a suscribirte! 😀
 
-let pruebaLink = document.getElementById("prueba-link");
-pruebaLink.addEventListener("click", async function (event) {
-event.preventDefault(); // Evitar el comportamiento predeterminado de navegación
-
 // Realizar una solicitud HTTP a la ruta '/prueba'
 let status_user = "OK";
 try {
@@ -81,3 +77,7 @@ BEGIN
     SET NEW.ultima_conexion = CURRENT_TIMESTAMP;
 END$$
 DELIMITER ;
+
+INFORMACION DEL SOCKETIO Y SUS EVENTOS:
+La capa 'mensaje_chat' se emite desde el cliente al servidor cuando se
+envia un mensaje de texto.

@@ -34,7 +34,19 @@
           {% endif %}
         </div>
 
-        <span class="messaging-member__name">{{ amigo.user }}</span>
+        <span class="messaging-member__name">
+          {% if amigo.user|length > 20 %}
+          <!---->
+          {{amigo.user[:20] + "..." }}
+          <!---->
+          {% else %}
+          <!---->
+          {{ amigo.user}} {% endif %}
+          <div class="mensajes_sin_leer">
+            <span>20</span>
+          </div>
+        </span>
+
         <span class="messaging-member__message"> {{ amigo.email_user}} </span>
       </div>
     </li>

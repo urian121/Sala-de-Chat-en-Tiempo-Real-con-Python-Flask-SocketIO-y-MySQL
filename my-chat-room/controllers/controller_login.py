@@ -7,12 +7,6 @@ from werkzeug.utils import escape
 # Importando cenexión a BD
 from functions.function_login import *
 
-# Importando SocketIO del lado del Servidor
-from flask_socketio import SocketIO, emit
-
-# para crear una instancia de Socket.IO en una aplicación Flask
-socketio = SocketIO(app)
-
 
 @app.route('/',  methods=['GET'])
 def index():
@@ -120,25 +114,6 @@ def login_user():
                 flash(
                     'Por favor, proporcione un correo electrónico y una contraseña', 'error')
                 return redirect(url_for('index'))
-
-
-# Escuchando cuando un usuario se conecta
-@socketio.on('new_user_online')
-def handle_user_conectado(new_user_online):
-    emit('new_user_online', new_user_online, broadcast=True)
-
-
-# Escuchando 'user_desconectado' para emitir cuando un usuario se desconecta
-@socketio.on('user_desconectado')
-def handle_user_desconectado(user_desconectado):
-    emit('user_desconectado', user_desconectado, broadcast=True)
-
-
-# Nuevo usuario creado, escuchando por nueva_cuenta_creada
-@socketio.on('nueva_cuenta_creada')
-def handle_nuevo_user_creado(nueva_cuenta_creada):
-    print(f"Hola {nueva_cuenta_creada}")
-    emit('nueva_cuenta_creada', nueva_cuenta_creada, broadcast=True)
 
 
 # Cerrando sesión del user

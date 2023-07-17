@@ -14,8 +14,6 @@ bodyHTML.addEventListener("click", (event) => {
   event.preventDefault();
   const submitButton = document.querySelector(".custom-form__send-submit");
   const svgIcon = document.querySelector(".svg-icon--send");
-  const svgSendFile = document.querySelector(".svg-icon--send-img");
-
   if (
     event.target.type === "submit" ||
     event.target.isEqualNode(submitButton) ||
@@ -29,21 +27,13 @@ bodyHTML.addEventListener("click", (event) => {
   ) {
     fileInput.dispatchEvent(new MouseEvent("click"));
   } else if (event.target.classList.contains("bi-cloud-arrow-down")) {
-    descargar_foto(event.target);
+    descargar_foto(event.target.id);
   }
   // Obligando a enviar el formulario apenas se cargue la imagen
   /*fileInput.addEventListener("change", (event) => {
     sendForm(event.target);
   });
   */
-
-  /*else if (svgSendFile.contains(event.target)) {
-    bodyHTML.addEventListener("click", (event) => {
-      if (event.target.classList.contains("svg-icon--send-img")) {
-        fileInput.dispatchEvent(new MouseEvent("click"));
-      }
-    });
-  }*/
 });
 
 async function sendForm(submitButton) {
@@ -90,7 +80,6 @@ async function sendForm(submitButton) {
       // Emitir el evento con los dos valores
       socket.emit("mensaje_chat", data_info_chat);
 
-      // socket.emit("mensaje_chat", "OK");
       limpiar_form();
     } else {
       console.log("Hubo un error en el servidor.");
@@ -102,22 +91,17 @@ async function sendForm(submitButton) {
   }
 }
 
-async function descargar_foto(foto) {
-  console.log("Hola ", foto.id);
-  let foto_chat = foto.id;
-
-  try {
-    const response = await axios.post("/descargar_foto_chat", {
-      foto_chat,
-    });
-    if (response.status === 200) {
-      console.log("todo Bello");
-    } else {
-      console.log("Hubo un error en el servidor.");
-    }
-  } catch (error) {
-    console.log("Hubo un error al enviar los datos.");
-  }
+/**
+ *  Funcion para descargar imagen desde el Chat
+ */
+function descargar_foto(foto) {
+  let host = window.location.host;
+  let urlImagen = `http://${host}/static/archivos_chat/${foto}`;
+  //let urlImagen = "{{ url_for('static', filename='archivos_chat/') }}" + foto;
+  let link = document.createElement("a");
+  link.href = urlImagen;
+  link.download = foto;
+  link.click();
 }
 
 function limpiar_form() {
@@ -130,6 +114,7 @@ function limpiar_form() {
  * Escuchando el evento "mensaje_chat" en el cliente JavaScript y recibiendo el mensaje enviado desde el servidor
  */
 socket.on("mensaje_chat", (mensaje) => {
+  console.log("Escuchando por: mensaje_chat");
   scroll_chat();
   const divContent = document.querySelector(".chat__content");
   divContent.innerHTML = "";

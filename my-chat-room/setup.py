@@ -2,6 +2,7 @@
 from application import app
 
 # Importando todos mis controllers
+from controllers.socketIO import *
 from controllers.controller_chat import *  # Controlador Tienda
 from controllers.controller_login import *  # Controlador Login
 from controllers.controller_page_not_found import *

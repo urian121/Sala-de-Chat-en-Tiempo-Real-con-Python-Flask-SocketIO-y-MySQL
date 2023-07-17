@@ -2,10 +2,12 @@
 <ul class="chat__list-messages">
   {% for mensajes in lista_mensajes %}
   <!---->
-  {# {% if session['id_user'] % 2 == 0 %} #}
+  sesion: {{ session['id_user']}}
   <!---->
-  {% if session['id_user'] == mensajes.desde_id_user %}
-  <li>
+  desde_id_user: {{ mensajes.desde_id_user }}
+  <!---->
+  {% if session['id_user'] != mensajes.desde_id_user %}
+  <li style="background-color: red">
     <div class="chat__time">{{ mensajes.fecha_dia_mes_year}}</div>
     {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
     <div class="contenedor_img">
@@ -13,10 +15,8 @@
         src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
         alt=""
         style="max-width: 80%" />
-      <a href="#" title="Descargar foto">
-        <i
-          id="{{ mensajes.archivo_img }}"
-          class="icono_descarga_encima bi bi-cloud-arrow-down"></i>
+      <a href="#">
+        <i id="{{mensajes.archivo_img}}" class="bi bi-cloud-arrow-down"></i>
       </a>
     </div>
     {% endif %}
@@ -34,11 +34,11 @@
 
     <!---->
     {% if mensajes.mensaje is not none and mensajes.mensaje != '' %}
-    <div class="chat__bubble chat__bubble--you">{{ mensajes.mensaje}}</div>
+    <div class="chat__bubble chat__bubble--you">{{ mensajes.mensaje }}</div>
     {% endif %}
   </li>
   {% else %}
-  <li>
+  <li style="background-color: rgb(77, 221, 20)">
     <div class="chat__time" style="align-self: end">
       {{ mensajes.fecha_dia_mes_year}}
     </div>
@@ -48,7 +48,9 @@
         src="{{ url_for('static', filename='archivos_chat/' + mensajes.archivo_img) }}"
         alt=""
         style="max-width: 80%" />
-      <i class="icono_descarga_encima bi bi-cloud-arrow-down"></i>
+      <a href="#">
+        <i id="{{mensajes.archivo_img}}" class="bi bi-cloud-arrow-down"></i>
+      </a>
     </div>
     {% endif %}
 

@@ -1,39 +1,7 @@
 # Importando el objeto app de mi
 from application import app
 from flask import render_template, request, flash, session, jsonify
-# biblioteca  send_file para forzar la descarga
-from flask import send_from_directory, send_file
 from functions.function_chat import *
-
-# Importando SocketIO del lado del Servidor
-from flask_socketio import SocketIO, emit
-
-# para crear una instancia de Socket.IO en una aplicación Flask
-socketio = SocketIO(app)
-
-""" 
-# Escuchando si el servidor esta conectado del lado del servidor
-@socketio.on('connect')
-def handle_connect():
-    print('Cliente conectado')
-
-# Escuchando si el cliente se desconecta del lado del servidor
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Cliente desconectado')
-"""
-
-
-# Esta función 'recibir_mensaje' se encarga de escuchar el evento "mensaje_chat"
-# del lado del servidor y mostrar el mensaje recibido en la consola del servidor
-@socketio.on('mensaje_chat')
-def recibir_mensaje(mensaje_chat):
-   # print(f"Respuesta mensaje: {mensaje_chat}")
-    id_user_session = mensaje_chat['desde_id_user']
-    id_amigo_seleccionado = mensaje_chat['para_id_user']
-
-    emit('mensaje_chat', render_template('public/mensajes_chat.html',
-         lista_mensajes=buscar_chat_amigoBD(id_user_session, id_amigo_seleccionado)), broadcast=True)
 
 
 @app.route('/sala-de-chat', methods=['GET'])
@@ -105,23 +73,3 @@ def process_form_chat():
         # Solo el mensaje está presente en la solicitud
         procesar_msj = procesar_form_msj(desde_id_user, para_id_user, mensaje)
         return jsonify({'status': 1}) if procesar_msj else jsonify({'status': 0})
-
-
-@app.route('/descargar_foto_chat', methods=['POST'])
-def descargar_foto_chat():
-    foto_chat = request.json.get('foto_chat')
-    basepath = os.path.abspath(os.path.dirname(__file__))
-    directorio_archivos = 'static/archivos_chat'
-    ruta_archivo = os.path.join(basepath, directorio_archivos, foto_chat)
-
-    """ 
-    foto_chat = request.json.get('foto_chat')
-    basepath = path.dirname(__file__)
-    url_File = path.join(basepath, 'static/archivos_chat', foto_chat)
-    resp = send_file(url_File, as_attachment=True)
-    return resp
-    """
-    try:
-        return send_from_directory(basepath, ruta_archivo, as_attachment=True, attachment_filename=foto_chat)
-    except FileNotFoundError:
-        return 'Archivo no encontrado', 404
