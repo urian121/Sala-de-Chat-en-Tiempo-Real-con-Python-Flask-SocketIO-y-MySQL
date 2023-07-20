@@ -31,6 +31,7 @@ if (li_amigos) {
  * retorna toda la información del amigo selecionado como (mensajes, audios, imagenes, perfil)
  */
 async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
+  loader(true);
   try {
     const responseAmigo = await axios.post("/mostrar-amigo-seleccionado", {
       id_amigo,
@@ -66,6 +67,24 @@ async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
       createJS();
       formScriptLoaded = true;
     }
+  }
+}
+
+var cargando = false;
+function loader(cargando) {
+  let body = document.body;
+  if (cargando) {
+    body.style.opacity = "0.3";
+    body.style.bottom = "0";
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.top = "0";
+    body.style.zIndex = "99999999999999999999";
+    setTimeout(() => {
+      body.style.opacity = "10";
+    }, 500);
+  } else {
+    body.style.opacity = "10";
   }
 }
 
