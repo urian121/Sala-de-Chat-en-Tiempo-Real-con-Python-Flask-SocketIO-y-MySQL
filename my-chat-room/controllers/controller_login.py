@@ -1,130 +1,134 @@
-from flask import render_template, request, flash, session, redirect, url_for, jsonify
-# Importando el objeto app de mi
-from application import app
 
-from werkzeug.utils import escape
+from flask import session
 
-# Importando cenexión a BD
-from functions.function_login import *
+import os
+from os import path  # Modulo para obtener la ruta o directorio
+import uuid  # Modulo de python para crear un string
 
 
-@app.route('/',  methods=['GET'])
-def index():
-    if 'conectado' in session and request.method == 'GET':
-        return redirect(url_for('chat'))
-    else:
-        flash('primero debes iniciar sesión.', 'error')
-        return render_template('public/login/base_login.html')
+from confiBD.conexionBD import *
 
 
-@app.route('/login')
-def login():
-    return render_template('public/login/base_login.html')
+import re
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
-@app.route('/crear-cuenta')
-def crear_cuenta():
-    return render_template('public/login/register.html')
+def procesar_insert_userBD(user, email_user, tlf_user, pass_user, process_foto_name):
+    try:
+        # Generación de la contraseña cifrada
+        nueva_password = generate_password_hash(pass_user, method='scrypt')
+
+        # Conexión a la base de datos
+        with connectionBD() as conexion_MySQLdb, conexion_MySQLdb.cursor(dictionary=True) as cursor:
+            # Comprobar si ya existe una cuenta con el mismo correo electrónico
+            cursor.execute(
+                "SELECT * FROM tbl_users WHERE email_user = %s", (email_user,))
+            result = cursor.fetchone()
+
+            if result is not None:
+                return 'Ya existe una cuenta con este correo electrónico.'
+
+            # Insertar una nueva cuenta en la tabla de cuentas
+            sql = "INSERT INTO tbl_users (user, email_user, tlf_user, pass_user, foto_user) VALUES (%s, %s, %s, %s, %s)"
+            valores = (user, email_user, tlf_user,
+                       nueva_password, process_foto_name)
+            cursor.execute(sql, valores)
+            conexion_MySQLdb.commit()
+
+            resultado_insert = cursor.rowcount
+
+        # Retornar el resultado de la inserción
+        return resultado_insert
+
+    except Exception as e:
+        return f'Se produjo un error al insertar la cuenta en la base de datos: {str(e)}'
 
 
-@app.route('/recuperar-cuenta')
-def recuperar_cuenta():
-    return render_template('public/login/recovery.html')
+def verificar_password(password_plano, password_hash):
+    return check_password_hash(password_hash, password_plano)
 
 
-@app.route('/procesar-cuenta-user',  methods=['POST'])
-def process_register_user():
-    user = request.form.get('user', '').strip()
-    email_user = request.form.get('email_user', '').strip()
-    tlf_user = request.form.get('tlf_user', '').strip()
-    pass_user = request.form.get('pass_user', '').strip()
-    foto_user = request.files['foto_user']
+def validad_loginBD(email_user, pass_user):
+    # Usando 'BINARY' para hacer una comparación sensible entre mayúsculas y minúsculas en MySQL
+    with connectionBD() as conexion_MySQLdb, conexion_MySQLdb.cursor(dictionary=True) as cursor:
+        cursor.execute(
+            "SELECT * FROM tbl_users WHERE BINARY email_user = %s", [email_user])
+        usuario = cursor.fetchone()
 
-    if not all([user, email_user, tlf_user, pass_user]):
-        flash('Por favor, complete todos los campos del formulario.', 'error')
-        return redirect(url_for('index'))
+    if usuario:
+        if check_password_hash(usuario['pass_user'], pass_user):
+            session['conectado'] = True
+            session['id_user'] = usuario['id_user']
+            session['user'] = usuario['user']
+            session['email_user'] = usuario['email_user']
+            session['foto_user'] = usuario['foto_user']
 
-    if not re.match(r'[^@]+@[^@]+\.[^@]+', email_user):
-        flash('Correo electrónico inválido.', 'error')
-        return redirect(url_for('index'))
-
-    if len(pass_user) <= 3:
-        flash('La contraseña debe tener al menos 4 caracteres.', 'error')
-        return redirect(url_for('index'))
-
-    if not tlf_user.isdigit() or len(tlf_user) != 10:
-        flash('El número de teléfono debe tener 10 dígitos.', 'error')
-        return redirect(url_for('index'))
-
-    if not foto_user.filename:
-        flash('Por favor, debe seleccionar una foto.', 'error')
-        return redirect(url_for('index'))
-
-    if (foto_user):
-        # validar tipo y tamaño de la imagen
-        pesoArchivo = procesarFoto_user(foto_user)
-
-        if pesoArchivo:
-            process_foto_name = procesar_foto_perfil(foto_user)
-            if process_foto_name:
-                # Se han validado todos los datos, se puede continuar con el procesamiento en la base de datos
-                resultado_insert = procesar_insert_userBD(
-                    user, email_user, tlf_user, pass_user, process_foto_name)
-
-                if resultado_insert == 1:
-                    flash('Registro exitoso.', 'success')
-                    return jsonify(
-                        {
-                            'status': 'OK',
-                            'redirect': url_for('index'),
-                            'user': user,
-                            'email_user': email_user,
-                            'process_foto_name': process_foto_name
-                        })
-                else:
-                    flash('Error, la cuenta no fue creada.', 'error')
-                    return redirect(url_for('index'))
-            flash('Error, recuerde debe ser una imagen', 'error')
-            return redirect(url_for('index'))
+            update_status_user(usuario['id_user'], 1)
+            return 1
         else:
-            flash('Error, la foto debe pesar menos de 1MB', 'error')
-            return redirect(url_for('index'))
+            return 0
 
 
-# Procesar el inicio de sesión
-@app.route('/iniciar-sesion', methods=['POST'])
-def login_user():
-    conectado = session.get('conectado')
-    if conectado:
-        flash('Ya has iniciado sesión', 'success')
-        return redirect(url_for('chat'))
+# Actualizar el status del usuario que se ha conectado
+def update_status_user(id_user, status):
+    try:
+        with connectionBD() as conexion_MySQLdb, conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+            mycursor.execute("""
+                UPDATE tbl_users
+                SET
+                    online = %s
+                WHERE id_user = %s
+                """, (status, id_user))
+            conexion_MySQLdb.commit()
+            return mycursor.rowcount
+    except Exception as e:
+        return f'Se produjo un error al insertar la cuenta en la base de datos: {str(e)}'
+
+
+# Validar extension de la imagen
+def validar_extension(extension_file):
+    # Comprueba si la extensión corresponde a una imagen
+    extensiones_permitidas = ['.png', '.jpg', '.jpeg', '.gif']
+    if extension_file.lower() not in extensiones_permitidas:
+        return False
     else:
-        if request.method == 'POST':
-            email_user = escape(request.form.get('email_user'))
-            pass_user = escape(request.form.get('pass_user'))
-
-            if email_user and pass_user:
-                if (validad_loginBD(email_user, pass_user)):
-                    flash('¡Ha iniciado sesión correctamente!', 'success')
-                    return jsonify({'status': 'OK', 'redirect': url_for('chat'), 'id_sesion': session['id_user']})
-                else:
-                    flash('Datos incorrectos, por favor revise', 'error')
-                    return redirect(url_for('index'))
-            else:
-                flash(
-                    'Por favor, proporcione un correo electrónico y una contraseña', 'error')
-                return redirect(url_for('index'))
+        return True
 
 
-# Cerrando sesión del user
-@app.route('/cerrar-session', methods=['POST', 'GET'])
-def cerraSesion():
-    result = update_status_user(session['id_user'], 0)
-    if result > 0:
-        session.pop('conectado', None)
-        session.pop('id_user', None)
-        session.pop('user', None)
-        session.pop('email_user', None)
-        session.pop('foto_user', None)
-        flash('Tu sesión fue cerrada correctamente.', 'success')
-    return redirect(url_for('index'))
+def procesar_foto_perfil(archivo):
+    try:
+        extension = os.path.splitext(archivo.filename)[1]
+
+        if validar_extension(extension):
+            foto_perfil = str(uuid.uuid4().hex) + extension
+
+            # Construir la ruta completa de subida del archivo
+            basepath = os.path.abspath(os.path.dirname(__file__))
+            upload_dir = os.path.join(basepath, '../static', 'fotos_users')
+
+            # Validar si existe la ruta y crearla si no existe
+            if not os.path.exists(upload_dir):
+                os.makedirs(upload_dir)
+
+            # Construir la ruta completa de subida del archivo
+            upload_path = os.path.join(upload_dir, foto_perfil)
+            archivo.save(upload_path)
+
+            return foto_perfil
+        else:
+            return False
+    except Exception as e:
+        print("Error al procesar archivo:", e)
+        return []
+
+
+def procesarFoto_user(foto_user):
+    if foto_user:
+        # Validar el peso del archivo
+        tam_max = 1 * 1024 * 1024  # 1 megabytes
+        tam_archivo = len(foto_user.read())
+        foto_user.seek(0)  # Regresar al inicio del archivo
+        if tam_archivo > tam_max:
+            return False
+        else:
+            return True

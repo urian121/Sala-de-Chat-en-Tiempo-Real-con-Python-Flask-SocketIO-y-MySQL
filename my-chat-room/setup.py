@@ -1,11 +1,11 @@
 # Declarando nombre de la aplicación e inicializando, crear la aplicación Flask
 from application import app
 
-# Importando todos mis controllers
-from controllers.socketIO import *
-from controllers.controller_chat import *  # Controlador Tienda
-from controllers.controller_login import *  # Controlador Login
-from controllers.controller_page_not_found import *
+# Importando todos mis routers
+from routers.socketIO import *
+from routers.router_chat import *  # Router Tienda
+from routers.router_login import *  # Router Login
+from routers.router_page_not_found import *
 
 
 # Ejecutando el objeto Flask, arrancando aplicacion Flask

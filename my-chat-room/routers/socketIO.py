@@ -1,7 +1,9 @@
 
 from application import app
-from flask import render_template
-from confiBD.conexionBD import *
+from flask import render_template, jsonify
+
+
+from funciones.funciones_sockeyIO import *
 
 
 # Importando SocketIO del lado del Servidor
@@ -33,6 +35,11 @@ def recibir_mensaje(mensaje_chat):
     id_user_session = mensaje_chat['desde_id_user']
     id_amigo_seleccionado = mensaje_chat['para_id_user']
 
+    # Emitiendo el total de mensajes sin leer para el que usuario que acaba de recibir el mensaje
+    total_mensajes_sin_leer = cantidad_mensajes_sin_leer(id_amigo_seleccionado)
+    emit('total_mensaje_sin_leer', {
+         'total_mensajes': total_mensajes_sin_leer, 'para_id_user': id_amigo_seleccionado}, broadcast=True)
+
     emit('mensaje_chat', render_template('public/mensajes_chat.html',
          lista_mensajes=buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado)), broadcast=True)
 
@@ -54,35 +61,3 @@ def handle_user_desconectado(user_desconectado):
 def handle_nuevo_user_creado(nueva_cuenta_creada):
     # print(f"Hola {nueva_cuenta_creada}")
     emit('nueva_cuenta_creada', nueva_cuenta_creada, broadcast=True)
-
-
-def buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado):
-    try:
-        with connectionBD() as conexion_MySQLdb:
-            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                querySQL = """
-                    SELECT
-                        c.desde_id_user,
-                        c.para_id_user,
-                        DATE_FORMAT(c.fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,
-                        c.mensaje,
-                        c.archivo_img,
-                        c.file_audio
-                    FROM tbl_users AS u
-                    INNER JOIN tbl_chat AS c
-                    ON u.id_user = c.para_id_user
-                    WHERE (c.desde_id_user = %s AND c.para_id_user = %s)
-                    OR (c.desde_id_user = %s AND c.para_id_user = %s)
-                    ORDER BY c.id_chat
-                """
-                params = (id_user_session, id_amigo_seleccionado,
-                          id_amigo_seleccionado, id_user_session)
-                # print("Consulta SQL:", querySQL)
-                # print("Parámetros:", params)
-                mycursor.execute(querySQL, params)
-                lista_chat = mycursor.fetchall()
-                return lista_chat or []
-    except Exception as e:
-        print(
-            f"Error al buscar el amigo seleccionado: {e}")
-        return []
