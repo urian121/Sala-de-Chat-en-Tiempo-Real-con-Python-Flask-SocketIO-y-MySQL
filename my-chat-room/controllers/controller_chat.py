@@ -9,26 +9,35 @@ def lista_amigos_chat(id_user_session):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                querySQL = """
-                        SELECT
-                            id_user, user,
-                            email_user, tlf_user,
-                            foto_user, description_user,
-                            online
-                        FROM tbl_users 
-                        WHERE id_user !=%s ORDER BY user ASC
-                    """
-                mycursor.execute(querySQL, (id_user_session,))
+                querySQL = f"""
+                    SELECT
+                        u.id_user,
+                        u.user,
+                        u.email_user,
+                        u.foto_user,
+                        u.online,
+                        SUM(CASE WHEN c.estatus_leido = 0 AND c.para_id_user = %s THEN 1 ELSE 0 END) AS total_mensajes_sin_leer
+                    FROM
+                        tbl_users u
+                    LEFT JOIN
+                        tbl_chat c ON u.id_user = c.para_id_user OR u.id_user = c.desde_id_user
+                    WHERE
+                        u.id_user != %s
+                    GROUP BY
+                        u.id_user, u.user, u.email_user, u.foto_user, u.online
+                    ORDER BY
+                        u.user ASC
+                """
+                mycursor.execute(querySQL, (id_user_session, id_user_session))
                 lista_amigos_chat = mycursor.fetchall()
-                return lista_amigos_chat or {}
+                return lista_amigos_chat or []
 
     except Exception as e:
         print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
-        return 0
+        return []
+
 
 # Funcion que recibe el id del amigo seleccionado y retorna los chats del mismo.
-
-
 def buscar_chat_amigoBD(id_user_session, id_amigo_seleccionado):
     try:
         with connectionBD() as conexion_MySQLdb:

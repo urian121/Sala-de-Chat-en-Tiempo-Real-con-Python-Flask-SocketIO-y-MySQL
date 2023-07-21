@@ -39,4 +39,3 @@ addEventListener("DOMContentLoaded", (event) => {
 cuando se envia el formulario aqui:
 @app.route('/procesar-form-chat', methods=['POST'])
 no es necesario colocar un if y else ya que puedo asigna el valor vacio si no llega 
-
