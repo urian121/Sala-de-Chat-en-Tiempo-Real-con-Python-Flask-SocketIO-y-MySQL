@@ -2,6 +2,7 @@ from flask import render_template, request, flash, session, redirect, url_for, j
 # Importando el objeto app de mi
 from application import app
 
+import re
 from werkzeug.utils import escape
 
 # Importando cenexión a BD
@@ -92,7 +93,7 @@ def process_register_user():
 
 
 # Procesar el inicio de sesión
-@app.route('/iniciar-sesion', methods=['POST'])
+@app.route('/iniciar-sesion', methods=['GET', 'POST'])
 def login_user():
     conectado = session.get('conectado')
     if conectado:
@@ -106,11 +107,14 @@ def login_user():
             if email_user and pass_user:
                 if (validad_loginBD(email_user, pass_user)):
                     flash('¡Ha iniciado sesión correctamente!', 'success')
+                    print('a')
                     return jsonify({'status': 'OK', 'redirect': url_for('chat'), 'id_sesion': session['id_user'], 'foto_user': session['foto_user'], 'user': session['user']})
                 else:
+                    print('b')
                     flash('Datos incorrectos, por favor revise', 'error')
                     return redirect(url_for('index'))
             else:
+                print('c')
                 flash(
                     'Por favor, proporcione un correo electrónico y una contraseña', 'error')
                 return redirect(url_for('index'))

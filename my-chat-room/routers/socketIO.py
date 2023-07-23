@@ -38,7 +38,7 @@ def recibir_mensaje(mensaje_chat):
     # Emitiendo el total de mensajes sin leer para el que usuario que acaba de recibir el mensaje
     total_mensajes_sin_leer = cantidad_mensajes_sin_leer(id_amigo_seleccionado)
     emit('total_mensaje_sin_leer', {
-         'total_mensajes': total_mensajes_sin_leer, 'para_id_user': id_amigo_seleccionado}, broadcast=True)
+         'total_mensajes': total_mensajes_sin_leer, 'desde_id_user': id_user_session, 'para_id_user': id_amigo_seleccionado}, broadcast=True)
 
     emit('mensaje_chat', render_template('public/mensajes_chat.html',
          lista_mensajes=buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado)), broadcast=True)

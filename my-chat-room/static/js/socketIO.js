@@ -1,5 +1,10 @@
 // Inicializando SocketIO y exportando el objeto socket
-export const socket = io();
+// export const socket = io();
+export const socket = io({
+  reconnection: true, // Habilitar reconexión automática
+  reconnectionAttempts: 3, // Número máximo de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera (en milisegundos) entre intentos de reconexión
+});
 
 // Escuchando connect
 socket.on("connect", function () {
@@ -124,8 +129,33 @@ function agregar_status_activo_user(id_user_conectado) {
 }
 
 /**
- *
+ * Escuhando cuando hay un nuevo mensaje sin leer de cualquier usuario
  */
+socket.on("total_mensaje_sin_leer", function (data_total_mensaje_sin_leer) {
+  console.log("Llegue", data_total_mensaje_sin_leer);
+  console.log(
+    "Total mensajes sin leer: ",
+    data_total_mensaje_sin_leer.total_mensajes
+  );
+  console.log("para_id_user: ", data_total_mensaje_sin_leer.para_id_user);
+  console.log("desde_id_user: ", data_total_mensaje_sin_leer.desde_id_user);
+  // Recorrer cada li del ul
+  const ulElement = document.querySelector(".messages-page__list");
+  ulElement.querySelectorAll("li").forEach((liElement) => {
+    // Obtener el ID del usuario del li actual
+    const memberId = parseInt(liElement.getAttribute("id"));
+
+    // Verificar si el ID del usuario del li coincide con el ID recibido del servidor
+    if (memberId === parseInt(data_total_mensaje_sin_leer.desde_id_user)) {
+      // Actualizar el valor de mensajes sin leer en el div y el span correspondiente al usuario
+      const mensajesSinLeerDiv = liElement.querySelector(".mensajes_sin_leer");
+      const mensajesSinLeerSpan = mensajesSinLeerDiv.querySelector("span");
+      mensajesSinLeerSpan.textContent =
+        data_total_mensaje_sin_leer.total_mensajes;
+    }
+  });
+});
+
 /**
  * Funcion para lenvantar alerta desde el JavaScript
  */
@@ -147,7 +177,7 @@ function my_custom_alert(infom_msj, tipo_msj) {
   body.insertAdjacentElement("afterend", mensajeDiv);
 
   // Establecer el contenido del div
-  let sesion_activa = (mensajeDiv.innerHTML = `
+  mensajeDiv.innerHTML = `
    <div class="toast_custom active" style="position: fixed; min-width: 50%;">
       <div class="toast-content">
       ${
@@ -172,7 +202,7 @@ function my_custom_alert(infom_msj, tipo_msj) {
         <i class="close bi bi-x"></i>
       <div class="progress active"></div>
     </div>
-  `);
+  `;
 
   const alert_custom = document.querySelector(".toast_custom");
   const closeIcon = document.querySelector(".close");

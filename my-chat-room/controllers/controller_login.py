@@ -1,15 +1,12 @@
 
 from flask import session
 
+# Para redimensionar la imagen de perfil
+from PIL import Image
 import os
-from os import path  # Modulo para obtener la ruta o directorio
 import uuid  # Modulo de python para crear un string
 
-
 from confiBD.conexionBD import *
-
-
-import re
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -112,14 +109,35 @@ def procesar_foto_perfil(archivo):
 
             # Construir la ruta completa de subida del archivo
             upload_path = os.path.join(upload_dir, foto_perfil)
+
+            # Guardar la imagen original
             archivo.save(upload_path)
+
+            # Abrir la imagen con Pillow
+            img = Image.open(upload_path)
+
+            # Redimensionar la imagen manteniendo la proporción
+            img.thumbnail((150, 150))
+
+            # Crear una nueva imagen de 150x150 con fondo blanco
+            fondo_blanco = Image.new('RGB', (150, 150), (255, 255, 255))
+
+            # Calcular las coordenadas para centrar la imagen original en el fondo blanco
+            offset_x = (fondo_blanco.width - img.width) // 2
+            offset_y = (fondo_blanco.height - img.height) // 2
+
+            # Superponer la imagen original en el fondo blanco
+            fondo_blanco.paste(img, (offset_x, offset_y))
+
+            # Guardar la imagen final con fondo blanco y tamaño mínimo
+            fondo_blanco.save(upload_path)
 
             return foto_perfil
         else:
             return False
     except Exception as e:
-        print("Error al procesar archivo:", e)
-        return []
+        print("Error:", e)
+        return False
 
 
 def procesarFoto_user(foto_user):

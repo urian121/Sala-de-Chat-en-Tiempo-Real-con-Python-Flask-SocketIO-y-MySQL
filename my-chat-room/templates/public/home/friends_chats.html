@@ -42,11 +42,11 @@
           <!---->
           {{ amigo.user}} {% endif %}
           <!---->
-          {% if amigo.total_mensajes_sin_leer %}
+          {# % if amigo.total_mensajes_sin_leer % #}
           <div class="mensajes_sin_leer">
             <span>{{ amigo.total_mensajes_sin_leer }}</span>
           </div>
-          {% endif %}
+          {#% endif %#}
         </span>
 
         <span class="messaging-member__message"> {{ amigo.email_user}} </span>

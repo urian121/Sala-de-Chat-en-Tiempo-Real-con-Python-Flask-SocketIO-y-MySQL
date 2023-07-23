@@ -1,5 +1,9 @@
-//Iniciando SocketIO
-const socket = io();
+//Iniciando SocketIO y Configurando el socket con opciones
+const socket = io({
+  reconnection: true, // Habilitar reconexión automática
+  reconnectionAttempts: 3, // Número máximo de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera (en milisegundos) entre intentos de reconexión
+});
 
 // Escuchando connect
 socket.on("connect", function () {
@@ -55,6 +59,7 @@ formulario.addEventListener("submit", async (e) => {
         email_user: data.email_user,
         process_foto_name: data.process_foto_name,
       };
+      console.log("Usuario creado:", data_user_nuevo);
 
       socket.emit("nueva_cuenta_creada", data_user_nuevo);
       window.location.href = data.redirect;

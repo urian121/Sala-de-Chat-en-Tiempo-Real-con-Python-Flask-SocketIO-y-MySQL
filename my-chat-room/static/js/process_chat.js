@@ -97,7 +97,6 @@ async function sendForm(submitButton) {
 function descargar_foto(foto) {
   let host = window.location.host;
   let urlImagen = `http://${host}/static/archivos_chat/${foto}`;
-  //let urlImagen = "{{ url_for('static', filename='archivos_chat/') }}" + foto;
   let link = document.createElement("a");
   link.href = urlImagen;
   link.download = foto;
@@ -119,29 +118,6 @@ socket.on("mensaje_chat", (mensaje) => {
   const divContent = document.querySelector(".chat__content");
   divContent.innerHTML = "";
   divContent.innerHTML += mensaje;
-});
-
-/**
- * Escuhando cuando hay un nuevo mensaje sin leer de cualquier usuario
- */
-socket.on("total_mensaje_sin_leer", (data) => {
-  console.log("Total mensajes sin leer: ", data.total_mensajes);
-  console.log("ID del amigo seleccionado: ", data.para_id_user);
-
-  // Recorrer cada li del ul
-  const ulElement = document.querySelector(".messages-page__list");
-  ulElement.querySelectorAll("li").forEach((liElement) => {
-    // Obtener el ID del usuario del li actual
-    const memberId = parseInt(liElement.getAttribute("id"));
-
-    // Verificar si el ID del usuario del li coincide con el ID recibido del servidor
-    if (memberId === parseInt(data.para_id_user)) {
-      // Actualizar el valor de mensajes sin leer en el div y el span correspondiente al usuario
-      const mensajesSinLeerDiv = liElement.querySelector(".mensajes_sin_leer");
-      const mensajesSinLeerSpan = mensajesSinLeerDiv.querySelector("span");
-      mensajesSinLeerSpan.textContent = data.total_mensajes;
-    }
-  });
 });
 
 /**

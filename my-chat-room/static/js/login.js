@@ -1,7 +1,6 @@
 /**
  * Enviando formulario Login
  */
-
 const form_login = document.getElementById("form_login");
 
 // Agregar el evento "submit" al formulario
