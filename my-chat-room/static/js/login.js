@@ -18,8 +18,14 @@ form_login.addEventListener("submit", async function (event) {
 
     const data = response.data;
     if (data.status === "OK") {
+      const data_new_user_online = {
+        id_sesion: parseInt(data.id_sesion),
+        user: data.user,
+        foto_user: data.foto_user,
+      };
+
       // Redireccionar a la URL proporcionada
-      socket.emit("new_user_online", parseInt(data.id_sesion));
+      socket.emit("new_user_online", data_new_user_online);
       window.location.href = data.redirect;
     } else {
       console.log("Error en el inicio de sesión");

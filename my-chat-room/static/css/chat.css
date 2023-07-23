@@ -285,17 +285,17 @@ body {
   background-color: var(--colour-third-lighter);
 }
 */
-.messaging-member--active {
+.messaging_member_active {
   background-color: var(--colour-primary-lightest);
 }
-.messaging-member--active:hover {
+.messaging_member_active:hover {
   background-color: var(--colour-primary-lightest);
 }
 @media screen and (max-width: 767px) {
-  .messaging-member--active {
+  .messaging_member_active {
     background-color: var(--bg-page);
   }
-  .messaging-member--active:hover {
+  .messaging_member_active:hover {
     background-color: var(--bg-page-darker);
   }
 }

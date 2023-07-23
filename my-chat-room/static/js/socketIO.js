@@ -29,8 +29,13 @@ if (link_cerrar_sesion) {
   link_cerrar_sesion.addEventListener("click", async function (event) {
     event.preventDefault();
 
-    // Capturar el valor del atributo 'data-session'
-    let sessionValue = parseInt(link_cerrar_sesion.dataset.session);
+    // Capturar los datos del usuario que esta cerrando la sesión
+    const data_sesion_off = {
+      id_sesion: parseInt(link_cerrar_sesion.dataset.session),
+      user: link_cerrar_sesion.dataset.user,
+      foto_user: link_cerrar_sesion.dataset.foto_user,
+    };
+
     try {
       const resp = await axios.post("/cerrar-session");
 
@@ -40,7 +45,7 @@ if (link_cerrar_sesion) {
       }
 
       // Emitir el evento "user_desconectado" en el servidor
-      socket.emit("user_desconectado", sessionValue);
+      socket.emit("user_desconectado", data_sesion_off);
 
       // Recargar la página
       location.reload();
@@ -53,9 +58,17 @@ if (link_cerrar_sesion) {
 /**
  *  Escuchar evento "user_desconectado" cuando el usuario se desconecta
  */
-socket.on("user_desconectado", function (id_user_session_desconectado) {
-  console.log(`Usuario ${id_user_session_desconectado} Desconectado`);
-  quitar_status_activo_user(id_user_session_desconectado);
+socket.on("user_desconectado", function (data_user_desconectado) {
+  console.log(`Informacion usuario desconectado`, data_user_desconectado);
+
+  let id_user_desconectado = parseInt(data_user_desconectado.id_sesion);
+  quitar_status_activo_user(id_user_desconectado);
+
+  let infom_msj = [
+    data_user_desconectado.user,
+    data_user_desconectado.foto_user,
+  ];
+  my_custom_alert(infom_msj, "error");
 });
 
 function quitar_status_activo_user(id_amigo) {
@@ -79,16 +92,20 @@ function quitar_status_activo_user(id_amigo) {
 /**
  * Escuchando cuando un usuario que ya estaba registrado se vuelve a conectar
  */
-socket.on("new_user_online", (id_user_conectado) => {
-  console.log(`caso 2, Usuario conectado ${id_user_conectado}`);
+socket.on("new_user_online", function (data_new_user_online) {
+  //console.log(data_new_user_online);
+
+  let id_user_conectado = data_new_user_online.id_sesion;
   agregar_status_activo_user(parseInt(id_user_conectado));
+
+  let infom_msj = [data_new_user_online.user, data_new_user_online.foto_user];
+  my_custom_alert(infom_msj, "success");
 });
 
 /**
  * Escuchar evento "new_user_online" cuando el usuario se Conecta
  */
 function agregar_status_activo_user(id_user_conectado) {
-  console.log(id_user_conectado);
   let li_online_friend = document.querySelectorAll(".messaging-member");
   if (li_online_friend) {
     li_online_friend.forEach((item) => {
@@ -104,4 +121,71 @@ function agregar_status_activo_user(id_user_conectado) {
       }
     });
   }
+}
+
+/**
+ *
+ */
+/**
+ * Funcion para lenvantar alerta desde el JavaScript
+ */
+function my_custom_alert(infom_msj, tipo_msj) {
+  // console.log(infom_msj);
+
+  // Verificar si ya existe el div con id='myNotification'
+  const divExistente = document.querySelector("#myNotification");
+  if (divExistente) {
+    divExistente.remove();
+  }
+
+  // Crear un div
+  const mensajeDiv = document.createElement("div");
+  mensajeDiv.id = "myNotification";
+
+  // Agregar el div después del body
+  const body = document.querySelector("body");
+  body.insertAdjacentElement("afterend", mensajeDiv);
+
+  // Establecer el contenido del div
+  let sesion_activa = (mensajeDiv.innerHTML = `
+   <div class="toast_custom active" style="position: fixed; min-width: 50%;">
+      <div class="toast-content">
+      ${
+        tipo_msj == "success"
+          ? `<img src="/static/fotos_users/${infom_msj[1]}" alt="${infom_msj[0]}" loading="lazy" style="max-width: 50px;border-radius: 50%;">`
+          : `<img src="/static/fotos_users/${infom_msj[1]}" alt="${infom_msj[0]}" loading="lazy" style="max-width: 50px;border-radius: 50%;">`
+      }
+        <div class="message">
+          <span class="text text-1">
+          ${tipo_msj == "success" ? `${infom_msj[0]}` : `${infom_msj[0]}`}
+          </span>
+         
+          <span class="text text-2">
+            ${
+              tipo_msj == "success"
+                ? 'Acaba de iniciar sesión <i class="bi bi-check-circle-fill" style="font-size: 30px; color: #1a7ee6;"></i>'
+                : "Acaba de cerrar sesión <i class='bi bi-exclamation-triangle icon_error' style='color: #fb6e7b;'></i>"
+            }
+          </span>
+        </div>
+      </div>
+        <i class="close bi bi-x"></i>
+      <div class="progress active"></div>
+    </div>
+  `);
+
+  const alert_custom = document.querySelector(".toast_custom");
+  const closeIcon = document.querySelector(".close");
+  const progress = document.querySelector(".progress");
+
+  closeIcon.addEventListener("click", () => {
+    alert_custom.classList.remove("active");
+    setTimeout(() => {
+      progress.classList.remove("active");
+    }, 300);
+  });
+
+  setTimeout(() => {
+    alert_custom.classList.remove("active");
+  }, 8000);
 }

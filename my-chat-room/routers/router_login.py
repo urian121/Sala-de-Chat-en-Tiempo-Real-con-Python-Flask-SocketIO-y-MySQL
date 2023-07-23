@@ -106,7 +106,7 @@ def login_user():
             if email_user and pass_user:
                 if (validad_loginBD(email_user, pass_user)):
                     flash('¡Ha iniciado sesión correctamente!', 'success')
-                    return jsonify({'status': 'OK', 'redirect': url_for('chat'), 'id_sesion': session['id_user']})
+                    return jsonify({'status': 'OK', 'redirect': url_for('chat'), 'id_sesion': session['id_user'], 'foto_user': session['foto_user'], 'user': session['user']})
                 else:
                     flash('Datos incorrectos, por favor revise', 'error')
                     return redirect(url_for('index'))

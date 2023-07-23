@@ -6,10 +6,10 @@ if (li_amigos) {
   li_amigos.forEach((item) => {
     item.addEventListener("click", () => {
       li_amigos.forEach((item) => {
-        item.classList.remove("messaging-member--active");
+        item.classList.remove("messaging_member_active");
       });
 
-      item.classList.add("messaging-member--active");
+      item.classList.add("messaging_member_active");
 
       /**
        * Realizando solicitud HTTP

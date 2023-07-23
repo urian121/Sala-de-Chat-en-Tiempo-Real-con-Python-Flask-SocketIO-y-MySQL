@@ -33,6 +33,8 @@
       <li>
         <a
           id="link-cerrar-sesion"
+          data-foto_user="{{ session['foto_user'] }}"
+          data-user="{{ session['user'] }}"
           data-session="{{ session['id_user'] }}"
           href="/cerrar-session"
           ><i class="ph-bold bi bi-box-arrow-right"></i>&nbsp;Cerar sesión</a

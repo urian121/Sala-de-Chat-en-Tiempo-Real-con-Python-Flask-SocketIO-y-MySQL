@@ -13,9 +13,8 @@
     </div>
   </div>
 
+  {% if lista_amigos|length %}
   <ul class="messages-page__list pb-5 px-1 px-md-3">
-    {% if lista_amigos|length %}
-    <!---->
     {% for amigo in lista_amigos %}
     <li
       class="messaging-member"
@@ -54,11 +53,8 @@
       </div>
     </li>
     {% endfor %}
-    <!---->
-    {% else %}
-    <li class="messaging-member">
-      <span class="messaging-member__name"> Aún no tienes amigos 😭 </span>
-    </li>
-    {% endif %}
   </ul>
+  {% else %}
+  <p>Aún no tienes amigos 😭</p>
+  {% endif %}
 </div>
