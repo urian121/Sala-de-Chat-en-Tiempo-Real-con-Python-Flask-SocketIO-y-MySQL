@@ -7,6 +7,7 @@
 `pip install flask`
 `pip install mysql-connector-python`
 `pip install flask-socketio`
+`from PIL import Image`
 
 ##### Generar archivo requirement.txt
 
