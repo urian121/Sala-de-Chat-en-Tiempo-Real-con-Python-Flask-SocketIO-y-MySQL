@@ -29,8 +29,8 @@ def lista_amigos_chat(id_user_session):
                         u.user ASC
                 """
                 mycursor.execute(querySQL, (id_user_session, id_user_session))
-                lista_amigos_chat = mycursor.fetchall()
-                return lista_amigos_chat or []
+                lista_amigos_chats = mycursor.fetchall()
+                return lista_amigos_chats
 
     except Exception as e:
         print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
@@ -76,7 +76,8 @@ def status_amigo(id_amigo):
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
-                            SELECT 
+                            SELECT
+                              u.id_user,
                               u.user,
                               u.foto_user,
                               u.online

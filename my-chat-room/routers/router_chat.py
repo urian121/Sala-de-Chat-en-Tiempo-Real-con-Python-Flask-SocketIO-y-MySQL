@@ -8,11 +8,11 @@ from controllers.controller_chat import *
 def chat():
     if 'conectado' in session and request.method == 'GET':
         parametros_chat = {
-            'lista_amigos': lista_amigos_chat(session["id_user"]) or []
+            'lista_amigos': lista_amigos_chat(session["id_user"])
         }
         return render_template('public/inicio.html', **parametros_chat)
     else:
-        flash('primero debes iniciar sesión.', 'error')
+        flash('Primero debes iniciar sesión.', 'error')
         return render_template('public/login/base_login.html')
 
 
@@ -23,7 +23,8 @@ def mostrar_chat_amigo():
     resp_status_amigo = status_amigo(id_amigo_seleccionado)
     data_chat_amigo = buscar_chat_amigoBD(
         session["id_user"], id_amigo_seleccionado)
-# lista_mensajes=data_chat_amigo or []
+    # print(data_chat_amigo)
+    # print(resp_status_amigo)
     data_amigo = {
         "resp_status_amigo": resp_status_amigo,
         "lista_mensajes": data_chat_amigo

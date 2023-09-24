@@ -1,0 +1,13 @@
+{{ lista_mensajes }}
+
+<ul class="chat__list-messages">
+  {% for mensaje in lista_mensajes %}
+  <li>
+    {% if mensaje.desde_id_user == session['id_user'] %}
+    <div class="chat__bubble chat__bubble--me">{{ mensaje.mensaje }}</div>
+    {% else %}
+    <div class="chat__bubble chat__bubble--you">{{ mensaje.mensaje }}</div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

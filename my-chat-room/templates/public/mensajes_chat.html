@@ -2,12 +2,8 @@
 <ul class="chat__list-messages">
   {% for mensajes in lista_mensajes %}
   <!---->
-  sesion: {{ session['id_user']}}
-  <!---->
-  desde_id_user: {{ mensajes.desde_id_user }}
-  <!---->
   {% if session['id_user'] != mensajes.desde_id_user %}
-  <li style="background-color: red">
+  <li>
     <div class="chat__time">{{ mensajes.fecha_dia_mes_year}}</div>
     {% if mensajes.archivo_img is not none and mensajes.archivo_img != '' %}
     <div class="contenedor_img">
@@ -38,7 +34,7 @@
     {% endif %}
   </li>
   {% else %}
-  <li style="background-color: rgb(77, 221, 20)">
+  <li>
     <div class="chat__time" style="align-self: end">
       {{ mensajes.fecha_dia_mes_year}}
     </div>

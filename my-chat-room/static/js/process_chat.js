@@ -67,7 +67,6 @@ async function sendForm(submitButton) {
   }
 
   // console.log("Mi Data:", formData);
-
   const url_form = "/procesar-form-chat";
   try {
     const response = await axios.post(url_form, formData);

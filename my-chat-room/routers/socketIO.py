@@ -1,7 +1,6 @@
 
 from application import app
-from flask import render_template, jsonify
-
+from flask import render_template, session
 
 from funciones.funciones_sockeyIO import *
 
@@ -23,7 +22,6 @@ def handle_connect():
 @socketio.on('disconnect')
 def handle_disconnect():
     print('Cliente desconectado')
-
 """
 
 
@@ -40,8 +38,9 @@ def recibir_mensaje(mensaje_chat):
     emit('total_mensaje_sin_leer', {
          'total_mensajes': total_mensajes_sin_leer, 'desde_id_user': id_user_session, 'para_id_user': id_amigo_seleccionado}, broadcast=True)
 
-    emit('mensaje_chat', render_template('public/mensajes_chat.html',
-         lista_mensajes=buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado)), broadcast=True)
+    # emit('mensaje_chat', render_template('public/mensajes_chat.html',
+    emit('mensaje_chat', render_template('public/mensajes.html',
+         lista_mensajes=buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado), infoLofin=session['id_user']), broadcast=True)
 
 
 # Escuchando cuando un usuario se conecta
