@@ -132,7 +132,6 @@ function agregar_status_activo_user(id_user_conectado) {
  * Escuhando cuando hay un nuevo mensaje sin leer de cualquier usuario
  */
 socket.on("total_mensaje_sin_leer", function (data_total_mensaje_sin_leer) {
-  console.log("Llegue", data_total_mensaje_sin_leer);
   console.log(
     "Total mensajes sin leer: ",
     data_total_mensaje_sin_leer.total_mensajes

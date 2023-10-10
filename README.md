@@ -1,4 +1,4 @@
-## Construyendo una sala de chat en tiempo real con Flask y SocketIO 🐍
+## Construyendo una sala de chat en tiempo real con Flask Python y SocketIO 🐍
 
 ###### Construye una sala de chat en tiempo real utilizando Flask y SocketIO. Esta poderosa combinación te permite crear una aplicación web interactiva con capacidades de chat en tiempo real. Flask te proporciona un marco web sólido y SocketIO facilita la comunicación bidireccional entre el servidor y el cliente para una experiencia de chat fluida
 
@@ -19,66 +19,27 @@
 
 #### Flask-Sockets es una extensión de Flask que proporciona una integración directa con el paquete WebSocket de Python, lo que te permite utilizar WebSocket en tu aplicación Flask. Puedes instalarlo utilizando pip: pip install Flask-Sockets.
 
-### Nota
-
-Puedes crear un entorno virtual con `virtualenv env` e instalar todos los paquetes del proyecto ejecutando ``pip install -r requirements.txt`
-obvio cambiar los parametros para la conexión a BD e importar la tabla que se requiere para almacenar los mensajes de la sala de chat.
-
 ##### broadcast=True
 
 Se utiliza al emitir un evento desde el servidor para especificar
 que dicho evento debe ser transmitido a todos los clientes conectados,
 excepto al cliente que generó el evento.
 
-##### json.dumps()
-
-Para convertir la lista de diccionarios en una cadena JSON
-data_msj = json.dumps(respuesta_procesar_form) # Convertir a JSON
-print(data_msj)
-
 ##### Documentación
 
 https://flask-socketio.readthedocs.io/en/latest/index.html
 
-### Resultado Final
+#### Resultado Final
 
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/portada_flask-socketio__chat_urian_viera.PNG)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/sala-de-chat-flask-socketio.png)
 
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/portada_flask_socketio_urian_viera.PNG)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/sala-de-chat-amigo-seleccionadoflask-socketio.png)
 
-# ¡Por favor, no olvides dejar tu comentario y darle like al canal! 👍 Además, si aún no lo has hecho, ¡te invito a suscribirte! 😀
+### Expresiones de Gratitud 🎁
 
-// Realizar una solicitud HTTP a la ruta '/prueba'
-let status_user = "OK";
-try {
-const resp = await axios.post("/prueba", {
-status_user,
-});
-if (resp.status !== 200) {
-console.log(`HTTP error! 😭`);
-} else {
-console.log(resp.data);
-console.log("Hacer algo");
+    Comenta a otros sobre este proyecto 📢
+    Invita una cerveza 🍺 o un café ☕
+    Paypal iamdeveloper86@gmail.com
+    Da las gracias públicamente 🤓.
 
-      // Emitir el evento "user_desconectado" en el servidor
-      socket.emit("user_desconectado");
-    }
-
-} catch (error) {
-console.error(error);
-}
-});
-
-SQL para realizar un on update
-DELIMITER $$
-CREATE TRIGGER trg_update_last_connection
-BEFORE UPDATE ON tbl_users
-FOR EACH ROW
-BEGIN
-    SET NEW.ultima_conexion = CURRENT_TIMESTAMP;
-END$$
-DELIMITER ;
-
-INFORMACION DEL SOCKETIO Y SUS EVENTOS:
-La capa 'mensaje_chat' se emite desde el cliente al servidor cuando se
-envia un mensaje de texto.
+## No olvides SUSCRIBIRTE 👍

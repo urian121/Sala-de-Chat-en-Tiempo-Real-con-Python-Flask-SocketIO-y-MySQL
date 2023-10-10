@@ -6,7 +6,7 @@ from controllers.controller_chat import *
 
 @app.route('/sala-de-chat', methods=['GET'])
 def chat():
-    if 'conectado' in session and request.method == 'GET':
+    if 'conectado' in session:
         parametros_chat = {
             'lista_amigos': lista_amigos_chat(session["id_user"])
         }

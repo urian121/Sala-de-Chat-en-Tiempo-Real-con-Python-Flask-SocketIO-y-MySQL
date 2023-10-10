@@ -2,7 +2,7 @@
 from confiBD.conexionBD import *
 
 
-def buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado):
+def ultimo_mensaje_enviado_recibido(id_user_session, id_amigo_seleccionado):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
@@ -19,14 +19,14 @@ def buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado):
                     ON u.id_user = c.para_id_user
                     WHERE (c.desde_id_user = %s AND c.para_id_user = %s)
                     OR (c.desde_id_user = %s AND c.para_id_user = %s)
-                    ORDER BY c.id_chat
+                    ORDER BY c.id_chat  DESC LIMIT 1
                 """
                 params = (id_user_session, id_amigo_seleccionado,
                           id_amigo_seleccionado, id_user_session)
                 # print("Consulta SQL:", querySQL)
                 # print("Parámetros:", params)
                 mycursor.execute(querySQL, params)
-                lista_chat = mycursor.fetchall()
+                lista_chat = mycursor.fetchone()
                 return lista_chat or []
     except Exception as e:
         print(

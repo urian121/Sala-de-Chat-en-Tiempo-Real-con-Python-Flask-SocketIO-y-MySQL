@@ -339,6 +339,7 @@ body {
 
   display: flex;
   justify-content: space-between;
+  line-height: 14px;
 }
 .mensajes_sin_leer {
   display: flex;

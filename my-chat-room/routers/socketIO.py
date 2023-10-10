@@ -35,12 +35,28 @@ def recibir_mensaje(mensaje_chat):
 
     # Emitiendo el total de mensajes sin leer para el que usuario que acaba de recibir el mensaje
     total_mensajes_sin_leer = cantidad_mensajes_sin_leer(id_amigo_seleccionado)
+    """
+    info_msj = {
+        'total_mensajes': total_mensajes_sin_leer,
+        'desde_id_user': id_user_session,
+        'para_id_user': id_amigo_seleccionado,
+    }
+    emit('total_mensaje_sin_leer', info_msj, broadcast=True)
+    """
+
     emit('total_mensaje_sin_leer', {
          'total_mensajes': total_mensajes_sin_leer, 'desde_id_user': id_user_session, 'para_id_user': id_amigo_seleccionado}, broadcast=True)
 
-    # emit('mensaje_chat', render_template('public/mensajes_chat.html',
+    data_msj = ultimo_mensaje_enviado_recibido(
+        id_user_session, id_amigo_seleccionado)
+
+    """
+    emit('mensaje_chat', {'lista_mensajes': data_msj,
+         'infoLogin': session['id_user']}, broadcast=True)
+    """
+
     emit('mensaje_chat', render_template('public/mensajes.html',
-         lista_mensajes=buscar_chat_amigoBDX(id_user_session, id_amigo_seleccionado), infoLofin=session['id_user']), broadcast=True)
+         lista_mensajes=data_msj), broadcast=True)
 
 
 # Escuchando cuando un usuario se conecta

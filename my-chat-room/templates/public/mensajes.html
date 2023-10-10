@@ -1,13 +1,17 @@
+<br />
 {{ lista_mensajes }}
+<br />
 
-<ul class="chat__list-messages">
-  {% for mensaje in lista_mensajes %}
-  <li>
-    {% if mensaje.desde_id_user == session['id_user'] %}
-    <div class="chat__bubble chat__bubble--me">{{ mensaje.mensaje }}</div>
-    {% else %}
-    <div class="chat__bubble chat__bubble--you">{{ mensaje.mensaje }}</div>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
+{% if lista_mensajes['para_id_user'] != lista_mensajes['desde_id_user'] %}
+<li>
+  <div class="chat__bubble chat__bubble--me">
+    {{ lista_mensajes['mensaje'] }} - {{ session['id_user']}}
+  </div>
+</li>
+{% else %}
+<li>
+  <div class="chat__bubble chat__bubble--you">
+    {{ lista_mensajes['mensaje'] }} *** {{ session['id_user']}}
+  </div>
+</li>
+{% endif %}

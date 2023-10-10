@@ -113,11 +113,25 @@ function limpiar_form() {
  */
 socket.on("mensaje_chat", (mensaje) => {
   console.log("Escuchando por: mensaje_chat");
+  console.log(mensaje);
+  console.log("****", document.querySelector("#desde_id_user").value);
+
+  const listaMensajes = document.querySelector(".chat__list-messages");
+  listaMensajes.insertAdjacentHTML("beforeend", mensaje);
+
   scroll_chat();
+});
+
+/*
+socket.on("mensaje_chat", (mensaje) => {
+  console.log("Escuchando por: mensaje_chat");
+  console.log(mensaje);
   const divContent = document.querySelector(".chat__content");
   divContent.innerHTML = "";
   divContent.innerHTML += mensaje;
+  scroll_chat();
 });
+*/
 
 /**
  * Manipular el scroll cuando existe un nuevo mensaje
