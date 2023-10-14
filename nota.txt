@@ -23,3 +23,36 @@ socket.on("mensaje_chat", (mensaje) => {
   // Hacer scroll para mostrar el nuevo mensaje
   scroll_chat();
 });
+
+
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+        $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
+      });
+
+
+
+
+<br />
+{{ lista_mensajes }}
+<br />
+
+{% if lista_mensajes['para_id_user'] != lista_mensajes['desde_id_user'] %}
+<li>
+  <div class="chat__bubble chat__bubble--me">
+    {{ lista_mensajes['mensaje'] }} - {{ session['id_user'] }}
+  </div>
+</li>
+{% else %}
+<li>
+  <div class="chat__bubble chat__bubble--you">
+    {{ lista_mensajes['mensaje'] }} *** {{ session['id_user']}}
+  </div>
+</li>
+{% endif %}
+
+
+
+  {% set user = session['user'] %} {{ session['id_user'] }} - {{ user }}

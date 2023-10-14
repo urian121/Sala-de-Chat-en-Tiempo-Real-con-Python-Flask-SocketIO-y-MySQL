@@ -74,32 +74,6 @@ body {
   color: var(--colour-text);
   background-color: var(--bg-page);
 }
-.backgroundBody {
-  background-color: #f2f4f6;
-}
-
-/* Estilos para el modo claro (cuando "dark-mode" no está presente en <body>) */
-body:not(.dark-mode) .messaging-member:hover {
-  background-color: #e1e1e1;
-  animation-name: hoverTransiton;
-  animation-duration: 0.6s;
-}
-body:not(.dark-mode) .mensajes_sin_leer {
-  background-color: #c8bee3;
-}
-
-/* Estilos para el modo oscuro (cuando "dark-mode" está presente en <body>) */
-body.dark-mode .messaging-member:hover {
-  background-color: #333;
-  animation-name: hoverTransiton;
-  animation-duration: 0.6s;
-}
-body.dark-mode .mensajes_sin_leer {
-  background-color: #534e62;
-}
-body.dark-mode .messaging_member_active {
-  background-color: #333;
-}
 
 /* ===================================
     Mixins & functions
