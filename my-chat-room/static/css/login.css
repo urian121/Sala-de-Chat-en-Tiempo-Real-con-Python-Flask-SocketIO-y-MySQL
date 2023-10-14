@@ -9,7 +9,7 @@
 body {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  background: #f2f4f6 !important;
+  background: #f7f4ff !important;
   color: #fff;
   overflow: hidden;
 }
@@ -93,6 +93,13 @@ h6 {
 .links {
   color: #222;
 }
+.titulo {
+  font-weight: 800;
+  text-align: center;
+  font-size: 35px;
+  color: #6a6262;
+  padding: 0px 15px 10px 15px;
+}
 #signin .or {
   display: flex;
   flex-direction: row;
@@ -145,7 +152,7 @@ h6 {
 }
 
 #main-footer a {
-  color: #0b7ffd;
+  color: #8665df;
   text-decoration: underline;
 }
 
@@ -158,7 +165,7 @@ h6 {
   border: 0;
   border-radius: 2px;
   font-weight: 500;
-  background: #3996fb;
+  background: #a483ff;
   color: #fff;
   text-decoration: none;
   cursor: pointer;
@@ -167,7 +174,7 @@ h6 {
 }
 
 .primary-btn:hover {
-  background-color: #1c7ee7;
+  background-color: #8665df;
 }
 
 .secondary-btn {
@@ -186,8 +193,8 @@ h6 {
 }
 
 .secondary-btn:hover {
-  border-color: #177eec;
-  color: #3996fb;
+  border-color: #8665df;
+  color: #dcd6ec;
 }
 
 /* Media Queries */
@@ -291,5 +298,5 @@ input:focus {
 
 .favicon_log {
   font-size: 60px;
-  color: #444;
+  color: #8665df;
 }

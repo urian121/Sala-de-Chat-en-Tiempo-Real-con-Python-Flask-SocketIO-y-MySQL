@@ -1,17 +1,4 @@
+{{ session['id_user'] }}
 <br />
 {{ lista_mensajes }}
 <br />
-
-{% if lista_mensajes['para_id_user'] != lista_mensajes['desde_id_user'] %}
-<li>
-  <div class="chat__bubble chat__bubble--me">
-    {{ lista_mensajes['mensaje'] }} - {{ session['id_user']}}
-  </div>
-</li>
-{% else %}
-<li>
-  <div class="chat__bubble chat__bubble--you">
-    {{ lista_mensajes['mensaje'] }} *** {{ session['id_user']}}
-  </div>
-</li>
-{% endif %}

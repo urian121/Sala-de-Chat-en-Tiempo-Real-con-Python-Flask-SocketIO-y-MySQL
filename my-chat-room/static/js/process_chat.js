@@ -114,9 +114,9 @@ function limpiar_form() {
 socket.on("mensaje_chat", (mensaje) => {
   console.log("Escuchando por: mensaje_chat");
   console.log(mensaje);
-  console.log("****", document.querySelector("#desde_id_user").value);
 
-  const listaMensajes = document.querySelector(".chat__list-messages");
+  //  const listaMensajes = document.querySelector(".chat__list-messages");
+  const listaMensajes = document.querySelector(".chat__content");
   listaMensajes.insertAdjacentHTML("beforeend", mensaje);
 
   scroll_chat();

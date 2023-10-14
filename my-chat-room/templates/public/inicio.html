@@ -4,7 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat con Flask SocketIO 😀 - Urian Viera</title>
+    <meta name="author" content="Urian Viera - iamdeveloper86@gmail.com" />
+    <meta
+      property="og:title"
+      content="Sala de Chat para conectar con personas de todo el mundo.
+      La experiencia es completa, enviar mensajes de texto, compartir imágenes o incluso grabar y enviar mensajes de audio.
+      ¡Únete a esta gran Comunidad" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='/imgs/favicon.png') }}" />
+    <meta
+      property="og:description"
+      content="ENuestra Sala de Chat te conecta con personas de todo el mundo en un abrir y cerrar de ojos. Envía mensajes de texto, comparte imágenes y dale vida a tus conversaciones con mensajes de audio. Únete a la vibrante comunidad que te espera para explorar el mundo juntos" />
+    <meta property="og:type" content="saladechat.com" />
+    <meta property="og:url" content="saladechat.com/" />
+    <title>AmigosOnline - Sala de Chat</title>
     {% include 'public/includes/links_css.html' %}
   </head>
   <body>
@@ -17,27 +31,35 @@
         <div class="row px-0 h-100">
           {% include 'public/home/friends_chats.html' %}
           <!---->
-          {% block content %}
           <div class="chat col-12 col-md-8 col-lg-7 col-xl-6 px-0 pl-md-1">
-            <div class="chat__container"></div>
+            <!---->
+            <div class="chat__container" style="border: 1px solid crimson">
+              <div
+                class="chat__wrapper py-2 pt-mb-2 pb-md-3"
+                style="border: #2813c0 1px solid">
+                {#% include 'public/includes/perfil.html' %#}
+                <div
+                  class="chat__content pt-4 px-3"
+                  style="border: 1px solid #39c990">
+                  {#% include 'public/mensajes_chat.html' %#}
+                </div>
+                <span class="contentChat" style="border: #dc3a0e 1px solid">
+                </span>
+
+                {#% include 'public/includes/form_chat.html' %#}
+              </div>
+            </div>
+            <!---->
           </div>
 
           <div
             class="col-12 col-md-5 col-lg-4 col-xl-3 px-4 px-sm-5 px-lg-4 user-profile"></div>
-          {% endblock %}
+          <!---->
         </div>
       </div>
     </div>
 
     <!---->
     {% include 'public/includes/links_js.html' %}
-    <!---->
-    {% block customJS %}
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
-      });
-    </script>
-    {% endblock %}
   </body>
 </html>

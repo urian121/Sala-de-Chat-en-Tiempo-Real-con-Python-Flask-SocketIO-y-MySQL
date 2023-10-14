@@ -1,8 +1,6 @@
 <div class="chat__wrapper py-2 pt-mb-2 pb-md-3">
   {% include 'public/includes/perfil.html' %}
-  <!---->
-  {% set user = session['user'] %} {{ session['id_user'] }} - {{ user }}
-  <div class="chat__content pt-4 px-3">
+  <div class="chat__content pt-4 px-3" style="border: 1px solid yellow">
     {% include 'public/mensajes_chat.html' %}
   </div>
   <span class="contentChat"></span>

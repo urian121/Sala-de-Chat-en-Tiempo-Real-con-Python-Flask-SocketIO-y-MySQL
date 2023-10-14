@@ -1,6 +1,6 @@
 
 from application import app
-from flask import render_template, session
+from flask import render_template
 
 from funciones.funciones_sockeyIO import *
 
@@ -54,7 +54,7 @@ def recibir_mensaje(mensaje_chat):
     emit('mensaje_chat', {'lista_mensajes': data_msj,
          'infoLogin': session['id_user']}, broadcast=True)
     """
-
+    # public/home/base_chat_perfil.html
     emit('mensaje_chat', render_template('public/mensajes.html',
          lista_mensajes=data_msj), broadcast=True)
 

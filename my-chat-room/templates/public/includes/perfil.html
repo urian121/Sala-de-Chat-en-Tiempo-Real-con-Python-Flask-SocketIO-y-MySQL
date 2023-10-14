@@ -18,7 +18,9 @@
         {% endif %}
       </div>
       <div class="chat-member__details">
-        <span class="chat-member__name">{{ resp_status_amigo.user}}</span>
+        <span class="chat-member__name">
+          {{ resp_status_amigo.user}} - IdSesion:{{ session['id_user'] }}
+        </span>
         <span class="chat-member__status">
           {% if resp_status_amigo.online ==0 %} Desconectado {% else %}
           Conectado {% endif %}

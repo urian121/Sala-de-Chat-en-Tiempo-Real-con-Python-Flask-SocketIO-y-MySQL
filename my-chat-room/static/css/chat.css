@@ -6,11 +6,11 @@
   --bg-page: #f2f4f6;
   --bg-page-darker: #f7f7f7;
   --bg-page-darkest: #b3b3b3;
-  --colour-primary: #3996fb;
+  --colour-primary: #885fef;
   --colour-primary-lightest: #e8f3ff;
-  --colour-primary-darker: #1a7ee6;
+  --colour-primary-darker: #7246e5;
   --colour-third: #419d78;
-  --colour-third-lighter: #7bc9aa;
+  --colour-third-lighter: #191f1d;
   --colour-third-lightest: #e6f7f0;
   --colour-text: #696969;
   --colour-text-lighter: #9b9b9b;
@@ -31,9 +31,9 @@ a:hover {
   --bg-page: #1a1a1a;
   --bg-page-darker: #363636;
   --bg-page-darkest: #818181;
-  --colour-primary: #1a71d0;
+  --colour-primary: #7246e5;
   --colour-primary-lightest: #202c3a;
-  --colour-primary-darker: #449ffd;
+  --colour-primary-darker: #534e62;
   --colour-third: #41c590;
   --colour-third-lighter: #56d6a3;
   --colour-third-lightest: #272f2c;
@@ -78,6 +78,29 @@ body {
   background-color: #f2f4f6;
 }
 
+/* Estilos para el modo claro (cuando "dark-mode" no está presente en <body>) */
+body:not(.dark-mode) .messaging-member:hover {
+  background-color: #e1e1e1;
+  animation-name: hoverTransiton;
+  animation-duration: 0.6s;
+}
+body:not(.dark-mode) .mensajes_sin_leer {
+  background-color: #c8bee3;
+}
+
+/* Estilos para el modo oscuro (cuando "dark-mode" está presente en <body>) */
+body.dark-mode .messaging-member:hover {
+  background-color: #333;
+  animation-name: hoverTransiton;
+  animation-duration: 0.6s;
+}
+body.dark-mode .mensajes_sin_leer {
+  background-color: #534e62;
+}
+body.dark-mode .messaging_member_active {
+  background-color: #333;
+}
+
 /* ===================================
     Mixins & functions
 ====================================== */
@@ -102,7 +125,12 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-
+a {
+  color: #7246e5 !important;
+}
+a:hover {
+  color: #8156ec !important;
+}
 .custom-form {
   color: var(--colour-text-darkest);
   padding: 1.5rem;
@@ -269,12 +297,12 @@ body {
   border-radius: var(--form-radius);
 }
 .messaging-member:hover {
-  background-color: var(--bg-page-darker);
+  background-color: #e1e1e1;
   animation-name: hoverTransiton;
   animation-duration: 0.6s;
 }
 .messaging-member--new .messaging-member__name {
-  color: var(--colour-text-darker);
+  color: #e1e1e1;
 }
 .messaging-member--new .messaging-member__message {
   color: var(--colour-text-darker);
@@ -286,7 +314,7 @@ body {
 }
 */
 .messaging_member_active {
-  background-color: var(--colour-primary-lightest);
+  background-color: #eceaf2;
 }
 .messaging_member_active:hover {
   background-color: var(--colour-primary-lightest);
@@ -341,6 +369,9 @@ body {
   justify-content: space-between;
   line-height: 14px;
 }
+.bi-moon {
+  color: #7246e5;
+}
 .mensajes_sin_leer {
   display: flex;
   justify-content: center;
@@ -348,7 +379,7 @@ body {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: #3996fb;
+  background-color: #c8bee3;
   font-size: 10px;
 }
 
@@ -804,7 +835,7 @@ body {
 }
 .custom-form__send-audio:hover {
   cursor: pointer;
-  background-color: #3996fb;
+  background-color: #7246e5;
 }
 
 audio {
