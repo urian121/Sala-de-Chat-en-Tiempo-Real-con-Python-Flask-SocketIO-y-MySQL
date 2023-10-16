@@ -1,0 +1,52 @@
+
+/**
+ * En lugar de asignar directamente el evento click al botón, ahora asignamos el evento
+ * click al contenedor (en este caso, el body).
+ * Luego, verificamos si el evento click ocurrió en el botón con id "click" dentro del evento delegado.
+ * En resumen, este código permite detectar y manejar los clics
+ * en el botón con ID "click" dentro del botón contenedor.
+ */
+
+let buttonContainer = document.body;
+
+buttonContainer.addEventListener("click", (event) => {
+  if (event.target.id === "click") {
+    console.log("Hay Click");
+  }
+});
+
+
+
+
+
+
+let bodyHTML = document.body;
+bodyHTML.addEventListener("click", (event) => {
+  event.preventDefault();
+  const submitButton = document.querySelector(".custom-form__send-submit");
+  console.log(event.target);
+  if (event.target === submitButton) {
+    console.log("siiii");
+    sendForm();
+  }
+});
+
+
+addEventListener("DOMContentLoaded", (event) => {
+  console.log("Documento cargado OK");
+});
+
+cuando se envia el formulario aqui:
+@app.route('/procesar-form-chat', methods=['POST'])
+no es necesario colocar un if y else ya que puedo asigna el valor vacio si no llega 
+
+
+1. 'mensaje_chat' cuando se envia un mensaje
+2. 'user_desconectado' se emite cuando el usuario se desconecta
+3. 'nueva_cuenta_creada' se emite cuando una cuenta es creada
+5. 'total_mensaje_sin_leer' cuando se envia un mensaje a un usuario automaticamente
+   entra en un estado de no leido y Luego de ser leido ccambia su estado
+
+     document.addEventListener("DOMContentLoaded", function () {
+        $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
+      });
