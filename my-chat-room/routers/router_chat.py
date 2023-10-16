@@ -20,6 +20,8 @@ def chat():
 @app.route('/mostrar-chat-amigo-seleccionado', methods=['POST'])
 def mostrar_chat_amigo():
     id_amigo_seleccionado = int(request.json.get('id_amigo'))
+    resp_msj_sin_leer = verificar_msj_sin_leer(
+        id_amigo_seleccionado, session["id_user"])
     resp_status_amigo = status_amigo(id_amigo_seleccionado)
     data_chat_amigo = buscar_chat_amigoBD(
         session["id_user"], id_amigo_seleccionado)
@@ -27,7 +29,7 @@ def mostrar_chat_amigo():
     # print(resp_status_amigo)
     data_amigo = {
         "resp_status_amigo": resp_status_amigo,
-        "lista_mensajes": data_chat_amigo
+        "lista_mensajes": data_chat_amigo or []
     }
     return render_template('public/home/base_chat_perfil.html', **data_amigo)
 

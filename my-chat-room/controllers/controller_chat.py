@@ -217,3 +217,25 @@ def process_audio_chat(desde_id_user, para_id_user, fileAudio):
     except Exception as e:
         print("Error al procesar archivo:", e)
         return None
+
+
+# Buscar mensajes sin leer del amigo seleccionado (lOS MENSAJES QUE EL AMIGO SELECCIONADO ME HA ENVIADO)
+def verificar_msj_sin_leer(desde_id_user, para_id_user):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                sql = ("""
+                    UPDATE tbl_chat
+                    SET
+                        estatus_leido = %s
+                    WHERE desde_id_user = %s
+                    AND para_id_user = %s
+                """
+                       )
+                valores = (1, desde_id_user, para_id_user)
+                cursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+                resultado = cursor.rowcount
+                return resultado
+    except Exception as e:
+        return f'Se produjo un error en verificar_msj_sin_leer: {str(e)}'

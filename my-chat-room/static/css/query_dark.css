@@ -22,6 +22,9 @@ body:not(.dark-mode) .custom-form__send-wrapper input {
 body:not(.dark-mode) .bi-moon {
   color: #8665df;
 }
+body:not(.dark-mode) .chat__bubble--me {
+  background-color: #aaa8a8;
+}
 
 /* Estilos para el modo oscuro (cuando "dark-mode" SI está presente en <body>) */
 body.dark-mode .messaging-member:hover {

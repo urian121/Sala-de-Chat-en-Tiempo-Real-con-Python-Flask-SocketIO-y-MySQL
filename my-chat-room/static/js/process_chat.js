@@ -12,6 +12,7 @@ const bodyHTML = document.body;
 const fileInput = document.querySelector("#archivo_img");
 bodyHTML.addEventListener("click", (event) => {
   event.preventDefault();
+
   const submitButton = document.querySelector(".custom-form__send-submit");
   const svgIcon = document.querySelector(".svg-icon--send");
   if (
@@ -28,7 +29,10 @@ bodyHTML.addEventListener("click", (event) => {
     fileInput.dispatchEvent(new MouseEvent("click"));
   } else if (event.target.classList.contains("bi-cloud-arrow-down")) {
     descargar_foto(event.target.id);
+  } else if (event.target.classList.contains("bi-wechat")) {
+    window.location.href = window.location.href;
   }
+
   // Obligando a enviar el formulario apenas se cargue la imagen
   /*fileInput.addEventListener("change", (event) => {
     sendForm(event.target);
@@ -111,27 +115,85 @@ function limpiar_form() {
 /**
  * Escuchando el evento "mensaje_chat" en el cliente JavaScript y recibiendo el mensaje enviado desde el servidor
  */
-socket.on("mensaje_chat", (mensaje) => {
-  console.log("Escuchando por: mensaje_chat");
-  console.log(mensaje);
+socket.on("mensaje_chat", (mensajeBD) => {
+  // Extraer los datos del mensaje
+  let {
+    email_user,
+    desde_id_user,
+    para_id_user,
+    fecha_dia_mes_year,
+    mensaje,
+    archivo_img,
+    file_audio,
+  } = mensajeBD.info_msj;
 
-  //  const listaMensajes = document.querySelector(".chat__list-messages");
-  const listaMensajes = document.querySelector(".chat__content");
-  listaMensajes.insertAdjacentHTML("beforeend", mensaje);
+  /**
+   * Asignar clase de acuerdo al amigo que escribe y el que responde
+   */
+  if (localStorage.getItem("amigoId")) {
+    let amigo_click = localStorage.getItem("amigoId");
+    console.log(amigo_click);
+    console.log(para_id_user);
+    if (para_id_user == amigo_click) {
+      const listaMensajes = document.querySelector(".chat__list-messages");
+      const clase_amigo =
+        sesion_amigo !== para_id_user
+          ? "chat__bubble--me"
+          : "chat__bubble--you";
+      const class_fecha = sesion_amigo !== para_id_user ? "fecha_chat" : "";
+      const rutaBase = "/static/audios_chat/";
+      const rutaBaseImg = "/static/archivos_chat/";
+      const url_img =
+        archivo_img !== null && archivo_img !== ""
+          ? rutaBaseImg + archivo_img
+          : "";
 
-  scroll_chat();
+      const url_audio =
+        file_audio !== null && file_audio !== "" ? rutaBase + file_audio : "";
+
+      const mensajeLi = document.createElement("li");
+      mensajeLi.innerHTML = `
+  <div class="chat__time ${class_fecha}">${fecha_dia_mes_year}</div>
+
+      ${
+        url_img !== ""
+          ? `<div class="contenedor_img">
+            <img
+              src="${url_img}"
+              alt=""
+              style="max-width: 80%" />
+            <a href="#">
+              <i id="${archivo_img}" class="bi bi-cloud-arrow-down"></i>
+            </a>
+          </div>`
+          : ""
+      }
+
+    ${
+      url_audio !== ""
+        ? `
+      <br />
+      <audio
+        src="${url_audio}"
+        controls>
+        Tu navegador no admite la reproducción de audio.
+      </audio>`
+        : ""
+    }
+
+    ${
+      mensaje !== null && mensaje !== ""
+        ? `<div class="chat__bubble ${clase_amigo}">${mensaje}</div>`
+        : ""
+    }
+  `;
+
+      listaMensajes.appendChild(mensajeLi);
+
+      scroll_chat();
+    }
+  }
 });
-
-/*
-socket.on("mensaje_chat", (mensaje) => {
-  console.log("Escuchando por: mensaje_chat");
-  console.log(mensaje);
-  const divContent = document.querySelector(".chat__content");
-  divContent.innerHTML = "";
-  divContent.innerHTML += mensaje;
-  scroll_chat();
-});
-*/
 
 /**
  * Manipular el scroll cuando existe un nuevo mensaje

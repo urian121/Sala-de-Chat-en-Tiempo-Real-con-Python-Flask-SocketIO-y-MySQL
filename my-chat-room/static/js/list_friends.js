@@ -8,7 +8,6 @@ if (li_amigos) {
       li_amigos.forEach((item) => {
         item.classList.remove("messaging_member_active");
       });
-
       item.classList.add("messaging_member_active");
 
       /**
@@ -21,9 +20,22 @@ if (li_amigos) {
       } else {
         mostrar_amigo_y_chat_seleccionado(id_amigo);
       }
+
       ultimoIdAmigo = id_amigo;
+
+      guardar_amigo_seleccionado(id_amigo);
     });
   });
+}
+
+function guardar_amigo_seleccionado(id_amigo) {
+  // Consultar si la variable existe en el localStorage
+  if (localStorage.getItem("amigoId")) {
+    localStorage.setItem("amigoId", parseInt(id_amigo));
+  } else {
+    // La variable no existe en el localStorage, créala
+    localStorage.setItem("amigoId", parseInt(id_amigo));
+  }
 }
 
 /**
@@ -44,6 +56,9 @@ async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
     sectionRecientes.innerHTML = "";
     sectionRecientes.innerHTML = responseAmigo.data;
 
+    /**
+     * Mostar todo el Chat del amigo seleccionado
+     */
     const responseChat = await axios.post("/mostrar-chat-amigo-seleccionado", {
       id_amigo,
     });
@@ -55,7 +70,6 @@ async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
     chat__container.innerHTML = "";
     chat__container.innerHTML = responseChat.data;
 
-    //Asignandole un valor al input 'para_id_user'
     document.querySelector("#para_id_user").value = parseInt(id_amigo);
 
     const mensajeInput = document.querySelector("#mensaje");
@@ -70,7 +84,10 @@ async function mostrar_amigo_y_chat_seleccionado(id_amigo) {
   }
 }
 
-var cargando = false;
+/**
+ * Funcion para hacer el efecto Loading
+ */
+let cargando = false;
 function loader(cargando) {
   let body = document.body;
   if (cargando) {

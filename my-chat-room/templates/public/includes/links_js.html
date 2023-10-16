@@ -25,4 +25,6 @@
   profile.onclick = function () {
     menu.classList.toggle("active");
   };
+
+  let sesion_amigo = parseInt("{{ session['id_user']|tojson|safe }}");
 </script>
