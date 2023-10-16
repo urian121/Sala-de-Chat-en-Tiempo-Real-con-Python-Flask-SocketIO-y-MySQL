@@ -118,7 +118,6 @@ function limpiar_form() {
 socket.on("mensaje_chat", (mensajeBD) => {
   // Extraer los datos del mensaje
   let {
-    email_user,
     desde_id_user,
     para_id_user,
     fecha_dia_mes_year,
@@ -127,14 +126,19 @@ socket.on("mensaje_chat", (mensajeBD) => {
     file_audio,
   } = mensajeBD.info_msj;
 
-  /**
-   * Asignar clase de acuerdo al amigo que escribe y el que responde
-   */
   if (localStorage.getItem("amigoId")) {
-    let amigo_click = localStorage.getItem("amigoId");
-    console.log(amigo_click);
-    console.log(para_id_user);
-    if (para_id_user == amigo_click) {
+    let amigo_click = localStorage.getItem("amigoId"); // Amigo seleccionado
+    let amigo_en_sesion = localStorage.getItem("idSesion"); //Amigo en sesion
+
+    console.log("Amigo seleccionado", amigo_click);
+    console.log("Amigo en sesion", amigo_en_sesion);
+    console.log("Para quien es el msj", para_id_user);
+    console.log("Quien envia el mensaje", desde_id_user);
+
+    if (
+      (para_id_user == amigo_click && desde_id_user == amigo_en_sesion) ||
+      (para_id_user == amigo_en_sesion && desde_id_user == amigo_click)
+    ) {
       const listaMensajes = document.querySelector(".chat__list-messages");
       const clase_amigo =
         sesion_amigo !== para_id_user
@@ -191,9 +195,40 @@ socket.on("mensaje_chat", (mensajeBD) => {
       listaMensajes.appendChild(mensajeLi);
 
       scroll_chat();
+      posicionar_msj_recientes(desde_id_user);
     }
   }
 });
+
+function posicionar_msj_recientes(para_id_user) {
+  const dataUserSeleccionado = `userId_${para_id_user}`;
+  const elementosLi = document.querySelectorAll(".messaging-member");
+
+  elementosLi.forEach((elementoLi) => {
+    const dataUser = elementoLi.getAttribute("data-user");
+
+    if (dataUser == dataUserSeleccionado) {
+      console.log("aqui");
+    }
+  });
+}
+
+function posicionar_msj_recientesp(para_id_user) {
+  const dataUserSeleccionado = `userId_${para_id_user}`;
+  console.log("-----", dataUserSeleccionado);
+
+  const elementosLi = document.querySelectorAll("li.messaging-member");
+  console.log(elementosLi);
+
+  elementosLi.forEach((elementoLi) => {
+    const dataUser = elementoLi.getAttribute("data-user");
+    console.log("*********", dataUser);
+
+    if (dataUser === dataUserSeleccionado) {
+      console.log("aqui");
+    }
+  });
+}
 
 /**
  * Manipular el scroll cuando existe un nuevo mensaje

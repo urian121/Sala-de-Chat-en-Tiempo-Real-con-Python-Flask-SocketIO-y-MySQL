@@ -63,7 +63,7 @@ def process_register_user():
 
     if (foto_user):
         # validar tipo y tamaño de la imagen
-        pesoArchivo = procesarFoto_user(foto_user)
+        pesoArchivo = procesar_foto_user(foto_user)
 
         if pesoArchivo:
             process_foto_name = procesar_foto_perfil(foto_user)

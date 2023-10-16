@@ -8,7 +8,6 @@ def ultimo_mensaje_enviado_recibido(id_user_session, id_amigo_seleccionado):
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = """
                     SELECT
-                        u.email_user, 
                         c.desde_id_user,
                         c.para_id_user,
                         DATE_FORMAT(c.fecha_mensaje, '%d de %b %Y %I:%i %p') AS fecha_dia_mes_year,

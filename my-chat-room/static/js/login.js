@@ -23,6 +23,8 @@ form_login.addEventListener("submit", async function (event) {
         foto_user: data.foto_user,
       };
 
+      guardar_id_sesion(data.id_sesion);
+
       // Redireccionar a la URL proporcionada
       socket.emit("new_user_online", data_new_user_online);
       window.location.href = data.redirect;
@@ -33,3 +35,12 @@ form_login.addEventListener("submit", async function (event) {
     console.error(error);
   }
 });
+
+function guardar_id_sesion(idSesion) {
+  // Consultar si la variable existe en el localStorage
+  if (localStorage.getItem("idSesion")) {
+    localStorage.setItem("idSesion", parseInt(idSesion));
+  } else {
+    localStorage.setItem("idSesion", parseInt(idSesion));
+  }
+}

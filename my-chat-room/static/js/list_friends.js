@@ -24,10 +24,14 @@ if (li_amigos) {
       ultimoIdAmigo = id_amigo;
 
       guardar_amigo_seleccionado(id_amigo);
+      actualizar_status_msj_no_leidos();
     });
   });
 }
 
+/**
+ * Funcion para guardar el el localStorage el id del amigo seleccionado
+ */
 function guardar_amigo_seleccionado(id_amigo) {
   // Consultar si la variable existe en el localStorage
   if (localStorage.getItem("amigoId")) {
@@ -35,6 +39,26 @@ function guardar_amigo_seleccionado(id_amigo) {
   } else {
     // La variable no existe en el localStorage, créala
     localStorage.setItem("amigoId", parseInt(id_amigo));
+  }
+}
+
+/**
+ * Funcion para actualizar la cantidad de mensajes sin leer en el amigo selecionado
+ */
+function actualizar_status_msj_no_leidos() {
+  // Selecciona el elemento con la clase messaging_member_active
+  const elementoActivo = document.querySelector(".messaging_member_active");
+
+  if (elementoActivo) {
+    // Busca el span dentro del elemento activo
+    const spanMensajesSinLeer = elementoActivo.querySelector(
+      ".mensajes_sin_leer span"
+    );
+    if (spanMensajesSinLeer) {
+      setTimeout(() => {
+        spanMensajesSinLeer.textContent = "0";
+      }, 400);
+    }
   }
 }
 

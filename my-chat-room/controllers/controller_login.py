@@ -140,7 +140,7 @@ def procesar_foto_perfil(archivo):
         return False
 
 
-def procesarFoto_user(foto_user):
+def procesar_foto_user(foto_user):
     if foto_user:
         # Validar el peso del archivo
         tam_max = 1 * 1024 * 1024  # 1 megabytes

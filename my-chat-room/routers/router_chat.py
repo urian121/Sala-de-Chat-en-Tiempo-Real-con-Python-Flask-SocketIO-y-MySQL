@@ -20,8 +20,11 @@ def chat():
 @app.route('/mostrar-chat-amigo-seleccionado', methods=['POST'])
 def mostrar_chat_amigo():
     id_amigo_seleccionado = int(request.json.get('id_amigo'))
+
+    # Actualizar los mensajes a leidos
     resp_msj_sin_leer = verificar_msj_sin_leer(
         id_amigo_seleccionado, session["id_user"])
+
     resp_status_amigo = status_amigo(id_amigo_seleccionado)
     data_chat_amigo = buscar_chat_amigoBD(
         session["id_user"], id_amigo_seleccionado)
@@ -49,8 +52,8 @@ def process_audio():
     para_id_user = request.form.get('para_id_user')
     audio_file = request.files['audio']
 
-    if (process_audio_chat(
-            desde_id_user, para_id_user, audio_file)):
+    if process_audio_chat(
+            desde_id_user, para_id_user, audio_file):
         return jsonify({'status': 1, 'file': 'audio'})
     else:
         return jsonify({'status': 1, 'file': 'audio'})

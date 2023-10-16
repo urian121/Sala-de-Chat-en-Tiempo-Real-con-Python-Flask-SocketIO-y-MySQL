@@ -55,6 +55,12 @@ def handle_user_conectado(data_new_user_online):
     emit('new_user_online', data_new_user_online, broadcast=True)
 
 
+# Escuchando cuantos mensajes hay sin leer para el usuario seleccionado
+@socketio.on('total_mensaje_sin_leer')
+def status_msjs_total_sin_leer(data_user_desconectado):
+    emit('total_mensaje_sin_leer', data_user_desconectado, broadcast=True)
+
+
 # Escuchando 'user_desconectado' para emitir cuando un usuario se desconecta
 @socketio.on('user_desconectado')
 def handle_user_desconectado(data_user_desconectado):

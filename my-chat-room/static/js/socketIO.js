@@ -23,7 +23,6 @@ socket.on("disconnect", function () {
 socket.on("nueva_cuenta_creada", (data_user_nuevo) => {
   // Maneja la data recibida desde el cliente
   console.log(data_user_nuevo);
-  // Realiza las operaciones necesarias con la data recibida
 });
 
 /**
@@ -76,6 +75,9 @@ socket.on("user_desconectado", function (data_user_desconectado) {
   my_custom_alert(infom_msj, "error");
 });
 
+/**
+ * Funcion para actualizar el estatus del usuario que se desconecto
+ */
 function quitar_status_activo_user(id_amigo) {
   let li_offline_friend = document.querySelectorAll(".messaging-member");
   if (li_offline_friend) {
@@ -136,8 +138,7 @@ socket.on("total_mensaje_sin_leer", function (data_total_mensaje_sin_leer) {
     "Total mensajes sin leer: ",
     data_total_mensaje_sin_leer.total_mensajes
   );
-  console.log("para_id_user: ", data_total_mensaje_sin_leer.para_id_user);
-  console.log("desde_id_user: ", data_total_mensaje_sin_leer.desde_id_user);
+
   // Recorrer cada li del ul
   const ulElement = document.querySelector(".messages-page__list");
   ulElement.querySelectorAll("li").forEach((liElement) => {
