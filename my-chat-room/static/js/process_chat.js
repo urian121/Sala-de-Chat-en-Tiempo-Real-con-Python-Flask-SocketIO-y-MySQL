@@ -195,10 +195,24 @@ socket.on("mensaje_chat", (mensajeBD) => {
       listaMensajes.appendChild(mensajeLi);
 
       scroll_chat();
-      posicionar_msj_recientes(desde_id_user);
+      //posicionar_msj_recientes(desde_id_user);
+      //socket.emit("posicionar_mensajes", desde_id_user);
+      /*
+      socket.emit("posicionar_mensajes", desde_id_user, () => {
+        console.log(
+          "El evento 'posicionar_mensajes' ha sido enviado al servidor."
+        );
+      });
+      */
     }
   }
 });
+
+/*
+socket.on("posicionar_mensajes", function (desde_id_user) {
+  console.log("transmitido");
+});
+*/
 
 function posicionar_msj_recientes(para_id_user) {
   const dataUserSeleccionado = `userId_${para_id_user}`;
