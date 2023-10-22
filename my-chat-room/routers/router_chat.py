@@ -12,7 +12,6 @@ def chat():
         }
         return render_template('public/inicio.html', **parametros_chat)
     else:
-        flash('Primero debes iniciar sesión.', 'error')
         return render_template('public/login/base_login.html')
 
 

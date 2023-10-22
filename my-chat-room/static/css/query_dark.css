@@ -25,6 +25,16 @@ body:not(.dark-mode) .bi-moon {
 body:not(.dark-mode) .chat__bubble--me {
   background-color: #aaa8a8;
 }
+body:not(.dark-mode) .form_perfil {
+  background-color: #fff;
+}
+body:not(.dark-mode) .btn_perfil {
+  background-color: #9576f0;
+}
+body:not(.dark-mode) .file_perfil {
+  background-color: #f2eeee;
+  border: none;
+}
 
 /* Estilos para el modo oscuro (cuando "dark-mode" SI está presente en <body>) */
 body.dark-mode .messaging-member:hover {
