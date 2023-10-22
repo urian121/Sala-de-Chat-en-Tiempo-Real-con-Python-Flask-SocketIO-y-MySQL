@@ -1,4 +1,5 @@
 <div id="left">
+  {% include 'public/login/mensajes_flash.html' %}
   <h1 class="titulo">
     Conéctate y conoce a personas de todo <br />
     el mundo con
@@ -57,4 +58,5 @@
   });
 </script>
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
 {% endblock %}

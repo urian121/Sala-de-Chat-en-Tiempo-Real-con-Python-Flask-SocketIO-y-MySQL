@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Urian Viera - iamdeveloper86@gmail.com" />
+    <meta
+      property="og:title"
+      content="AmigosOnline es una Sala de Chat para conectar con personas de todo el mundo.
+      La experiencia es completa, enviar mensajes de texto, compartir imágenes o incluso grabar y enviar mensajes de audio.
+      ¡Únete a esta gran Comunidad" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='/imgs/favicon.png') }}" />
+    <meta
+      property="og:description"
+      content="AmigosOnline es una Sala de Chat para conecta con personas de todo el mundo en un abrir y cerrar de ojos. Envía mensajes de texto, comparte imágenes y dale vida a tus conversaciones con mensajes de audio. Únete a la vibrante comunidad que te espera para explorar el mundo juntos" />
+    <meta property="og:type" content="saladechat.com" />
+    <meta property="og:url" content="saladechat.com/" />
+    <title>AmigosOnline</title>
+    {% include 'public/includes/links_css.html' %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/perfil.css') }}" />
+  </head>
+  <body>
+    {% include 'public/includes/loader.html' %}
+    <!---->
+    {% include 'public/includes/nav.html' %}
+
+    <div class="home-page__content messages-page">
+      <div class="container-fluid h-100">
+        <div class="row px-0 h-100">
+          {% include 'public/home/friends_chats.html' %}
+          <div class="chat col-12 col-md-8 col-lg-7 col-xl-6 px-0 pl-md-1">
+            <div class="chat__container">
+              <h2 class="text-center font-weight-bold">Actualizar Mi Perfil</h2>
+              <form
+                action="/actualizar-datos-perfil"
+                method="POST"
+                autocomplete="off"
+                enctype="multipart/form-data"
+                class="form_perfil">
+                <div class="mb-3">
+                  <label for="user" class="form-label"> Mi Nombre </label>
+                  <input
+                    type="text"
+                    name="user"
+                    value="{{ info_perfil_session.user }}"
+                    required
+                    class="form-control input_perfil" />
+                </div>
+                <div class="mb-3">
+                  <label for="email_user" class="form-label"> Mi Email </label>
+                  <input
+                    type="email"
+                    name="email_user"
+                    required
+                    value="{{ info_perfil_session.email_user }}"
+                    class="form-control input_perfil" />
+                </div>
+                <div class="mb-3">
+                  <label for="tlf_user" class="form-label"> Mi Movil </label>
+                  <input
+                    type="text"
+                    name="tlf_user"
+                    required
+                    value="{{ info_perfil_session.tlf_user }}"
+                    class="form-control input_perfil" />
+                </div>
+                <div class="form-floating">
+                  <label for="floatingTextarea2">Mi Descripcion</label>
+                  <textarea
+                    name="description_user"
+                    class="form-control"
+                    style="height: 100px"
+                    required>
+{{ info_perfil_session.description_user }}</textarea
+                  >
+                </div>
+
+                <div class="mb-3 mt-2">
+                  <label for="exampleInputPassword1" class="form-label">
+                    Nueva Clave
+                  </label>
+                  <input
+                    type="password"
+                    name="pass_user"
+                    class="form-control input_perfil" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="formFileSm" class="form-label">
+                    Cambiar mi imagen de Perfil
+                  </label>
+                  <input
+                    type="file"
+                    name="foto_user"
+                    class="form-control form-control-sm file_perfil" />
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn_perfil">
+                    Guardar Cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div
+            class="col-12 col-md-5 col-lg-4 col-xl-3 px-4 px-sm-5 px-lg-4 user-profile"></div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'public/includes/links_js.html' %}
+  </body>
+</html>

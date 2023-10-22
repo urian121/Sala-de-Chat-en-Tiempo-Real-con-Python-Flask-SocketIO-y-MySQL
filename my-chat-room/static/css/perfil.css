@@ -1,0 +1,53 @@
+.form_perfil {
+  padding: 30px;
+  height: auto;
+  overflow: hidden;
+  background: #313131;
+  border-radius: 10px;
+}
+.input_perfil {
+  width: 100%;
+  outline: none;
+  border: 1px solid #bbb;
+  border-radius: 15px;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -ms-transition: 0.2s ease all;
+  -o-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
+
+.btn_perfil {
+  padding: 15px 50px;
+  width: auto;
+  background: #534e62;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  clear: right;
+  -webkit-transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -ms-transition: 0.2s ease all;
+  -o-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.btn_perfil:hover {
+  opacity: 0.8;
+}
+.btn_perfil:active {
+  opacity: 0.4;
+}
+
+.file_perfil {
+  background-color: #313131;
+  border: none;
+}

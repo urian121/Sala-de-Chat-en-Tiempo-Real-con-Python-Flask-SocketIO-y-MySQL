@@ -8,16 +8,21 @@
     margin-bottom: 0.3rem;
   }
 </style>
-{% endblock %} {% block content %}
+{% endblock %}
+<!---->
+{% block content %}
 <div id="left">
   <div id="signin">
     <div class="logo">
       <i class="bi bi-wechat favicon_log"></i>
     </div>
-    <form action="/procesar-cuenta-user" method="POST" autocomplete="off">
+    <form
+      action="/recuperando-de-cuenta-de-usuario"
+      method="POST"
+      autocomplete="off">
       <div>
         <label>Email</label>
-        <input type="text" class="text-input" required />
+        <input type="email" name="email_user" class="text-input" required />
       </div>
       <button type="submit" class="primary-btn mt-5">Recuperar clave</button>
     </form>

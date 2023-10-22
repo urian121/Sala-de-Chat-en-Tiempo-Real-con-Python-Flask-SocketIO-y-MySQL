@@ -53,6 +53,8 @@ formulario.addEventListener("submit", async (e) => {
     }
 
     const data = response.data;
+    console.log(response);
+
     if (data.status === "OK") {
       const data_user_nuevo = {
         user: data.user,

@@ -33,6 +33,19 @@
       </div>
     </div>
 
-    {% block customJS %} {% endblock %}
+    {% block customJS %}
+    <script>
+      var loginAlerts = document.querySelectorAll(".login_alert");
+      if (loginAlerts.length > 0) {
+        setTimeout(function () {
+          for (var i = 0; i < loginAlerts.length; i++) {
+            var element = loginAlerts[i];
+            element.parentNode.removeChild(element);
+          }
+        }, 8000);
+      }
+    </script>
+
+    {% endblock %}
   </body>
 </html>

@@ -79,3 +79,28 @@ def process_form_chat():
         # Solo el mensaje está presente en la solicitud
         procesar_msj = procesar_form_msj(desde_id_user, para_id_user, mensaje)
         return jsonify({'status': 1}) if procesar_msj else jsonify({'status': 0})
+
+
+@app.route('/mi-perfil', methods=['GET'])
+def miPerfil():
+    if 'conectado' in session:
+        parametros_chat = {
+            'lista_amigos': lista_amigos_chat(session["id_user"])
+        }
+        return render_template('public/miPerfil.html', **parametros_chat, info_perfil_session=info_perfil_session())
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return render_template('public/login/base_login.html')
+
+
+def info_perfil_session():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT user, email_user, tlf_user, foto_user, description_user FROM tbl_users WHERE id_user = %s"
+                cursor.execute(querySQL, (session['id_user'],))
+                info_perfil = cursor.fetchone()
+        return info_perfil
+    except Exception as e:
+        print(f"Error en info_perfil_session : {e}")
+        return []

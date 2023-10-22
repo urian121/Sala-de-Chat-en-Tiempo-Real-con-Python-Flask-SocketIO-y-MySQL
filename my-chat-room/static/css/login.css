@@ -297,3 +297,12 @@ input:focus {
   font-size: 60px;
   color: #8665df;
 }
+.login_alert {
+  background-color: #f4785b;
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.success {
+  background-color: #8665df !important;
+}
