@@ -35,6 +35,12 @@ body:not(.dark-mode) .file_perfil {
   background-color: #f2eeee;
   border: none;
 }
+body:not(.dark-mode) .input_perfil {
+  background-color: #f9f9f9;
+}
+body:not(.dark-mode) textarea {
+  background-color: #f9f9f9;
+}
 
 /* Estilos para el modo oscuro (cuando "dark-mode" SI está presente en <body>) */
 body.dark-mode .messaging-member:hover {
@@ -57,4 +63,10 @@ body .custom-form__search-wrapper input:placeholder-shown {
 }
 body .bi-moon {
   color: #fff;
+}
+body .input_perfil {
+  background-color: #d9d4d4;
+}
+body .textarea {
+  background-color: #d9d4d4;
 }

@@ -47,6 +47,9 @@ def recibir_mensaje(mensaje_chat):
     emit('mensaje_chat', render_template('public/mensajes.html',
          lista_mensajes=data_msj, useOnline=useOnline), broadcast=True)
     """
+    # Escuchando cuando un amigo escribe
+    emit('posicionar_mensajes', {
+         'amigo': id_amigo_seleccionado}, broadcast=True)
 
 
 # Escuchando cuando un usuario se conecta

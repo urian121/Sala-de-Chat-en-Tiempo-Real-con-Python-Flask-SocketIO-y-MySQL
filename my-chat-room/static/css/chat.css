@@ -858,3 +858,18 @@ audio {
 .fecha_chat {
   align-self: end;
 }
+
+/* Clase para la animación de deslizamiento */
+.transicion-efecto {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Clase para ocultar el elemento durante la animación */
+.ocultar-animacion {
+  transform: translateY(50px); /* Mueve el elemento hacia abajo */
+  opacity: 0;
+}
+.transicion-efecto {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+}

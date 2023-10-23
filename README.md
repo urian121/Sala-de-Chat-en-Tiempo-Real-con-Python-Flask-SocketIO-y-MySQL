@@ -25,6 +25,10 @@ Se utiliza al emitir un evento desde el servidor para especificar
 que dicho evento debe ser transmitido a todos los clientes conectados,
 excepto al cliente que generó el evento.
 
+#### Para el envio de email usamos la plataforma Resend
+
+    pip install resend
+
 ##### Documentación
 
 https://flask-socketio.readthedocs.io/en/latest/index.html

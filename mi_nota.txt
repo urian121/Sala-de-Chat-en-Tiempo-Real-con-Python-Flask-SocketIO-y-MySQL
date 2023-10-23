@@ -50,3 +50,6 @@ no es necesario colocar un if y else ya que puedo asigna el valor vacio si no ll
      document.addEventListener("DOMContentLoaded", function () {
         $("html, body").animate({ scrollTop: $("body").offset().top }, 200);
       });
+
+
+       ||
