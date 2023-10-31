@@ -85,3 +85,22 @@ def lista_amigos_chat(id_user_session):
     except Exception as e:
         print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
         return []
+
+
+
+
+import re
+
+def convert_links_to_html(text):
+    # Patrón para encontrar enlaces en el texto
+    link_pattern = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+    # Usamos re.sub para reemplazar los enlaces encontrados en el texto
+    text_converted = re.sub(link_pattern, r'<a href="\g<0>">\g<0></a>', text)
+
+    return text_converted
+
+text = "Los módulos exportados están en strict mode tanto si se declaran así como si no. https://www.google.com La sentencia export no puede ser utilizada en scripts embebidos."
+
+text_with_links = convert_links_to_html(text)
+print(text_with_links)
