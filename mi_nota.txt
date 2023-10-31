@@ -53,3 +53,35 @@ no es necesario colocar un if y else ya que puedo asigna el valor vacio si no ll
 
 
        ||
+
+`${hola}`
+
+def lista_amigos_chat(id_user_session):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = f"""
+                   SELECT 
+                        u.id_user,
+                        u.user,
+                        u.email_user,
+                        u.foto_user,
+                        u.online,
+                        max(c.fecha_mensaje) Fecha,
+                        CASE WHEN c.estatus_leido = 0 THEN COUNT(c.estatus_leido) ELSE 0 END AS total_mensajes_sin_leer
+                    FROM tbl_users u
+                    LEFT JOIN tbl_chat c ON u.id_user = c.para_id_user
+                    WHERE
+                    u.id_user != %s
+                    GROUP BY u.id_user, u.user, u.email_user, u.foto_user, u.online, c.estatus_leido
+                    ORDER BY Fecha DESC;
+                """
+                mycursor.execute(querySQL, (id_user_session,))
+                # print(querySQL)
+                # print(id_user_session, id_user_session)
+                lista_amigos_chats = mycursor.fetchall()
+                return lista_amigos_chats
+
+    except Exception as e:
+        print(f"Ocurrió un error listando la lista de amigos/chat: {e}")
+        return []
